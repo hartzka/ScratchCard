@@ -1,0 +1,115 @@
+git log --stat|cat
+commit 157d2cf8231460e50e20ba9bb47ecb05d3141132
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Wed Mar 13 17:14:05 2019 +0200
+
+    file 22 muutos ja file1 poisto
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 54b1b602273220a4575a7b45a8286295c1b34bcf
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 15:10:09 2019 +0200
+
+    tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 0499ad8683f1f956ac800a57256fcd05407800b7
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 15:05:38 2019 +0200
+
+    poistoja ja lisäyksiä
+
+ eka.txt    | 2 +-
+ kolmas.txt | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 6292cdde91aa52449a3be7a45ccd3ee0c90270fc
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 15:02:20 2019 +0200
+
+    rename tiedosto.txt eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ab98c6e953e5051ade954e7dec85017c631e4677
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 15:00:58 2019 +0200
+
+    poisto toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit da8784e6aa2ff99f9de89a16bd9fd0c1889d27f3
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:58:22 2019 +0200
+
+    lisää muutoksia tiedosto.txt
+
+ tiedosto.txt | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+commit 8e0d5b89cf44459dc678995c5b1cd79969b52d47
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:57:34 2019 +0200
+
+    muutoksia tiedosto.txt
+
+ tiedosto.txt | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+commit 51f210feead14ded543a5e996e7cc8f048c63b7f
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:53:21 2019 +0200
+
+    stuff lisätty
+
+ stuff/aa.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1f36d482893534d75a728dc06066d1e6ed44ff22
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:52:09 2019 +0200
+
+    muutoksia
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 5e8393cef113dde216b003dbf941b86df280350b
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:51:21 2019 +0200
+
+    tiedosto3
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 9bc076e476d965bed101539f9c18b681624c61de
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:49:34 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 3 +++
+ toinen.txt   | 0
+ 2 files changed, 3 insertions(+)
+
+commit 3bd7bfeef2beea87409b8c77d5c8a81e913dc6ec
+Author: Kai Hartzell <kai.hartzell@gmail.com>
+Date:   Tue Mar 12 14:47:28 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
