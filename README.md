@@ -2,7 +2,7 @@
 
 *Tämä* on **viikon 1** tiedosto.
 
-**Mene** [Github-repositoriooni!](https://github.com/hartzka/ot-harjoitustyo)
+**Mene** heti [Github-repositoriooni!](https://github.com/hartzka/ot-harjoitustyo), jos et ole siellä jo.
 
 ## Tehtävät
 
