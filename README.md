@@ -8,9 +8,13 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 ## Dokumentaatio
 [Käyttöohje]
+
 [Vaatimusmäärittely]
+
 [Arkkitehtuurikuvaus]
+
 [Testausdokumentti]
+
 [Työaikakirjanpito]
 
 ## Tehtävät
