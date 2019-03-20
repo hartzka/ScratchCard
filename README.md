@@ -1,8 +1,17 @@
-# **Ohjelmistotekniikka viikko 1**
+# **ScratchCard**
 
-*Tämä* on **viikon 1** tiedosto.
+Raaputusarpasovellus, joka tallettaa käyttäjän voitot, rahatilanteen ja muuta tilastotietoa. Sovelluksessa on avattavia raaputuskenttiä ja ennalta määriteltyjä voittoluokkia, ja pelaaja voittaa, jos onnistuu saamaan samalle riville jotkin voittoon oikeuttavat kuviot. Kuviot ovat hedelmäsymboleja. Voitto voi osua useammalle riville.
 
-**Mene** heti [Github-repositoriooni!](https://github.com/hartzka/ot-harjoitustyo), jos et ole siellä jo.
+Voittoa voi yrittää moninkertaistaa tuplaus-tilassa arvaamalla tuplausruutuun sijoitetun kuvion. Sovelluksen näkymää on mahdollista muuttaa niin, että voittotaulu on näkyvillä tai pois näkyvistä. Tilastoja pääsee tarkastelemaan stats-tilassa.
+
+Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) harjoitustyö.
+
+## Dokumentaatio
+[Käyttöohje]
+[Vaatimusmäärittely]
+[Arkkitehtuurikuvaus]
+[Testausdokumentti]
+[Työaikakirjanpito]
 
 ## Tehtävät
 
@@ -12,4 +21,4 @@ Komentorivitiedosto: [komentorivi.txt](https://github.com/hartzka/ot-harjoitusty
 
 Gitlog: [gitlog.txt](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
-
+### Viikko 2
