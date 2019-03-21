@@ -26,3 +26,6 @@ Komentorivitiedosto: [komentorivi.txt](https://github.com/hartzka/ot-harjoitusty
 Gitlog: [gitlog.txt](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
 ### Viikko 2
+
+[Unicafe](https://github.com/hartzka/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe) 
+[Jacoco-report](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko2/jacoco_report.png)
