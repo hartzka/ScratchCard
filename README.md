@@ -15,7 +15,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Testausdokumentti]
 
-[Työaikakirjanpito]
+[Työaikakirjanpito](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
 ## Tehtävät
 
