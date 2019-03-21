@@ -9,7 +9,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 ## Dokumentaatio
 [Käyttöohje]
 
-[Vaatimusmäärittely]
+[Vaatimusmäärittely](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
 [Arkkitehtuurikuvaus]
 
