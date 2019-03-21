@@ -12,9 +12,9 @@ Sovelluksessa on vain yksi käyttäjä, jolla on omat tilastonsa. Tilastot saa n
 
 ## Käyttöliittymäluonnos
 
-Sovellus koostuu neljästä eri perusnäkymästä
+Sovellus koostuu neljästä eri perusnäkymästä:
 
-linkki
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190321_144956.jpg" width="750">
 
 Sovellus avautuu aluksi oletusnäkymään, jossa on raaputuskentille varattu tila, alalaidan painikkeet ja voittotaulu. Voittotaulun voi ottaa pois näkyvistä ja laittaa takaisin näkyville. Tilastoja pääsee tarkastelemaan erillisessä stats-näkymässä. 
 
@@ -23,11 +23,11 @@ Voiton osuessa kohdalle voi voiton yrittää moninkertaistaa tuplaus-näkymäss�
 ## Perusversion toiminnallisuus ja pelin säännöt
 
 **Pelissä on 5 painiketta.** 
-*Win Table* -painikkeesta saa voittotaulun näkyville tai pois näkyvistä. 
-*Double Up* -painikkeesta pääsee tuplausmoodiin, mikäli voitto on osunut kohdalle.
-*Stats* -painikkeesta näkee pelitilanteensa, ja painikkeesta avautuu teksti *More info*, josta klikkaamalla pääsee stats-näkymään. Stats-näkymästä pääsee takaisin peliin painamalla *Close*.
-*Claim* -painikkeesta saa avattua raaputuskentät, jos ei jaksa raaputtaa niitä kaikkia näkyville.
-*New/Collect* -painikkeesta voi ostaa uuden arvan, jolloin uudet raaputuskentät ilmestyvät näkyville. Mikäli kierroksella on tullut voitto, sen voi ottaa talteen samalla painikkeella.
+- *Win Table* -painikkeesta saa voittotaulun näkyville tai pois näkyvistä. 
+- *Double Up* -painikkeesta pääsee tuplausmoodiin, mikäli voitto on osunut kohdalle.
+- *Stats* -painikkeesta näkee pelitilanteensa, ja painikkeesta avautuu teksti *More info*, josta klikkaamalla pääsee stats-näkymään. Stats-näkymästä pääsee takaisin peliin painamalla *Close*.
+- *Claim* -painikkeesta saa avattua raaputuskentät, jos ei jaksa raaputtaa niitä kaikkia näkyville.
+- *New/Collect* -painikkeesta voi ostaa uuden arvan, jolloin uudet raaputuskentät ilmestyvät näkyville. Mikäli kierroksella on tullut voitto, sen voi ottaa talteen samalla painikkeella.
 
 **Voittotaulun voittoluokilla voittaa.**
 Jos pelaaja onnistuu raaputtamaan esiin yhdelle riville jotkin kuviot, jotka on määritelty voittotaulussa, pelaaja voittaa voittotaulussa määritellyn summan. Samalla kierroksella voitto voi osua useammalle riville. Tällöin kierrosvoitto lasketaan osavoittojen summana. Noin 1/4 arvoista voittaa.
