@@ -17,16 +17,32 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Työaikakirjanpito](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
-## Tehtävät
+## Komentorivitoiminnot
 
-### Viikko 1
+### Testaus
 
-Komentorivitiedosto: [komentorivi.txt](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+Testit suoritetaan komennolla
 
-Gitlog: [gitlog.txt](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+```
+mvn test
+```
 
-### Viikko 2
+Testikattavuusraportti luodaan komennolla
 
-[Unicafe](https://github.com/hartzka/ot-harjoitustyo/tree/master/laskarit/viikko2/Unicafe) 
+```
+mvn jacoco:report
+```
 
-[Jacoco-report](https://github.com/hartzka/ot-harjoitustyo/blob/master/laskarit/viikko2/jacoco_report.png)
+Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto _target/site/jacoco/index.html_
+
+### Suoritettavan jarin generointi
+
+Komento
+
+```
+mvn package
+```
+
+generoi hakemistoon _target_ suoritettavan jar-tiedoston _OtmTodoApp-1.0-SNAPSHOT.jar_
+
+
