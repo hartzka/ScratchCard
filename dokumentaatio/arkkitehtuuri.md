@@ -39,7 +39,7 @@ Luokat noudattavat [Data Access Object](https://en.wikipedia.org/wiki/Data_acces
 
 Sovellus tallettaa arpapelin tiedot tietokantaan.
 
-Sovelluksen juureen sijoitettu [konfiguraatiotiedosto]() [config.properties]() määrittelee tiedostojen nimet.
+Sovelluksen juureen sijoitettu konfiguraatiotiedosto config.properties määrittelee tiedostojen nimet.
 
 Sovellus tallettaa tiedot seuraavassa formaatissa:
 
