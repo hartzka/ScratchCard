@@ -4,7 +4,7 @@
 
 Ohjelman rakenne noudattaa kolmitasoista kerrosarkkitehtuuria seuraavalla pakkausrakenteella:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200919.jpg" width="160"/>
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200919.jpg" width="300"/>
 
 Pakkaus _kh.scratchcard.ui_ sisältää JavaFX:llä toteutetun käyttöliittymän, _kh.scratchcard.domain_ sovelluslogiikan ja _kh.scratchcard.dao_ tietojen pysyväistallennuksesta vastaavan toiminnallisuuden.
 
@@ -27,7 +27,7 @@ Sovelluksen loogisen datamallin muodostavat luokat [ScratchCard](https://github.
 
 luokka/pakkauskaavio:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200951.jpg" width="450"/>
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200951.jpg" width="350"/>
 
 ## Tietojen pysyväistallennus
 

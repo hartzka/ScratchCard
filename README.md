@@ -11,7 +11,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Vaatimusmäärittely](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuurikuvaus](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuurikuvaus.md)
+[Arkkitehtuurikuvaus](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
 [Testausdokumentti]
 
