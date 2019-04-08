@@ -7,4 +7,7 @@
 | 25.3. | 4    | projektin luominen ja ensimmäisen luokan rakentaminen |
 | 27.3. | 4    | pakkausten rakentaminen, luokkien suunnittelu ja koodaaminen |
 | 1.4.  | 6    | toiminnallisuuksia luokkiin ja kolmannen viikon julkaisu valmiiksi |
-| yht   | 18   | | 
+| 4.4.  | 5    | Uudet luokat WinTable ja WinCategory |
+| 6.4.  | 6    | toiminnallisuuksia luokkiin |
+| 8.4.  | 7    | tuplausmoodin rakentaminen ja refaktorointia |
+| yht   | 36   | | 
