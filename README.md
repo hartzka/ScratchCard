@@ -45,16 +45,6 @@ mvn package
 
 generoi hakemistoon _target_ suoritettavan jar-tiedoston _ScratchCard-1.0-SNAPSHOT.jar_
 
-### JavaDoc
-
-JavaDoc generoidaan komennolla
-
-```
-mvn javadoc:javadoc
-```
-
-JavaDocia voi tarkastella avaamalla selaimella tiedosto _target/site/apidocs/index.html_
-
 ### Checkstyle
 
 Tiedostoon [checkstyle.xml](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/checkstyle.xml) määrittelemät tarkistukset suoritetaan komennolla
