@@ -28,7 +28,7 @@ public class ScratchCard extends Application {
     SimpleIntegerProperty moneySession = new SimpleIntegerProperty(0);
     boolean doubleVisible = false;
     boolean doubleLocked = false;
-    
+
     boolean doubleOption1 = false;
     boolean doubleOption2 = false;
     boolean doubleOption3 = false;
@@ -56,7 +56,7 @@ public class ScratchCard extends Application {
     public void start(Stage primaryStage) throws Exception {
         imageSize = (int) (0.19 * 0.6 * Screen.getPrimary().getVisualBounds().getHeight());
         doubleImageSize = (int) (imageSize + (int) ((0.4) * (0.35 * Screen.getPrimary().getVisualBounds().getWidth() - (1.5 * 0.19 * Screen.getPrimary().getVisualBounds().getHeight()))) / 2);
-        
+
         ui.start(primaryStage);
         ui.getWin().textProperty().bind(ui.getWinText().concat(roundWin.asString()).concat(".00"));
         ui.getNewButton().disableProperty().bind(progress);
@@ -71,6 +71,7 @@ public class ScratchCard extends Application {
             play.set(true);
             if (!wins.isEmpty()) {
                 checkWins(wins);
+                ui.incrementWinningCards();
             }
         }
     }
@@ -79,6 +80,8 @@ public class ScratchCard extends Application {
         int win = 0;
         for (WinCategory c : wins) {
             win += c.value;
+            ui.addToTotalWins(c.value);
+            ui.addToWinCategory(c);
         }
         roundWin.set(win);
         roundWinStart.set(win);
@@ -92,6 +95,7 @@ public class ScratchCard extends Application {
     }
 
     public void handleDoubleWin() {
+        boolean win = true;
         if (doubleImage == 1 && doubleOption1) {
             roundWin.set(roundWin.get() * 2);
             ui.setWhiteRectsVisible(new int[]{1}, new boolean[]{false});
@@ -106,10 +110,14 @@ public class ScratchCard extends Application {
             ui.setWhiteRectsVisible(new int[]{4}, new boolean[]{false});
         } else {
             handleNoDoubleWin();
+            win = false;
         }
+        ui.updateMaxDoubleWin(win, roundWin);
     }
 
     private void handleNoDoubleWin() {
+        SimpleIntegerProperty losses = ui.getDoubleUpLosses();
+        ui.getDoubleUpLosses().set(losses.get() + roundWinStart.get());
         roundWin.set(0);
         roundWinStart.set(0);
         ui.setWinVisible(false);
@@ -273,12 +281,15 @@ public class ScratchCard extends Application {
         if (roundWin.get() > roundWinStart.get()) {
             if (roundWin.get() / roundWinStart.get() > doubleBestMultiplier) {
                 doubleBestMultiplier = roundWin.get() / roundWinStart.get();
+                ui.getDoubleBestWin().setText("   " + Integer.toString(roundWinStart.get()) + ".00 --> " + Integer.toString(roundWin.get()) + ".00   ");
             }
+            SimpleIntegerProperty doubleWin = ui.getDoubleWin();
+            ui.getDoubleWin().set(doubleWin.get() + roundWin.get() - roundWinStart.get());
         }
         roundWin.set(0);
         roundWinStart.set(0);
         ui.setWinVisible(false);
-        ui.getDoubleButton().setDisable(true);
+        ui.setDoubleButtonDisable(true);
         ui.hideDoubleChoices();
         ui.handleNewButtonWinTaking();
         doubleVisible = false;
@@ -321,5 +332,25 @@ public class ScratchCard extends Application {
 
     public int getRoundWinX30() {
         return this.roundWinx30.get();
+    }
+
+    public boolean getStatsVisible() {
+        return this.statsVisible;
+    }
+
+    public void toggleStatsVisible() {
+        statsVisible = !statsVisible;
+    }
+
+    public int getDoubleImage() {
+        return this.doubleImage;
+    }
+
+    public void setRoundWinStart(int i) {
+        this.roundWinStart.set(i);
+    }
+
+    public int getDoubleBestMultiplier() {
+        return this.doubleBestMultiplier;
     }
 }

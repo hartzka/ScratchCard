@@ -37,7 +37,7 @@ public class ScratchCardTest {
     }
     
     @Test
-    public void checkOpenedWorks() {
+    public void checkOpenedWorksNoWins() {
         Ui ui = sc.getUi();
         ui.getField(1).setRevealed(true);
         ui.getField(2).setRevealed(true);
@@ -50,9 +50,27 @@ public class ScratchCardTest {
         ui.getField(9).setRevealed(true);
         sc.setHand(new Hand(sc, ui.getField(1), ui.getField(2), ui.getField(3), ui.getField(4), ui.getField(5), ui.getField(6), ui.getField(7), ui.getField(8), ui.getField(9)));
         sc.checkOpened();
- 
         assertTrue(sc.getProgress() == false);
         assertTrue(sc.getPlay() == true);
+    }
+    
+    @Test
+    public void checkOpenedWorksWins() {
+        Ui ui = sc.getUi();
+        ui.getField(1).setRevealed(true);
+        ui.getField(2).setRevealed(true);
+        ui.getField(3).setRevealed(true);
+        ui.getField(4).setRevealed(true);
+        ui.getField(5).setRevealed(true);
+        ui.getField(6).setRevealed(true);
+        ui.getField(7).setRevealed(true);
+        ui.getField(8).setRevealed(true);
+        ui.getField(9).setRevealed(true);
+        sc.setHand(new Hand(sc, ui.getField(1), ui.getField(2), ui.getField(3), ui.getField(4), ui.getField(5), ui.getField(6), ui.getField(7), ui.getField(8), ui.getField(9)));
+        sc.getHand().setWin1(WinCategory.X2MELON);
+        sc.checkOpened();
+        assertTrue(sc.getRoundWin() == 6);
+        assertTrue(ui.getWinningCards() == 1);
     }
     
     @Test
@@ -135,6 +153,14 @@ public class ScratchCardTest {
     }
     
     @Test
+    public void doubleFieldOpenedWorksWithLargeRoundWin() {
+        sc.setRoundWin(50000);
+        sc.doubleFieldOpened();
+        sc.getUi().setUnbelievableText();
+        assertTrue(sc.getUi().getWinText().get().contains("Unbelievable!"));
+    }
+    
+    @Test
     public void doubleWinsAreUpdated() {
         sc.setRoundWin(2);
         sc.updateDoubleWins();
@@ -151,5 +177,23 @@ public class ScratchCardTest {
         assertTrue(sc.getDoubleOption2() == false);
         assertTrue(sc.getDoubleOption3() == false);
         assertTrue(sc.getDoubleOption4() == false);
+    }
+    
+    @Test
+    public void setDoubleLockedWorks() {
+        sc.setDoubleLocked();
+        assertTrue(sc.getDoubleLocked() == true);
+        assertTrue(sc.getProgress() == true);
+    }
+    
+    @Test
+    public void handleRoundWinWorks() {
+        sc.setRoundWin(10);
+        sc.setRoundWinStart(5);
+        sc.handleRoundWin();
+        assertTrue(sc.getMoneyTotal().get() == 10);
+        assertTrue(sc.getMoneySession().get() == 10);
+        assertTrue(sc.getDoubleBestMultiplier() == 2);
+        assertTrue(sc.getRoundWin() == 0);
     }
 }

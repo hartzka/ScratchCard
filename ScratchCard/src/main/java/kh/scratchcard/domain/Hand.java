@@ -31,6 +31,32 @@ public class Hand {
     private boolean field9Win;
     private ScratchCard sc;
 
+    public Hand() {
+        this.sc = new ScratchCard();
+        this.field1 = new Field(sc, 0, 0, 0, 0);
+        this.field2 = new Field(sc, 0, 0, 0, 0);
+        this.field3 = new Field(sc, 0, 0, 0, 0);
+        this.field4 = new Field(sc, 0, 0, 0, 0);
+        this.field5 = new Field(sc, 0, 0, 0, 0);
+        this.field6 = new Field(sc, 0, 0, 0, 0);
+        this.field7 = new Field(sc, 0, 0, 0, 0);
+        this.field8 = new Field(sc, 0, 0, 0, 0);
+        this.field9 = new Field(sc, 0, 0, 0, 0);
+        this.win1 = null;
+        this.win2 = null;
+        this.win3 = null;
+        field1Win = false;
+        field2Win = false;
+        field3Win = false;
+        field4Win = false;
+        field5Win = false;
+        field6Win = false;
+        field7Win = false;
+        field8Win = false;
+        field9Win = false;
+        this.random = new Random();
+    }
+
     public Hand(ScratchCard sc, Field f1, Field f2, Field f3, Field f4, Field f5, Field f6, Field f7, Field f8, Field f9) {
         this.sc = sc;
         this.field1 = f1;
@@ -57,43 +83,59 @@ public class Hand {
         this.random = new Random();
     }
 
-    private WinCategory randomizeWinCategory(boolean win) {
+    public WinCategory randomizeWinCategory(boolean win) {
         int result = random.nextInt(10000000) + 1;
         if (win) {
             result = random.nextInt(2840911) + 1;
         }
-        WinCategory wincateg = WinCategory.NOTHING;
-        if (result <= 1000000) {
-            wincateg = WinCategory.X3ORANGE; //3x orange 2
-        } else if (result <= 1850000) {
-            wincateg = WinCategory.X1PINEAPPLE; //1x pineapple 3
-        } else if (result <= 2350000) {
-            wincateg = WinCategory.X3STRAWBERRY; // 3x strawberry 4
-        } else if (result <= 2600000) {
-            wincateg = WinCategory.X3PLUM; // 3x plum 5
-        } else if (result <= 2700000) {
-            wincateg = WinCategory.X2MELON; // 2x melon 6
-        } else if (result <= 2770000) {
-            wincateg = WinCategory.X3CHERRY; // 3x cherry 8
-        } else if (result <= 2820000) {
-            wincateg = WinCategory.X1BANANA; // 1x banana 10
-        } else if (result <= 2830000) {
-            wincateg = WinCategory.X2PINEAPPLE; // 2x pineapple 15
-        } else if (result <= 2839800) {
-            wincateg = WinCategory.X3MELON; // 3x melon 20
-        } else if (result <= 2840800) {
-            wincateg = WinCategory.X3BANANA; // 3x banana 100
-        } else if (result <= 2840900) {
-            wincateg = WinCategory.X3PINEAPPLE; // 3x pineapple 500
-        } else if (result <= 2840910) {
-            wincateg = WinCategory.X3PEAR; // 3x pear 5000
+        WinCategory winCateg = WinCategory.NOTHING;
+        if (result <= 2820000) {
+            winCateg = randomizeSmallWinCategory(result);
         } else if (result <= 2840911) {
-            wincateg = WinCategory.X3GRAPES; // 3x grapes 50000
+            winCateg = randomizeLargeWinCategory(result);
         }
-        return wincateg;
+        return winCateg;
     }
 
-    private void initializeWins() {
+    public WinCategory randomizeSmallWinCategory(int result) {
+        WinCategory winCateg = WinCategory.NOTHING;
+        if (result <= 1000000) {
+            winCateg = WinCategory.X3ORANGE; //3x orange 2
+        } else if (result <= 1850000) {
+            winCateg = WinCategory.X1PINEAPPLE; //1x pineapple 3
+        } else if (result <= 2350000) {
+            winCateg = WinCategory.X3STRAWBERRY; // 3x strawberry 4
+        } else if (result <= 2600000) {
+            winCateg = WinCategory.X3PLUM; // 3x plum 5
+        } else if (result <= 2700000) {
+            winCateg = WinCategory.X2MELON; // 2x melon 6
+        } else if (result <= 2770000) {
+            winCateg = WinCategory.X3CHERRY; // 3x cherry 8
+        } else if (result <= 2820000) {
+            winCateg = WinCategory.X1BANANA; // 1x banana 10
+        }
+        return winCateg;
+    }
+
+    public WinCategory randomizeLargeWinCategory(int result) {
+        WinCategory winCateg = WinCategory.NOTHING;
+        if (result <= 2830000) {
+            winCateg = WinCategory.X2PINEAPPLE; // 2x pineapple 15
+        } else if (result <= 2839800) {
+            winCateg = WinCategory.X3MELON; // 3x melon 20
+        } else if (result <= 2840800) {
+            winCateg = WinCategory.X3BANANA; // 3x banana 100
+        } else if (result <= 2840900) {
+            winCateg = WinCategory.X3PINEAPPLE; // 3x pineapple 500
+        } else if (result <= 2840910) {
+            winCateg = WinCategory.X3PEAR; // 3x pear 5000
+        } else if (result <= 2840911) {
+            winCateg = WinCategory.X3GRAPES; // 3x grapes 50000
+        }
+        return winCateg;
+    }
+
+    public void initializeWins() {
         this.win1 = WinCategory.NOTHING;
         this.win2 = WinCategory.NOTHING;
         this.win3 = WinCategory.NOTHING;
@@ -167,22 +209,22 @@ public class Hand {
             if (null != categ) {
                 switch (categ) {
                     case X3ORANGE:
-                        actionsX3Orange(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 1);
                         break;
                     case X1PINEAPPLE:
                         actionsX1Pineapple(f1, f2, f3, n, fake);
                         break;
                     case X3STRAWBERRY:
-                        actionsX3Strawberry(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 2);
                         break;
                     case X3PLUM:
-                        actionsX3Plum(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 3);
                         break;
                     case X2MELON:
                         actionsX2Melon(f1, f2, f3, n);
                         break;
                     case X3CHERRY:
-                        actionsX3Cherry(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 4);
                         break;
                     case X2PINEAPPLE:
                         actionsX2Pineapple(f1, f2, f3, n);
@@ -191,19 +233,19 @@ public class Hand {
                         actionsX1Banana(f1, f2, f3, n, fake);
                         break;
                     case X3MELON:
-                        actionsX3Melon(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 5);
                         break;
                     case X3BANANA:
-                        actionsX3Banana(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 6);
                         break;
                     case X3PINEAPPLE:
-                        actionsX3Pineapple(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 7);
                         break;
                     case X3PEAR:
-                        actionsX3Pear(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 8);
                         break;
                     case X3GRAPES:
-                        actionsX3Grapes(f1, f2, f3, n);
+                        actionsByWinCategory3Symbols(f1, f2, f3, n, 9);
                         break;
                     default:
                         break;
@@ -304,63 +346,59 @@ public class Hand {
             place2 = random.nextInt(3);
         }
         if (value == 1 || value == 2 || value == 3 || value == 4 || value == 6 || value == 8 || value == 9) {
-            int value2 = value;
-            while (value2 == value || value2 == 6 || value2 == 7) {
-                value2 = random.nextInt(9) + 1;
-            }
-            if (place1 != 0 && place2 != 0) {
-                f1.initialize(value2);
-                f2.initialize(value);
-                f3.initialize(value);
-            } else if (place1 != 1 && place2 != 1) {
-                f1.initialize(value);
-                f2.initialize(value2);
-                f3.initialize(value);
-            } else {
-                f1.initialize(value);
-                f2.initialize(value);
-                f3.initialize(value2);
-            }
+            fake3Helper1(value, random, place1, place2, f1, f2, f3);
         } else if (value == 5) {
-            int value2 = value;
-            while (value2 == value || value2 == 6 || value2 == 7) {
-                value2 = random.nextInt(9) + 1;
-            }
-            int value3 = value;
-            while (value3 == value || value3 == 6 || value3 == 7) {
-                value3 = random.nextInt(9) + 1;
-            }
-            if (place1 != 0 && place2 != 0) {
-                f1.initialize(value);
-                int rand = random.nextInt(2);
-                if (rand == 0) {
-                    f2.initialize(value2);
-                    f3.initialize(value3);
-                } else {
-                    f2.initialize(value3);
-                    f3.initialize(value2);
-                }
-            } else if (place1 != 1 && place2 != 1) {
-                f2.initialize(value);
-                int rand = random.nextInt(2);
-                if (rand == 0) {
-                    f1.initialize(value2);
-                    f3.initialize(value3);
-                } else {
-                    f1.initialize(value3);
-                    f3.initialize(value2);
-                }
-            } else {
-                int rand = random.nextInt(2);
-                if (rand == 0) {
-                    f2.initialize(value2);
-                    f1.initialize(value3);
-                } else {
-                    f2.initialize(value3);
-                    f1.initialize(value2);
-                }
-                f3.initialize(value);
-            }
+            fake3Helper2(value, random, place1, place2, f1, f2, f3);
+        }
+    }
+
+    private void fake3Helper1(int value, Random random, int place1, int place2, Field f1, Field f2, Field f3) {
+        int value2 = value;
+        while (value2 == value || value2 == 6 || value2 == 7) {
+            value2 = random.nextInt(9) + 1;
+        }
+        if (place1 != 0 && place2 != 0) {
+            f1.initialize(value2);
+            f2.initialize(value);
+            f3.initialize(value);
+        } else if (place1 != 1 && place2 != 1) {
+            f1.initialize(value);
+            f2.initialize(value2);
+            f3.initialize(value);
+        } else {
+            f1.initialize(value);
+            f2.initialize(value);
+            f3.initialize(value2);
+        }
+    }
+
+    private void fake3Helper2(int value, Random random, int place1, int place2, Field f1, Field f2, Field f3) {
+        int value2 = value;
+        while (value2 == value || value2 == 6 || value2 == 7) {
+            value2 = random.nextInt(9) + 1;
+        }
+        int value3 = value;
+        while (value3 == value || value3 == 6 || value3 == 7) {
+            value3 = random.nextInt(9) + 1;
+        }
+        if (place1 != 0 && place2 != 0) {
+            fake3Helper3(value, random, value2, value3, f1, f2, f3);
+        } else if (place1 != 1 && place2 != 1) {
+            fake3Helper3(value, random, value2, value3, f2, f1, f3);
+        } else {
+            fake3Helper3(value, random, value2, value3, f3, f2, f1);
+        }
+    }
+
+    private void fake3Helper3(int value, Random random, int value2, int value3, Field f1, Field f2, Field f3) {
+        f1.initialize(value);
+        int rand = random.nextInt(2);
+        if (rand == 0) {
+            f2.initialize(value2);
+            f3.initialize(value3);
+        } else {
+            f2.initialize(value3);
+            f3.initialize(value2);
         }
     }
 
@@ -503,109 +541,63 @@ public class Hand {
         return list;
     }
 
-    private void actionsX3Orange(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(1);
-        f2.initialize(1);
-        f3.initialize(1);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
-        }
-    }
-
     private void actionsX1Pineapple(Field f1, Field f2, Field f3, int n, int fake) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                f1.initialize(7);
-                switch (n) {
-                    case 1:
-                        field1Win = true;
-                        break;
-                    case 2:
-                        field4Win = true;
-                        break;
-                    default:
-                        field7Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f2, f3);
-                } else {
-                    nofake2(f2, f3);
-                }
+                actionsByWinCategory1Symbol(f1, f2, f3, n, fake, 1, 7);
                 break;
             case 1:
-                f2.initialize(7);
-                switch (n) {
-                    case 1:
-                        field2Win = true;
-                        break;
-                    case 2:
-                        field5Win = true;
-                        break;
-                    default:
-                        field8Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f1, f3);
-                } else {
-                    nofake2(f1, f3);
-                }
+                actionsByWinCategory1Symbol(f2, f1, f3, n, fake, 2, 7);
                 break;
             case 2:
-                f3.initialize(7);
-                switch (n) {
-                    case 1:
-                        field3Win = true;
-                        break;
-                    case 2:
-                        field6Win = true;
-                        break;
-                    default:
-                        field9Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f2, f1);
-                } else {
-                    nofake2(f2, f1);
-                }
+                actionsByWinCategory1Symbol(f3, f2, f1, n, fake, 3, 7);
                 break;
             default:
                 break;
         }
     }
 
-    private void actionsX3Strawberry(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(2);
-        f2.initialize(2);
-        f3.initialize(2);
+    private void actionsByWinCategory1Symbol(Field f1, Field f2, Field f3, int n, int fake, int column, int symbol) {
+        f1.initialize(symbol);
         switch (n) {
             case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
+                setFieldWinTrue(column);
                 break;
             case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
+                setFieldWinTrue(column + 3);
                 break;
             default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
+                setFieldWinTrue(column + 6);
+                break;
+        }
+        if (fake > 5) {
+            fake2(f2, f3);
+        } else {
+            nofake2(f2, f3);
+        }
+    }
+
+    private void actionsByWinCategory2Symbols(Field f1, Field f2, Field f3, int n, int column1, int column2, int symbol) {
+        f1.initialize(symbol);
+        f2.initialize(symbol);
+        switch (n) {
+            case 1:
+                makeFieldWinsTrue(new int[]{column1, column2});
+                break;
+            case 2:
+                makeFieldWinsTrue(new int[]{column1 + 3, column2 + 3});
+                break;
+            default:
+                makeFieldWinsTrue(new int[]{column1 + 6, column2 + 6});
                 break;
         }
     }
 
-    private void actionsX3Plum(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(3);
-        f2.initialize(3);
-        f3.initialize(3);
+    private void actionsByWinCategory3Symbols(Field f1, Field f2, Field f3, int n, int category) {
+        f1.initialize(category);
+        f2.initialize(category);
+        f3.initialize(category);
         switch (n) {
             case 1:
                 makeFieldWinsTrue(new int[]{1, 2, 3});
@@ -623,301 +615,67 @@ public class Hand {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                f1.initialize(5);
-                f2.initialize(5);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{1, 2});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{4, 5});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{7, 8});
-                        break;
-                }
-                int value = 5;
-                while (value == 5 || value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f3.initialize(value);
+                actionsX2Melon2(f1, f2, f3, n, 1, 2);
                 break;
             case 1:
-                f2.initialize(5);
-                f3.initialize(5);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{2, 3});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{5, 6});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{8, 9});
-                        break;
-                }
-                value = 5;
-                while (value == 5 || value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f1.initialize(value);
+                actionsX2Melon2(f2, f3, f1, n, 2, 3);
                 break;
             case 2:
-                f3.initialize(5);
-                f1.initialize(5);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{1, 3});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{4, 6});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{7, 9});
-                        break;
-                }
-                value = 5;
-                while (value == 5 || value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f2.initialize(value);
+                actionsX2Melon2(f3, f1, f2, n, 1, 3);
                 break;
             default:
                 break;
         }
     }
 
-    private void actionsX3Cherry(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(4);
-        f2.initialize(4);
-        f3.initialize(4);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
+    private void actionsX2Melon2(Field f1, Field f2, Field f3, int n, int column1, int column2) {
+        actionsByWinCategory2Symbols(f1, f2, f3, n, column1, column2, 5);
+        int value = 5;
+        while (value == 5 || value == 6 || value == 7) {
+            value = random.nextInt(9) + 1;
         }
+        f3.initialize(value);
     }
 
     private void actionsX2Pineapple(Field f1, Field f2, Field f3, int n) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                f1.initialize(7);
-                f2.initialize(7);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{1, 2});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{4, 5});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{7, 8});
-                        break;
-                }
-                int value = 6;
-                while (value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f3.initialize(value);
+                actionsX2Pineapple2(f1, f2, f3, n, 1, 2);
                 break;
             case 1:
-                f2.initialize(7);
-                f3.initialize(7);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{2, 3});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{5, 6});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{8, 9});
-                        break;
-                }
-                value = 6;
-                while (value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f1.initialize(value);
+                actionsX2Pineapple2(f2, f3, f1, n, 2, 3);
                 break;
             case 2:
-                f3.initialize(7);
-                f1.initialize(7);
-                switch (n) {
-                    case 1:
-                        makeFieldWinsTrue(new int[]{1, 3});
-                        break;
-                    case 2:
-                        makeFieldWinsTrue(new int[]{4, 6});
-                        break;
-                    default:
-                        makeFieldWinsTrue(new int[]{7, 9});
-                        break;
-                }
-                value = 6;
-                while (value == 6 || value == 7) {
-                    value = random.nextInt(9) + 1;
-                }
-                f2.initialize(value);
+                actionsX2Pineapple2(f3, f1, f2, n, 1, 3);
                 break;
             default:
                 break;
         }
+    }
+
+    private void actionsX2Pineapple2(Field f1, Field f2, Field f3, int n, int column1, int column2) {
+        actionsByWinCategory2Symbols(f1, f2, f3, n, column1, column2, 7);
+        int value = 6;
+        while (value == 6 || value == 7) {
+            value = random.nextInt(9) + 1;
+        }
+        f3.initialize(value);
     }
 
     private void actionsX1Banana(Field f1, Field f2, Field f3, int n, int fake) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                f1.initialize(6);
-                switch (n) {
-                    case 1:
-                        field1Win = true;
-                        break;
-                    case 2:
-                        field4Win = true;
-                        break;
-                    default:
-                        field7Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f2, f3);
-                } else {
-                    nofake2(f2, f3);
-                }
+                actionsByWinCategory1Symbol(f1, f2, f3, n, fake, 1, 6);
                 break;
             case 1:
-                f2.initialize(6);
-                switch (n) {
-                    case 1:
-                        field2Win = true;
-                        break;
-                    case 2:
-                        field5Win = true;
-                        break;
-                    default:
-                        field8Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f1, f3);
-                } else {
-                    nofake2(f1, f3);
-                }
+                actionsByWinCategory1Symbol(f2, f1, f3, n, fake, 2, 6);
                 break;
             case 2:
-                f3.initialize(6);
-                switch (n) {
-                    case 1:
-                        field3Win = true;
-                        break;
-                    case 2:
-                        field6Win = true;
-                        break;
-                    default:
-                        field9Win = true;
-                        break;
-                }
-                if (fake > 5) {
-                    fake2(f2, f1);
-                } else {
-                    nofake2(f2, f1);
-                }
+                actionsByWinCategory1Symbol(f3, f2, f1, n, fake, 3, 6);
                 break;
             default:
-                break;
-        }
-    }
-
-    private void actionsX3Melon(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(5);
-        f2.initialize(5);
-        f3.initialize(5);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
-        }
-    }
-
-    private void actionsX3Banana(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(6);
-        f2.initialize(6);
-        f3.initialize(6);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
-        }
-    }
-
-    private void actionsX3Pineapple(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(7);
-        f2.initialize(7);
-        f3.initialize(7);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
-        }
-    }
-
-    private void actionsX3Pear(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(8);
-        f2.initialize(8);
-        f3.initialize(8);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
-                break;
-        }
-    }
-
-    private void actionsX3Grapes(Field f1, Field f2, Field f3, int n) {
-        f1.initialize(9);
-        f2.initialize(9);
-        f3.initialize(9);
-        switch (n) {
-            case 1:
-                makeFieldWinsTrue(new int[]{1, 2, 3});
-                break;
-            case 2:
-                makeFieldWinsTrue(new int[]{4, 5, 6});
-                break;
-            default:
-                makeFieldWinsTrue(new int[]{7, 8, 9});
                 break;
         }
     }
@@ -963,5 +721,79 @@ public class Hand {
         win1 = win;
         win2 = randomizeWinCategory(true);
         win3 = randomizeWinCategory(true);
+    }
+
+    public void setWin1(WinCategory winCategory) {
+        this.win1 = winCategory;
+    }
+
+    private void setFieldWinTrue(int column) {
+        if (column == 1) {
+            field1Win = true;
+        } else if (column == 2) {
+            field2Win = true;
+        } else if (column == 3) {
+            field3Win = true;
+        } else if (column == 4) {
+            field4Win = true;
+        } else if (column == 5) {
+            field5Win = true;
+        } else if (column == 6) {
+            field6Win = true;
+        } else if (column == 7) {
+            field7Win = true;
+        } else if (column == 8) {
+            field8Win = true;
+        } else if (column == 9) {
+            field9Win = true;
+        }
+    }
+
+    public WinCategory getWin1() {
+        return win1;
+    }
+
+    public WinCategory getWin2() {
+        return win2;
+    }
+
+    public WinCategory getWin3() {
+        return win3;
+    }
+
+    public boolean getFieldWin1() {
+        return field1Win;
+    }
+
+    public boolean getFieldWin5() {
+        return field5Win;
+    }
+
+    public boolean getFieldWin9() {
+        return field9Win;
+    }
+
+    public boolean getFieldWin2() {
+        return field2Win;
+    }
+
+    public boolean getFieldWin3() {
+        return field3Win;
+    }
+
+    public boolean getFieldWin4() {
+        return field4Win;
+    }
+
+    public boolean getFieldWin6() {
+        return field6Win;
+    }
+
+    public boolean getFieldWin7() {
+        return field7Win;
+    }
+
+    public boolean getFieldWin8() {
+        return field8Win;
     }
 }

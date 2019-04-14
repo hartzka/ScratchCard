@@ -10,4 +10,7 @@
 | 4.4.  | 5    | Uudet luokat WinTable ja WinCategory |
 | 6.4.  | 6    | toiminnallisuuksia luokkiin |
 | 8.4.  | 7    | tuplausmoodin rakentaminen ja refaktorointia |
-| yht   | 36   | | 
+| 11.4.  | 8    | stats-toiminnallisuuden rakentaminen |
+| 12.4.  | 4    | refaktorointia ja testien kirjoittamista |
+| 14.4.  | 3    | viikon 5 julkaisun viimeistelyä |
+| yht   | 51   | | 

@@ -3,19 +3,19 @@
 	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3,3,3,3);
 }
 
-.toggle-button.tu {
+.toggle-button.turquoise {
 	-fx-background-color: turquoise !important;
 }
 
-.toggle-button.ye {
+.toggle-button.yellow {
 	-fx-background-color: yellow !important;
 }
 
-.toggle-button.gr {
+.toggle-button.green {
 	-fx-background-color: #32cd32 !important;
 }
 
-.toggle-button.or {
+.toggle-button.orange {
 	-fx-background-color: orange !important;
 }
 
@@ -23,18 +23,18 @@
 	-fx-background-color: green !important;
 }
 
-.toggle-button.tu:hover {
+.toggle-button.turquoise:hover {
 	-fx-background-color: green !important;
 }
 
-.toggle-button.ye:hover {
+.toggle-button.yellow:hover {
 	-fx-background-color: green !important;
 }
 
-.toggle-button.gr:hover {
+.toggle-button.green:hover {
 	-fx-background-color: blue !important;
 }
 
-.toggle-button.or:hover {
+.toggle-button.orange:hover {
 	-fx-background-color: green !important;
 }

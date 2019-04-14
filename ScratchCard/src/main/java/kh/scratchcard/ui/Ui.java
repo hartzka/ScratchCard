@@ -25,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kh.scratchcard.domain.ScratchCard;
 import kh.scratchcard.domain.WinCategory;
 
@@ -162,29 +163,29 @@ public class Ui extends Application {
 
     Text more = new Text("More stats");
 
-    SimpleIntegerProperty money_total;
-    SimpleIntegerProperty money_session;
-    SimpleIntegerProperty played_total = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty played_session = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_50000 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_5000 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_500 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_100 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_20 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_15 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_10 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_8 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_6 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_5 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_4 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_3 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty win_2 = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty total_wins = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty winning_cards = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty double_up_wins = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty double_up_losses = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty double_up_max_win = new SimpleIntegerProperty(0);
-    Text double_up_best_result = new Text("   0.00 --> 0.00   ");
+    SimpleIntegerProperty moneyTotal;
+    SimpleIntegerProperty moneySession;
+    SimpleIntegerProperty playedTotal = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty playedSession = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win50000 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win5000 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win500 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win100 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win20 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win15 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win10 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win8 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win6 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win5 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win4 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win3 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty win2 = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty totalWins = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty winningCards = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty doubleUpWins = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty doubleUpLosses = new SimpleIntegerProperty(0);
+    SimpleIntegerProperty doubleUpMaxWin = new SimpleIntegerProperty(0);
+    Text doubleUpBestResult = new Text("   0.00 --> 0.00   ");
     private ScratchCard sc;
 
     private ToggleButton tableButton;
@@ -211,6 +212,8 @@ public class Ui extends Application {
         field7 = new Field(sc, 0, 0, 0, 0);
         field8 = new Field(sc, 0, 0, 0, 0);
         field9 = new Field(sc, 0, 0, 0, 0);
+        doubleField = new Field(sc, 0, 0, 0, 0);
+        doubleField.setColorMode(4);
         win = new Text("");
         winText = new SimpleStringProperty("Win: ");
         unbelievable = new Text("Unbelievable!");
@@ -243,34 +246,34 @@ public class Ui extends Application {
         rect7 = new Rectangle(marginx1 - 4, marginy1 + 2 * fieldWidth + 2 * marginy2 - 4, fieldWidth + 8, fieldWidth + 8);
         rect8 = new Rectangle(marginx1 + fieldWidth + marginx2 - 4, marginy1 + 2 * fieldWidth + 2 * marginy2 - 4, fieldWidth + 8, fieldWidth + 8);
         rect9 = new Rectangle(marginx1 + 2 * fieldWidth + 2 * marginx2 - 4, marginy1 + 2 * fieldWidth + 2 * marginy2 - 4, fieldWidth + 8, fieldWidth + 8);
-        
+
         unbelievable.setFill(Color.AZURE);
         unbelievable.setFont(Font.font("Verdana", 16));
         unbelievable.setVisible(false);
-        money_total = sc.getMoneyTotal();
-        money_session = sc.getMoneySession();
-        moneyTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(money_total.asString().concat(".00")));
-        moneySessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(money_session.asString().concat(".00")));
-        playedTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(played_total.asString()));
-        playedSessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(played_session.asString()));
-        win50000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_50000.asString()));
-        win5000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_5000.asString()));
-        win500InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_500.asString()));
-        win100InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_100.asString()));
-        win20InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_20.asString()));
-        win15InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_15.asString()));
-        win10InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_10.asString()));
-        win8InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_8.asString()));
-        win6InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_6.asString()));
-        win5InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_5.asString()));
-        win4InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_4.asString()));
-        win3InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_3.asString()));
-        win2InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win_2.asString()));
-        totalWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(total_wins.asString().concat(".00")));
-        winningCardsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(winning_cards.asString()));
-        doubleUpWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(double_up_wins.asString().concat(".00")));
-        doubleUpLossesInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(double_up_losses.asString().concat(".00")));
-        doubleUpMaxWinInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(double_up_max_win.asString().concat(".00")));
+        moneyTotal = sc.getMoneyTotal();
+        moneySession = sc.getMoneySession();
+        moneyTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(moneyTotal.asString().concat(".00")));
+        moneySessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(moneySession.asString().concat(".00")));
+        playedTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(playedTotal.asString()));
+        playedSessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(playedSession.asString()));
+        win50000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win50000.asString()));
+        win5000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win5000.asString()));
+        win500InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win500.asString()));
+        win100InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win100.asString()));
+        win20InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win20.asString()));
+        win15InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win15.asString()));
+        win10InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win10.asString()));
+        win8InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win8.asString()));
+        win6InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win6.asString()));
+        win5InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win5.asString()));
+        win4InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win4.asString()));
+        win3InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win3.asString()));
+        win2InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win2.asString()));
+        totalWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(totalWins.asString().concat(".00")));
+        winningCardsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(winningCards.asString()));
+        doubleUpWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpWins.asString().concat(".00")));
+        doubleUpLossesInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpLosses.asString().concat(".00")));
+        doubleUpMaxWinInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpMaxWin.asString().concat(".00")));
 
         int font;
         if (width > 700) {
@@ -386,8 +389,8 @@ public class Ui extends Application {
         doubleUpLossesInfoText.setFont(Font.font("Verdana", font));
         doubleUpMaxWinInfoText.setFill(Color.MINTCREAM);
         doubleUpMaxWinInfoText.setFont(Font.font("Verdana", font));
-        double_up_best_result.setFill(Color.MINTCREAM);
-        double_up_best_result.setFont(Font.font("Verdana", font));
+        doubleUpBestResult.setFill(Color.MINTCREAM);
+        doubleUpBestResult.setFont(Font.font("Verdana", font));
 
         unbelievable2.setFont(Font.font("Verdana", font - 2));
 
@@ -408,7 +411,7 @@ public class Ui extends Application {
         VBox v1 = new VBox();
         v1.getChildren().addAll(upperMargin1, moneyText, moneyTotalText, moneySessionText, playedText, playedTotalText, playedSessionText, doubleUpText, doubleUpWinsText, doubleUpLossesText, doubleUpMaxWinText, doubleUpBestResultText, lowerMargin1);
         VBox v2 = new VBox();
-        v2.getChildren().addAll(upperMargin2, moneyInfoText, moneyTotalInfoText, moneySessionInfoText, playedInfoText, playedTotalInfoText, playedSessionInfoText, doubleUpInfoText, doubleUpWinsInfoText, doubleUpLossesInfoText, doubleUpMaxWinInfoText, double_up_best_result, lowerMargin2);
+        v2.getChildren().addAll(upperMargin2, moneyInfoText, moneyTotalInfoText, moneySessionInfoText, playedInfoText, playedTotalInfoText, playedSessionInfoText, doubleUpInfoText, doubleUpWinsInfoText, doubleUpLossesInfoText, doubleUpMaxWinInfoText, doubleUpBestResult, lowerMargin2);
         HBox h2 = new HBox(5);
         h2.getChildren().addAll(v1, v2);
         VBox v3 = new VBox(7);
@@ -418,7 +421,7 @@ public class Ui extends Application {
         v4.getChildren().addAll(upperMargin3, winsText, win2Text, win3Text, win4Text, win5Text, win6Text, win8Text, win10Text, win15Text, win20Text, win100Text, win500Text, win5000Text, win50000Text, totalWinsText, winningCardsText, lowerMargin3);
 
         VBox v5 = new VBox();
-        v5.getChildren().addAll(upperMargin4, winsInfoText, win50000InfoText, win5000InfoText, win500InfoText, win100InfoText, win20InfoText, win15InfoText, win10InfoText, win8InfoText, win6InfoText, win5InfoText, win4InfoText, win3InfoText, win2InfoText, totalWinsInfoText, winningCardsInfoText, lowerMargin4);
+        v5.getChildren().addAll(upperMargin4, winsInfoText, win2InfoText, win3InfoText, win4InfoText, win5InfoText, win6InfoText, win8InfoText, win10InfoText, win15InfoText, win20InfoText, win100InfoText, win500InfoText, win5000InfoText, win50000InfoText, totalWinsInfoText, winningCardsInfoText, lowerMargin4);
         closeInfo.setPadding(new Insets(0, width / 30, 0, width / 30));
 
         h1.getChildren().addAll(v4, v5, v3);
@@ -593,6 +596,24 @@ public class Ui extends Application {
                     sc.handleNoRoundWin();
                 }
             }
+        });
+
+        statsButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                handleStatsAction(sc.getStatsVisible());
+                sc.toggleStatsVisible();
+            }
+        });
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            @Override
+            public void handle(WindowEvent event) {
+                System.out.println("Closing");
+            }
+
         });
 
         info.setVisible(false);
@@ -828,15 +849,15 @@ public class Ui extends Application {
 
         tableButton.setFont(Font.font("Verdana", font - 1));
         tableButton.setTextFill(Color.DARKSLATEGREY);
-        tableButton.getStyleClass().add("gr");
+        tableButton.getStyleClass().add("green");
         tableButton.setMaxWidth(width / 7);
 
-        claimButton.getStyleClass().add("ye");
+        claimButton.getStyleClass().add("yellow");
         claimButton.setMaxWidth(width / 7);
         claimButton.setFont(Font.font("Verdana", font - 1));
         claimButton.setTextFill(Color.DARKSLATEGREY);
 
-        newButton.getStyleClass().add("tu");
+        newButton.getStyleClass().add("turquoise");
         newButton.setMaxWidth(width / 7);
         newButton.setFont(Font.font("Verdana", font - 1));
         newButton.setTextFill(Color.DARKSLATEGREY);
@@ -846,16 +867,23 @@ public class Ui extends Application {
         statsButton.setFont(Font.font("Verdana", font - 1));
         statsButton.setTextFill(Color.DARKSLATEGREY);
 
-        doubleButton.getStyleClass().add("or");
+        doubleButton.getStyleClass().add("orange");
         doubleButton.setDisable(true);
         doubleButton.setMaxWidth(width / 7);
         doubleButton.setFont(Font.font("Verdana", font - 1));
         doubleButton.setTextFill(Color.DARKSLATEGREY);
 
+        stats.textProperty().bind(new SimpleStringProperty("Money: ").concat(moneyTotal.asString()).concat(".00").concat("   "));
+        stats.setVisible(false);
+        stats.setFont(Font.font("Verdana", font * 0.9));
+        stats.setFill(Color.STEELBLUE);
+
         VBox statsBox = new VBox(0.01 * height);
         statsBox.setAlignment(Pos.CENTER);
+        HBox hbox1 = new HBox();
+        hbox1.getChildren().addAll(stats, more);
 
-        statsBox.getChildren().addAll(win, statsButton);
+        statsBox.getChildren().addAll(win, statsButton, hbox1);
 
         HBox buttonsHBox1 = new HBox(width / 20);
         buttonsHBox1.getChildren().addAll(tableButton, doubleButton, statsBox, claimButton, newButton);
@@ -886,16 +914,25 @@ public class Ui extends Application {
         info.setStyle("-fx-background-color: #0067b3");
         v1.setStyle("-fx-background-color: grey");
         v2.setStyle("-fx-background-color: grey");
+        v3.setStyle("-fx-background-color: grey");
         v4.setStyle("-fx-background-color: grey");
         v5.setStyle("-fx-background-color: grey");
-        v3.setStyle("-fx-background-color: grey");
 
         info.getChildren().add(new StackPane(infobg, v6));
-
     }
 
     public WinTable getWintable() {
         return this.winTable;
+    }
+
+    public void handleStatsAction(boolean statsVisible) {
+        if (statsVisible) {
+            stats.setVisible(false);
+            more.setVisible(false);
+        } else {
+            stats.setVisible(true);
+            more.setVisible(true);
+        }
     }
 
     public void setWhiteRectsVisible(int[] rects, boolean[] b) {
@@ -987,10 +1024,10 @@ public class Ui extends Application {
 
     public void handleNewButtonNewCard() {
         win.setFill(Color.LIGHTGREEN);
-        played_total.set(played_total.get() + 1);
-        played_session.set(played_session.get() + 1);
-        money_total.set(money_total.get() - 1);
-        money_session.set(money_session.get() - 1);
+        playedTotal.set(playedTotal.get() + 1);
+        playedSession.set(playedSession.get() + 1);
+        moneyTotal.set(moneyTotal.get() - 1);
+        moneySession.set(moneySession.get() - 1);
         doubleField.setVisible(false);
         rect1.setVisible(false);
         rect2.setVisible(false);
@@ -1182,11 +1219,11 @@ public class Ui extends Application {
     }
 
     public Text getDoubleBestWin() {
-        return this.double_up_best_result;
+        return this.doubleUpBestResult;
     }
 
     public SimpleIntegerProperty getDoubleWin() {
-        return this.double_up_wins;
+        return this.doubleUpWins;
     }
 
     @Override
@@ -1226,6 +1263,62 @@ public class Ui extends Application {
     }
 
     public void setDoubleButtonDisable(boolean b) {
-        if(doubleButton != null) doubleButton.setDisable(b);
+        if (doubleButton != null) {
+            doubleButton.setDisable(b);
+        }
+    }
+
+    public void addToTotalWins(int value) {
+        totalWins.set(totalWins.get() + value);
+    }
+
+    public void addToWinCategory(WinCategory c) {
+        if (c == WinCategory.X3ORANGE) {
+            win2.set(win2.get() + 1);
+        } else if (c == WinCategory.X1PINEAPPLE) {
+            win3.set(win3.get() + 1);
+        } else if (c == WinCategory.X3STRAWBERRY) {
+            win4.set(win4.get() + 1);
+        } else if (c == WinCategory.X3PLUM) {
+            win5.set(win5.get() + 1);
+        } else if (c == WinCategory.X2MELON) {
+            win6.set(win6.get() + 1);
+        } else if (c == WinCategory.X3CHERRY) {
+            win8.set(win8.get() + 1);
+        } else if (c == WinCategory.X1BANANA) {
+            win10.set(win10.get() + 1);
+        } else if (c == WinCategory.X2PINEAPPLE) {
+            win15.set(win15.get() + 1);
+        } else if (c == WinCategory.X3MELON) {
+            win20.set(win20.get() + 1);
+        } else if (c == WinCategory.X3BANANA) {
+            win100.set(win100.get() + 1);
+        } else if (c == WinCategory.X3PINEAPPLE) {
+            win500.set(win500.get() + 1);
+        } else if (c == WinCategory.X3PEAR) {
+            win5000.set(win5000.get() + 1);
+        } else if (c == WinCategory.X3GRAPES) {
+            win50000.set(win50000.get() + 1);
+        }
+    }
+
+    public SimpleIntegerProperty getDoubleUpLosses() {
+        return doubleUpLosses;
+    }
+
+    public void updateMaxDoubleWin(boolean win, SimpleIntegerProperty roundWin) {
+        if (win) {
+            if (roundWin.get() > doubleUpMaxWin.get()) {
+                doubleUpMaxWin.set(roundWin.get());
+            }
+        }
+    }
+
+    public void incrementWinningCards() {
+        winningCards.set(winningCards.get() + 1);
+    }
+
+    public int getWinningCards() {
+        return this.winningCards.get();
     }
 }

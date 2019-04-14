@@ -38,6 +38,7 @@ public class Field extends Parent {
     private boolean revealed;
     private boolean doubleLocked;
     private boolean lock;
+    private int doubleImage;
 
     public Field(ScratchCard sc, int x, int y, final int width, int height) {
         this.sc = sc;
@@ -47,6 +48,7 @@ public class Field extends Parent {
         this.width = width;
         this.height = height;
         lock = false;
+        this.doubleImage = 0;
         doubleLocked = false;
         this.revealed = false;
         this.random = new Random();
@@ -292,6 +294,9 @@ public class Field extends Parent {
     }
 
     public void initialize(int im) {
+        if (this.colorMode == 4) {
+            this.doubleImage = im;
+        }
         doubleLocked = false;
         lock = false;
         String path = "images/bg";
@@ -304,7 +309,7 @@ public class Field extends Parent {
             path += "l";
         }
         Image img = ScratchCard.images.get(path);
-        if (img == null) {
+        if (img == null && width > 0) {
             if (colorMode == 4) {
                 path = path.substring(0, path.length() - 1);
             }
@@ -314,8 +319,10 @@ public class Field extends Parent {
             }
             ScratchCard.images.put(path, img);
         }
-        view2.setImage(img);
-        view.setImage(getImage(im));
+        if (width > 0) {
+            view2.setImage(img);
+            view.setImage(getImage(im));
+        }
         revealed = false;
         setCanvas(canvas);
     }
@@ -357,5 +364,13 @@ public class Field extends Parent {
 
     public void setRevealed(boolean b) {
         this.revealed = b;
+    }
+
+    public int getDoubleImageNumber() {
+        return this.doubleImage;
+    }
+
+    void setColorMode(int i) {
+        this.colorMode = i;
     }
 }
