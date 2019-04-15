@@ -13,4 +13,5 @@
 | 11.4.  | 8    | stats-toiminnallisuuden rakentaminen |
 | 12.4.  | 4    | refaktorointia ja testien kirjoittamista |
 | 14.4.  | 3    | viikon 5 julkaisun viimeistelyä |
-| yht   | 51   | | 
+| 15.4.  | 2    | viikon 5 julkaisu kuntoon |
+| yht   | 53   | | 
