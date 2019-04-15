@@ -296,12 +296,11 @@ public class ScratchCard extends Application {
         setDoubleOptionsFalse();
     }
 
-    public void handleNoRoundWin() {
+    public void handleNewCard() {
         hand.randomizeHand();
         ui.getWinText().set("Win: ");
         doubleVisible = false;
         setDoubleOptionsFalse();
-        ui.handleNewButtonNewCard();
         progress.set(true);
         play.set(false);
     }

@@ -29,6 +29,12 @@ luokka/pakkauskaavio:
 
 <img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200951.jpg" width="350"/>
 
+Uuden arvan ostaminen:
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/newcard.png" width="350"/>
+
+Voittojen talteenottaminen:
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/wintaking.png" width="350"/>
+
 ## Tietojen pysyväistallennus
 
 Pakkauksen _kh.scratchcard.dao_ luokka _FileDao_ huolehtii tietojen tallettamisesta tietokantaan.

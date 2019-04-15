@@ -589,11 +589,11 @@ public class Ui extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-
                 if (sc.getRoundWin() > 0) {
                     sc.handleRoundWin();
                 } else {
-                    sc.handleNoRoundWin();
+                    sc.handleNewCard();
+                    handleNewButtonNewCard();
                 }
             }
         });
@@ -897,19 +897,10 @@ public class Ui extends Application {
         root.getChildren().addAll(rect, whiteRect1, whiteRect2, whiteRect3, whiteRect4, doubleChoice1, doubleChoice2, doubleChoice3, doubleChoice4, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8, rect9, field1, field2, field3, field4, field5, field6, field7, field8, field9, doubleField, winTable, buttonsHBox2);
         root.getChildren().add(info);
 
-        Scene scene = new Scene(root, width, height);
-        String css = this.getClass().getResource("/style/style.css").toExternalForm();
-        scene.getStylesheets().add(css);
-        primaryStage.setScene(scene);
-        primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Rectangle bg = new Rectangle();
 
-        Rectangle tausta = new Rectangle();
-
-        tausta.setFill(Color.BLACK);
-        StackPane sp = new StackPane(tausta, v6);
+        bg.setFill(Color.BLACK);
+        StackPane sp = new StackPane(bg, v6);
         sp.setAlignment(Pos.CENTER);
         info.setStyle("-fx-background-color: #0067b3");
         v1.setStyle("-fx-background-color: grey");
@@ -919,6 +910,15 @@ public class Ui extends Application {
         v5.setStyle("-fx-background-color: grey");
 
         info.getChildren().add(new StackPane(infobg, v6));
+
+        Scene scene = new Scene(root, width, height);
+        String css = this.getClass().getResource("/style/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     public WinTable getWintable() {
