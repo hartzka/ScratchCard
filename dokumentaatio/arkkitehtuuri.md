@@ -4,7 +4,7 @@
 
 Ohjelman rakenne noudattaa kolmitasoista kerrosarkkitehtuuria seuraavalla pakkausrakenteella:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/luokkakaavio.png" width="300"/>
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/pakkauskaavio.png" width="300"/>
 
 Pakkaus _kh.scratchcard.ui_ sisältää JavaFX:llä toteutetun käyttöliittymän, _kh.scratchcard.domain_ sovelluslogiikan ja _kh.scratchcard.dao_ tietojen pysyväistallennuksesta vastaavan toiminnallisuuden. _kh.scratchcard.main_ sisältää vain ohjelman käynnistävän pääluokan.
 
