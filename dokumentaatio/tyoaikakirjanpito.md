@@ -14,4 +14,7 @@
 | 12.4.  | 4    | refaktorointia ja testien kirjoittamista |
 | 14.4.  | 3    | viikon 5 julkaisun viimeistelyä |
 | 15.4.  | 2    | viikon 5 julkaisu kuntoon |
-| yht   | 53   | | 
+| 17.4.  | 6    | Tietokannan ja tallennuksen toteutus |
+| 22.4.  | 3    | Tietokantatoiminnallisuuden viimeistely ja testaaminen |
+| 26.4.  | 5    | Refaktorointia ja viikon 6 julkaisu |
+| yht   | 67   | | 

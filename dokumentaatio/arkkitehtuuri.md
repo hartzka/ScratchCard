@@ -4,9 +4,9 @@
 
 Ohjelman rakenne noudattaa kolmitasoista kerrosarkkitehtuuria seuraavalla pakkausrakenteella:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200919.jpg" width="300"/>
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/luokkakaavio.png" width="300"/>
 
-Pakkaus _kh.scratchcard.ui_ sisältää JavaFX:llä toteutetun käyttöliittymän, _kh.scratchcard.domain_ sovelluslogiikan ja _kh.scratchcard.dao_ tietojen pysyväistallennuksesta vastaavan toiminnallisuuden.
+Pakkaus _kh.scratchcard.ui_ sisältää JavaFX:llä toteutetun käyttöliittymän, _kh.scratchcard.domain_ sovelluslogiikan ja _kh.scratchcard.dao_ tietojen pysyväistallennuksesta vastaavan toiminnallisuuden. _kh.scratchcard.main_ sisältää vain ohjelman käynnistävän pääluokan.
 
 ## Käyttöliittymä
 
@@ -27,7 +27,11 @@ Sovelluksen loogisen datamallin muodostavat luokat [ScratchCard](https://github.
 
 luokka/pakkauskaavio:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/20190408_200951.jpg" width="350"/>
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/luokkakaavio.png" width="350"/>
+
+### Päätoiminnallisuudet
+
+Sovelluksen toimintalogiikka muutaman päätoiminnallisuuden osalta sekvenssikaaviona:
 
 Uuden arvan ostaminen:
 
@@ -39,22 +43,16 @@ Voittojen talteenottaminen:
 
 ## Tietojen pysyväistallennus
 
-Pakkauksen _kh.scratchcard.dao_ luokka _FileDao_ huolehtii tietojen tallettamisesta tietokantaan.
+Pakkauksen _kh.scratchcard.dao_ luokka _DataDao_ huolehtii tietojen tallettamisesta tietokantaan.
 
-Luokat noudattavat [Data Access Object](https://en.wikipedia.org/wiki/Data_access_object) -suunnittelumallia. Luokka on eristetty rajapinnan _Dao_ taakse eikä sovelluslogiikka käytä luokkia suoraan. Rajapinnan metodeita voi vaihtaa tarpeen tullen.
+Luokka noudattaa [Data Access Object](https://en.wikipedia.org/wiki/Data_access_object) -suunnittelumallia. Luokka on eristetty rajapinnan _Dao_ taakse eikä sovelluslogiikka käytä luokkia suoraan. Rajapinnan metodeita voi vaihtaa ja lisätä tarpeen tullen.
 
-### Tiedostot
+Luokka Data on apuluokka datan säilyttämiseen ja Database-luokka sisältää käytössä olevan tietokannan osoitteen ja yhteyden.
 
+### Tietokanta
 Sovellus tallettaa arpapelin tiedot tietokantaan.
 
 Sovelluksen juureen sijoitettu konfiguraatiotiedosto config.properties määrittelee tiedostojen nimet.
-
-Sovellus tallettaa tiedot seuraavassa formaatissa:
-
-
-### Päätoiminnallisuudet
-
-Sovelluksen toimintalogiikka muutaman päätoiminnallisuuden osalta sekvenssikaaviona:
 
 #### Muut toiminnallisuudet
 
