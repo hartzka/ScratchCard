@@ -19,6 +19,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 ## Releaset
 [Viikko 5](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko5)
+[Viikko 6](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko6)
 
 ## Komentorivitoiminnot
 

@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto [ScratchCard.jar]()
+Lataa tiedosto [ScratchCard.jar](https://github.com/hartzka/ot-harjoitustyo/releases/download/Viikko6/ScratchCard.jar)
 
 ## Konfigurointi
 
