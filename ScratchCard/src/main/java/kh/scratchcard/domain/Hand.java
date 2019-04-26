@@ -1,10 +1,16 @@
 package kh.scratchcard.domain;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import kh.scratchcard.ui.Field;
 
+/**
+ * Käsi, joka sisältää tietoa käynnissä olevan pelikierroksen voitoista ja
+ * voittoluokista. Huolehtii myös kuvioiden arvonnasta ja voittojen
+ * tarkistamisesta.
+ */
 public class Hand {
 
     private final Field field1;
@@ -31,7 +37,7 @@ public class Hand {
     private boolean field9Win;
     private ScratchCard sc;
 
-    public Hand() {
+    public Hand() throws SQLException {
         this.sc = new ScratchCard();
         this.field1 = new Field(sc, 0, 0, 0, 0);
         this.field2 = new Field(sc, 0, 0, 0, 0);
@@ -83,6 +89,14 @@ public class Hand {
         this.random = new Random();
     }
 
+    /**
+     * Voittokategorian arvonta
+     *
+     * @param win true = Arvotaan varma voitto, false = Normaali arvonta
+     *
+     * @return Voittokategorian, joka kuvaa voittoa. Mikäli arvonnan tulos on
+     * "ei voittoa", palautetaan WinCategory.NOTHING.
+     */
     public WinCategory randomizeWinCategory(boolean win) {
         int result = random.nextInt(10000000) + 1;
         if (win) {
@@ -97,7 +111,14 @@ public class Hand {
         return winCateg;
     }
 
-    public WinCategory randomizeSmallWinCategory(int result) {
+    /**
+     * Apumetodi pienen voittokategorian arvonnalle
+     *
+     * @param result Arvonnan numeerinen tulos
+     *
+     * @return Voittokategorian
+     */
+    private WinCategory randomizeSmallWinCategory(int result) {
         WinCategory winCateg = WinCategory.NOTHING;
         if (result <= 1000000) {
             winCateg = WinCategory.X3ORANGE; //3x orange 2
@@ -117,7 +138,14 @@ public class Hand {
         return winCateg;
     }
 
-    public WinCategory randomizeLargeWinCategory(int result) {
+    /**
+     * Apumetodi suuren voittokategorian arvonnalle
+     *
+     * @param result Arvonnan numeerinen tulos
+     *
+     * @return Voittokategorian
+     */
+    private WinCategory randomizeLargeWinCategory(int result) {
         WinCategory winCateg = WinCategory.NOTHING;
         if (result <= 2830000) {
             winCateg = WinCategory.X2PINEAPPLE; // 2x pineapple 15
@@ -135,6 +163,9 @@ public class Hand {
         return winCateg;
     }
 
+    /**
+     * Voittojen alustus
+     */
     public void initializeWins() {
         this.win1 = WinCategory.NOTHING;
         this.win2 = WinCategory.NOTHING;
@@ -150,6 +181,9 @@ public class Hand {
         field9Win = false;
     }
 
+    /**
+     * Käden arvonta, arpoo kierroksen kuviot ja voitot.
+     */
     public void randomizeHand() {
         initializeWins();
         WinCategory win = randomizeWinCategory(false);
@@ -168,6 +202,11 @@ public class Hand {
         actions(3, win3, field7, field8, field9, fakeWin3);
     }
 
+    /**
+     * Arpoo voittojen lukumäärän kädessä. Lukumäärä voi olla välillä 0-3.
+     *
+     * @return Voittojen lukumäärän
+     */
     public int randomizeWinAmount() {
         int wins = 0;
         int rand = random.nextInt(100);
@@ -188,6 +227,11 @@ public class Hand {
         return wins;
     }
 
+    /**
+     * Käden voittojen ja kuvioiden arvonta voittojen lukumäärän mukaan
+     *
+     * @param win Voittojen lukumäärä
+     */
     public void randomizeHandWithWIn(WinCategory win) {
         int wins = randomizeWinAmount();
         if (wins == 0) {
@@ -204,48 +248,61 @@ public class Hand {
 
     }
 
-    private void actions(int n, WinCategory categ, Field f1, Field f2, Field f3, int fake) {
+    /**
+     * Apumetodi käden voittojen ja kuvioiden arvonnalle
+     *
+     * @param row Rivin numero 1-3
+     * @param categ Rivin voittokategoria
+     * @param f1 Rivin vasemmanpuoleisin raaputuskenttä
+     * @param f2 Rivin keskimmäinen raaputuskenttä
+     * @param f3 Rivin oikeanpuoleisin raaputuskenttä
+     * @param fake Arvottu huijausvoiton numero. Huijausvoittoja käytetään
+     * riveissä, jotka eivät voita. Niiden ansiosta riveille tulee useammin
+     * symboleja niin, että näyttäisi, että "voitto jäi taas yhden päähän". Näin
+     * arpoihin tuodaan lisää jännitystä.
+     */
+    public void actions(int row, WinCategory categ, Field f1, Field f2, Field f3, int fake) {
         if (categ != WinCategory.NOTHING) {
             if (null != categ) {
                 switch (categ) {
                     case X3ORANGE:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 1);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 1);
                         break;
                     case X1PINEAPPLE:
-                        actionsX1Pineapple(f1, f2, f3, n, fake);
+                        actionsX1Pineapple(f1, f2, f3, row, fake);
                         break;
                     case X3STRAWBERRY:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 2);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 2);
                         break;
                     case X3PLUM:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 3);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 3);
                         break;
                     case X2MELON:
-                        actionsX2Melon(f1, f2, f3, n);
+                        actionsX2Melon(f1, f2, f3, row);
                         break;
                     case X3CHERRY:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 4);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 4);
                         break;
                     case X2PINEAPPLE:
-                        actionsX2Pineapple(f1, f2, f3, n);
+                        actionsX2Pineapple(f1, f2, f3, row);
                         break;
                     case X1BANANA:
-                        actionsX1Banana(f1, f2, f3, n, fake);
+                        actionsX1Banana(f1, f2, f3, row, fake);
                         break;
                     case X3MELON:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 5);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 5);
                         break;
                     case X3BANANA:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 6);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 6);
                         break;
                     case X3PINEAPPLE:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 7);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 7);
                         break;
                     case X3PEAR:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 8);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 8);
                         break;
                     case X3GRAPES:
-                        actionsByWinCategory3Symbols(f1, f2, f3, n, 9);
+                        actionsByWinCategory3Symbols(f1, f2, f3, row, 9);
                         break;
                     default:
                         break;
@@ -258,6 +315,26 @@ public class Hand {
         }
     }
 
+    /**
+     * Kenttävoittojen merkitseminen kentän mukaan
+     *
+     * @param fields Lista merkittävistä kentistä, joissa on voittava symboli
+     */
+    public void makeFieldWinsTrue(int[] fields) {
+        for (int i : fields) {
+            if (i <= 5) {
+                makeLowFieldWinTrue(i);
+            } else {
+                makehighFieldWinTrue(i);
+            }
+        }
+    }
+
+    /**
+     * Apumetodi kenttävoittojen merkitsemiseen kentän mukaan
+     *
+     * @param field Merkittävä kenttä
+     */
     private void makeLowFieldWinTrue(int field) {
         if (field == 1) {
             field1Win = true;
@@ -272,6 +349,11 @@ public class Hand {
         }
     }
 
+    /**
+     * Apumetodi kenttävoittojen merkitsemiseen kentän mukaan
+     *
+     * @param field Merkittävä kenttä
+     */
     private void makehighFieldWinTrue(int field) {
         if (field == 6) {
             field6Win = true;
@@ -284,16 +366,18 @@ public class Hand {
         }
     }
 
-    private void makeFieldWinsTrue(int[] fields) {
-        for (int i : fields) {
-            if (i <= 5) {
-                makeLowFieldWinTrue(i);
-            } else {
-                makehighFieldWinTrue(i);
-            }
-        }
-    }
-
+    /**
+     * Kahden kentän huijausvoiton arpominen, kun kolmas kenttä voittaa. Alustaa
+     * kaksi kenttää samalla huijaussymbolilla niin, että kolmen symbolin voitto
+     * jää yhden päähän. Kolmanteen kenttään arvotaan voittava symboli (joko
+     * ananas tai banaani). Tapaukset value = 6 (banaani) ja value = 7 (ananas)
+     * eivät kelpaa, koska nämä saattavat jo olla mukana yhden kuvion voitossa.
+     * Melonin tapauksessa (value = 5) ei voida arpoa kahta melonia, koska ne
+     * oikeuttaisivat voittpon.
+     *
+     * @param field1 Ensimmäinen kenttä, johon tulee huijaussymboli
+     * @param field2 Toinen kenttä, johon tulee huijaussymboli
+     */
     private void fake2(Field f1, Field f2) {
         int value = 6;
         while (value == 6 || value == 7) {
@@ -311,6 +395,15 @@ public class Hand {
         }
     }
 
+    /**
+     * Melonin ja jonkin muun symbolin (ei banaani tai ananas) laittaminen
+     * jossain järjestyksessä kenttiin arvojen mukaan
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param value Ensimmäinen arvo
+     * @param value2 Toinen arvo
+     */
     private void fake2InSomeOrder(Field f1, Field f2, int value, int value2) {
         int which = random.nextInt(2);
         if (which == 0) {
@@ -322,6 +415,14 @@ public class Hand {
         }
     }
 
+    /**
+     * Arpoo rehellisesti kaksi kuviota kenttiin ilman huijausta, kun kolmas
+     * kenttä voittaa. Banaania, ananasta ja kahta melonia ei taaskaan
+     * hyväksytä, koska ne oikeuttaisivat voittoon.
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     */
     private void nofake2(Field f1, Field f2) {
         int value = 6;
         while (value == 6 || value == 7) {
@@ -335,6 +436,14 @@ public class Hand {
         f2.initialize(value2);
     }
 
+    /**
+     * Huijausvoiton arpominen kolmeen kenttään, kun voittoa ei ole rivillä.
+     * Huijausvoitossa on yhdellä rivillä voitto "yhden päässä".
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     */
     private void fake3(Field f1, Field f2, Field f3) {
         int value = 7;
         while (value == 7) {
@@ -346,13 +455,26 @@ public class Hand {
             place2 = random.nextInt(3);
         }
         if (value == 1 || value == 2 || value == 3 || value == 4 || value == 6 || value == 8 || value == 9) {
-            fake3Helper1(value, random, place1, place2, f1, f2, f3);
+            fake3Helper1(value, place1, place2, f1, f2, f3);
         } else if (value == 5) {
-            fake3Helper2(value, random, place1, place2, f1, f2, f3);
+            fake3Helper2(value, place1, place2, f1, f2, f3);
         }
     }
 
-    private void fake3Helper1(int value, Random random, int place1, int place2, Field f1, Field f2, Field f3) {
+    /**
+     * Alustaa kahden symbolin huijausvoiton kahteen kenttään jossain
+     * järjestyksessä.
+     *
+     * @param value Alustettava arvo
+     * @param place1 Rivillä oleva ensimmäinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param place2 Rivillä oleva toinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     */
+    private void fake3Helper1(int value, int place1, int place2, Field f1, Field f2, Field f3) {
         int value2 = value;
         while (value2 == value || value2 == 6 || value2 == 7) {
             value2 = random.nextInt(9) + 1;
@@ -372,7 +494,20 @@ public class Hand {
         }
     }
 
-    private void fake3Helper2(int value, Random random, int place1, int place2, Field f1, Field f2, Field f3) {
+    /**
+     * Alustaa kahden symbolin, joissa on yksi meloni mukana, huijausvoiton
+     * kahteen kenttään.
+     *
+     * @param value Alustettava arvo
+     * @param place1 Rivillä oleva ensimmäinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param place2 Rivillä oleva toinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     */
+    private void fake3Helper2(int value, int place1, int place2, Field f1, Field f2, Field f3) {
         int value2 = value;
         while (value2 == value || value2 == 6 || value2 == 7) {
             value2 = random.nextInt(9) + 1;
@@ -382,15 +517,28 @@ public class Hand {
             value3 = random.nextInt(9) + 1;
         }
         if (place1 != 0 && place2 != 0) {
-            fake3Helper3(value, random, value2, value3, f1, f2, f3);
+            fake3Helper3(value, value2, value3, f1, f2, f3);
         } else if (place1 != 1 && place2 != 1) {
-            fake3Helper3(value, random, value2, value3, f2, f1, f3);
+            fake3Helper3(value, value2, value3, f2, f1, f3);
         } else {
-            fake3Helper3(value, random, value2, value3, f3, f2, f1);
+            fake3Helper3(value, value2, value3, f3, f2, f1);
         }
     }
 
-    private void fake3Helper3(int value, Random random, int value2, int value3, Field f1, Field f2, Field f3) {
+    /**
+     * Apumetodi kahden symbolin huijausvoiton alustamisessa, joissa on yksi
+     * meloni mukana, kahteen kenttään jossain järjestyksessä.
+     *
+     * @param value Alustettava arvo (tässä meloni eli value = 5)
+     * @param place1 Rivillä oleva ensimmäinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param place2 Rivillä oleva toinen paikka, jonka kenttään alustetaan
+     * arvo. Välillä 1-3.
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     */
+    private void fake3Helper3(int value, int value2, int value3, Field f1, Field f2, Field f3) {
         f1.initialize(value);
         int rand = random.nextInt(2);
         if (rand == 0) {
@@ -402,6 +550,13 @@ public class Hand {
         }
     }
 
+    /**
+     * Arpoo satunnaisesti ei-voittavan yhdistelmän kolmeen kenttään.
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     */
     private void noFake3(Field f1, Field f2, Field f3) {
         int value = 6;
         while (value == 6 || value == 7) {
@@ -419,7 +574,18 @@ public class Hand {
         initializeFieldsWithValues(f1, f2, f3, value, value2, value3, rand);
     }
 
-    private void initializeFieldsWithValues(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
+    /**
+     * Alustaa kentät tietyillä symboliarvoilla.
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     * @param value Alustettava arvo 1
+     * @param value2 Alustettava arvo 2
+     * @param value3 Alustettava arvo 3
+     * @param rand satunnaisluku välillä 0-5
+     */
+    public void initializeFieldsWithValues(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
         if (rand < 3) {
             initializeFieldsWithValuesWhenRandLessThan3(f1, f2, f3, value, value2, value3, rand);
         } else {
@@ -427,6 +593,17 @@ public class Hand {
         }
     }
 
+    /**
+     * Alustaa kentät tietyillä symboliarvoilla, kun rand on välillä 0-2.
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     * @param value Alustettava arvo 1
+     * @param value2 Alustettava arvo 2
+     * @param value3 Alustettava arvo 3
+     * @param rand satunnaisluku välillä 0-2
+     */
     private void initializeFieldsWithValuesWhenRandLessThan3(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
         if (rand == 0) {
             f1.initialize(value);
@@ -443,6 +620,17 @@ public class Hand {
         }
     }
 
+    /**
+     * Alustaa kentät tietyillä symboliarvoilla, kun rand on välillä 3-5.
+     *
+     * @param f1 Ensimmäinen kenttä
+     * @param f2 Toinen kenttä
+     * @param f3 Kolmas kenttä
+     * @param value Alustettava arvo 1
+     * @param value2 Alustettava arvo 2
+     * @param value3 Alustettava arvo 3
+     * @param rand satunnaisluku välillä 3-5
+     */
     private void initializeFieldsWithValuesWhenRandMoreThan3(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
         if (rand == 3) {
             f1.initialize(value2);
@@ -459,7 +647,11 @@ public class Hand {
         }
     }
 
-    private void openFields() {
+    /**
+     * Avaa raaputuskentät
+     *
+     */
+    public void openFields() {
         field1.open();
         field2.open();
         field3.open();
@@ -471,6 +663,12 @@ public class Hand {
         field9.open();
     }
 
+    /**
+     * Palauttaa listan käden voittokategorioista ja asettaa voittojen
+     * korostukset ui:lle.
+     *
+     * @return Lista voittokategorioista
+     */
     public List<WinCategory> reveal() {
         openFields();
         List<WinCategory> list = new ArrayList();
@@ -490,7 +688,14 @@ public class Hand {
         return list;
     }
 
-    private List<Integer> checkFieldWins1(List<Integer> l) {
+    /**
+     * Palauttaa listan käden voittavista kentistä 1-5.
+     *
+     * @param l Lista, johon lisätään voittavien kenttien numerot
+     * 
+     * @return Lista voittavista kentistä
+     */
+    public List<Integer> checkFieldWins1(List<Integer> l) {
         if (field1Win) {
             l.add(1);
         }
@@ -509,7 +714,14 @@ public class Hand {
         return l;
     }
 
-    private List<Integer> checkFieldWins2(List<Integer> l) {
+    /**
+     * Palauttaa listan käden voittavista kentistä 6-9.
+     *
+     * @param l Lista, johon lisätään voittavien kenttien numerot   
+     * 
+     * @return Lista voittavista kentistä
+     */
+    public List<Integer> checkFieldWins2(List<Integer> l) {
         if (field6Win) {
             l.add(6);
         }
@@ -525,6 +737,11 @@ public class Hand {
         return l;
     }
 
+    /**
+     * Palauttaa listan käden voittavista kategorioista testissä.
+     *
+     * @return Lista voittavista kategorioista
+     */
     public List<WinCategory> revealTest() {
 
         List<WinCategory> list = new ArrayList();
@@ -541,26 +758,46 @@ public class Hand {
         return list;
     }
 
-    private void actionsX1Pineapple(Field f1, Field f2, Field f3, int n, int fake) {
+    /**
+     * Voiton 1 x ananas toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param fake huijausnumero
+     */
+    private void actionsX1Pineapple(Field f1, Field f2, Field f3, int row, int fake) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                actionsByWinCategory1Symbol(f1, f2, f3, n, fake, 1, 7);
+                actionsByWinCategory1Symbol(f1, f2, f3, row, fake, 1, 7);
                 break;
             case 1:
-                actionsByWinCategory1Symbol(f2, f1, f3, n, fake, 2, 7);
+                actionsByWinCategory1Symbol(f2, f1, f3, row, fake, 2, 7);
                 break;
             case 2:
-                actionsByWinCategory1Symbol(f3, f2, f1, n, fake, 3, 7);
+                actionsByWinCategory1Symbol(f3, f2, f1, row, fake, 3, 7);
                 break;
             default:
                 break;
         }
     }
 
-    private void actionsByWinCategory1Symbol(Field f1, Field f2, Field f3, int n, int fake, int column, int symbol) {
+    /**
+     * Yhden voittavan symbolin toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param fake huijausnumero
+     * @param column sarake
+     * @param symbol symbolinumero
+     */
+    private void actionsByWinCategory1Symbol(Field f1, Field f2, Field f3, int row, int fake, int column, int symbol) {
         f1.initialize(symbol);
-        switch (n) {
+        switch (row) {
             case 1:
                 setFieldWinTrue(column);
                 break;
@@ -578,10 +815,20 @@ public class Hand {
         }
     }
 
-    private void actionsByWinCategory2Symbols(Field f1, Field f2, Field f3, int n, int column1, int column2, int symbol) {
+    /**
+     * Kahden voittavan symbolin toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param row Rivi
+     * @param column1 sarake1
+     * @param column2 sarake2
+     * @param symbol symbolinumero
+     */
+    private void actionsByWinCategory2Symbols(Field f1, Field f2, int row, int column1, int column2, int symbol) {
         f1.initialize(symbol);
         f2.initialize(symbol);
-        switch (n) {
+        switch (row) {
             case 1:
                 makeFieldWinsTrue(new int[]{column1, column2});
                 break;
@@ -594,11 +841,20 @@ public class Hand {
         }
     }
 
-    private void actionsByWinCategory3Symbols(Field f1, Field f2, Field f3, int n, int category) {
+    /**
+     * Kolmen voittavan symbolin toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param category kategorianumero
+     */
+    private void actionsByWinCategory3Symbols(Field f1, Field f2, Field f3, int row, int category) {
         f1.initialize(category);
         f2.initialize(category);
         f3.initialize(category);
-        switch (n) {
+        switch (row) {
             case 1:
                 makeFieldWinsTrue(new int[]{1, 2, 3});
                 break;
@@ -611,25 +867,43 @@ public class Hand {
         }
     }
 
-    private void actionsX2Melon(Field f1, Field f2, Field f3, int n) {
+    /**
+     * Voiton 2 x meloni toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     */
+    private void actionsX2Melon(Field f1, Field f2, Field f3, int row) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                actionsX2Melon2(f1, f2, f3, n, 1, 2);
+                actionsX2Melon2(f1, f2, f3, row, 1, 2);
                 break;
             case 1:
-                actionsX2Melon2(f2, f3, f1, n, 2, 3);
+                actionsX2Melon2(f2, f3, f1, row, 2, 3);
                 break;
             case 2:
-                actionsX2Melon2(f3, f1, f2, n, 1, 3);
+                actionsX2Melon2(f3, f1, f2, row, 1, 3);
                 break;
             default:
                 break;
         }
     }
 
-    private void actionsX2Melon2(Field f1, Field f2, Field f3, int n, int column1, int column2) {
-        actionsByWinCategory2Symbols(f1, f2, f3, n, column1, column2, 5);
+    /**
+     * Voiton 2 x meloni toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param column1 sarake 1
+     * @param column2 sarake 2
+     */
+    private void actionsX2Melon2(Field f1, Field f2, Field f3, int row, int column1, int column2) {
+        actionsByWinCategory2Symbols(f1, f2, row, column1, column2, 5);
         int value = 5;
         while (value == 5 || value == 6 || value == 7) {
             value = random.nextInt(9) + 1;
@@ -637,25 +911,43 @@ public class Hand {
         f3.initialize(value);
     }
 
-    private void actionsX2Pineapple(Field f1, Field f2, Field f3, int n) {
+    /**
+     * Voiton 2 x ananas toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     */
+    private void actionsX2Pineapple(Field f1, Field f2, Field f3, int row) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                actionsX2Pineapple2(f1, f2, f3, n, 1, 2);
+                actionsX2Pineapple2(f1, f2, f3, row, 1, 2);
                 break;
             case 1:
-                actionsX2Pineapple2(f2, f3, f1, n, 2, 3);
+                actionsX2Pineapple2(f2, f3, f1, row, 2, 3);
                 break;
             case 2:
-                actionsX2Pineapple2(f3, f1, f2, n, 1, 3);
+                actionsX2Pineapple2(f3, f1, f2, row, 1, 3);
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * Voiton 2 x ananas toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param column1 sarake 1
+     * @param column2 sarake 2
+     */
     private void actionsX2Pineapple2(Field f1, Field f2, Field f3, int n, int column1, int column2) {
-        actionsByWinCategory2Symbols(f1, f2, f3, n, column1, column2, 7);
+        actionsByWinCategory2Symbols(f1, f2, n, column1, column2, 7);
         int value = 6;
         while (value == 6 || value == 7) {
             value = random.nextInt(9) + 1;
@@ -663,23 +955,37 @@ public class Hand {
         f3.initialize(value);
     }
 
-    private void actionsX1Banana(Field f1, Field f2, Field f3, int n, int fake) {
+    /**
+     * Voiton 1 x banaani toiminnot
+     *
+     * @param f1 Kenttä 1
+     * @param f2 Kenttä 2
+     * @param f3 Kenttä 3
+     * @param row Rivi
+     * @param fake huijausnumero
+     */
+    private void actionsX1Banana(Field f1, Field f2, Field f3, int row, int fake) {
         int rand = random.nextInt(3);
         switch (rand) {
             case 0:
-                actionsByWinCategory1Symbol(f1, f2, f3, n, fake, 1, 6);
+                actionsByWinCategory1Symbol(f1, f2, f3, row, fake, 1, 6);
                 break;
             case 1:
-                actionsByWinCategory1Symbol(f2, f1, f3, n, fake, 2, 6);
+                actionsByWinCategory1Symbol(f2, f1, f3, row, fake, 2, 6);
                 break;
             case 2:
-                actionsByWinCategory1Symbol(f3, f2, f1, n, fake, 3, 6);
+                actionsByWinCategory1Symbol(f3, f2, f1, row, fake, 3, 6);
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * Alustaa käden yhdellä voitolla
+     *
+     * @param win alustettava voittokategoria
+     */
     private void randomizeHandWith1Win(WinCategory win) {
         int rand3 = random.nextInt(3);
         switch (rand3) {
@@ -697,6 +1003,11 @@ public class Hand {
         }
     }
 
+    /**
+     * Alustaa käden kahdella voitolla
+     *
+     * @param win alustettava voittokategoria
+     */
     private void randomizeHandWith2Wins(WinCategory win) {
         int rand4 = random.nextInt(3);
         switch (rand4) {
@@ -717,6 +1028,11 @@ public class Hand {
         }
     }
 
+    /**
+     * Alustaa käden kolmella voitolla
+     *
+     * @param win alustettava voittokategoria
+     */
     private void randomizeHandWith3Wins(WinCategory win) {
         win1 = win;
         win2 = randomizeWinCategory(true);
@@ -727,7 +1043,20 @@ public class Hand {
         this.win1 = winCategory;
     }
 
-    private void setFieldWinTrue(int column) {
+    /**
+     * Asettaa kenttävoiton trueksi kentän mukaan
+     *
+     * @param column alustettava kenttänumero
+     */
+    public void setFieldWinTrue(int column) {
+        if (column <= 5) {
+            setFieldWinTrue1(column);
+        } else {
+            setFieldWinTrue2(column);
+        }
+    }
+
+    private void setFieldWinTrue1(int column) {
         if (column == 1) {
             field1Win = true;
         } else if (column == 2) {
@@ -738,7 +1067,11 @@ public class Hand {
             field4Win = true;
         } else if (column == 5) {
             field5Win = true;
-        } else if (column == 6) {
+        }
+    }
+
+    private void setFieldWinTrue2(int column) {
+        if (column == 6) {
             field6Win = true;
         } else if (column == 7) {
             field7Win = true;
@@ -795,5 +1128,68 @@ public class Hand {
 
     public boolean getFieldWin8() {
         return field8Win;
+    }
+
+    public void setWin2(WinCategory winCategory) {
+        win2 = winCategory;
+    }
+
+    public void setWin3(WinCategory winCategory) {
+        win3 = winCategory;
+    }
+
+    public void setField1Win(boolean b) {
+        field1Win = b;
+    }
+
+    public void setField2Win(boolean b) {
+        field2Win = b;
+    }
+
+    public void setField3Win(boolean b) {
+        field3Win = b;
+    }
+
+    public void setField4Win(boolean b) {
+        field4Win = b;
+    }
+
+    public void setField5Win(boolean b) {
+        field5Win = b;
+    }
+
+    public void setField6Win(boolean b) {
+        field6Win = b;
+    }
+
+    public void setField7Win(boolean b) {
+        field7Win = b;
+    }
+
+    public void setField8Win(boolean b) {
+        field8Win = b;
+    }
+
+    public void setField9Win(boolean b) {
+        field9Win = b;
+    }
+
+    /**
+     * Alustaa käden voitot nollaksi
+     *
+     */
+    public void initialize() {
+        win1 = WinCategory.NOTHING;
+        win2 = WinCategory.NOTHING;
+        win3 = WinCategory.NOTHING;
+        field1Win = false;
+        field2Win = false;
+        field3Win = false;
+        field4Win = false;
+        field5Win = false;
+        field6Win = false;
+        field7Win = false;
+        field8Win = false;
+        field9Win = false;
     }
 }

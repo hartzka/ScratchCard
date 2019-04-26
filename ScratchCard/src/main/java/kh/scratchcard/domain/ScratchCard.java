@@ -1,8 +1,11 @@
 package kh.scratchcard.domain;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,9 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import kh.scratchcard.dao.Data;
+import kh.scratchcard.dao.DataDao;
+import kh.scratchcard.dao.Database;
 import kh.scratchcard.ui.Field;
 import kh.scratchcard.ui.Ui;
 
+/**
+ * Sovelluslogiikan raaputusarpaluokka, joka sisältää tietoa käynnissä olevasta
+ * pelisessiosta, ja jonka kautta tietoa haetaan ja päivitetään.
+ */
 public class ScratchCard extends Application {
 
     private Random random = new Random();
@@ -44,12 +54,23 @@ public class ScratchCard extends Application {
     public SimpleIntegerProperty roundWinx7 = new SimpleIntegerProperty(0);
     public SimpleIntegerProperty roundWinx30 = new SimpleIntegerProperty(0);
     private boolean statsVisible = false;
+    private boolean test = false;
 
     private Ui ui;
 
-    public ScratchCard() {
+    private Database database;
+    private DataDao dataDao;
+    private Data data;
+
+    public ScratchCard() throws SQLException {
         images = new HashMap<>();
         ui = new Ui(this);
+        try {
+            database = new Database("jdbc:sqlite:data.db");
+            dataDao = new DataDao(database);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ScratchCard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -62,10 +83,18 @@ public class ScratchCard extends Application {
         ui.getNewButton().disableProperty().bind(progress);
         ui.getClaimButton().disableProperty().bind(play);
         hand = new Hand(this, ui.getField(1), ui.getField(2), ui.getField(3), ui.getField(4), ui.getField(5), ui.getField(6), ui.getField(7), ui.getField(8), ui.getField(9));
+
+        System.out.println("Welcome!");
+        setUpStats();
     }
 
+    /**
+     * Tarkistaa, ovatko kaikki raaputuskentät avattu. Jos näin on, muuttaa
+     * pelitilanteita ja katsoo, onko tullut voittoja käynnissä olevalla
+     * kierroksella.
+     */
     public void checkOpened() {
-        if (ui.getField(1).getOpened() && ui.getField(2).getOpened() && ui.getField(3).getOpened() && ui.getField(4).getOpened() && ui.getField(5).getOpened() && ui.getField(6).getOpened() && ui.getField(7).getOpened() && ui.getField(8).getOpened() && ui.getField(9).getOpened()) {
+        if (ui.getFieldsOpened()) {
             List<WinCategory> wins = hand.reveal();
             progress.set(false);
             play.set(true);
@@ -76,6 +105,13 @@ public class ScratchCard extends Application {
         }
     }
 
+    /**
+     * Tarkistaa voitot. Jokainen yksittäinen voitto lisätään kierrosvoittoon.
+     * Jos voitto on korkeintaan 50000, voiton voi tuplata, muuten näytetään
+     * onnitteluteksti.
+     *
+     * @param wins Lista voittokategorioista kierroksella
+     */
     public void checkWins(List<WinCategory> wins) {
         int win = 0;
         for (WinCategory c : wins) {
@@ -94,6 +130,31 @@ public class ScratchCard extends Application {
         }
     }
 
+    /**
+     * Käsittelee tuplauskentän avaamiseen liityvät toiminnot.
+     */
+    public void doubleFieldOpened() {
+        doubleLocked = false;
+        handleDoubleWin();
+        updateDoubleWins();
+
+        if (roundWin.get() >= 50000) {
+            ui.hideDoubleChoices();
+            ui.handleDoubleFieldOpened();
+            ui.setUnbelievableText();
+            ui.fillWin(Color.AZURE);
+        }
+        doubleVisible = false;
+        progress.set(false);
+        setDoubleOptionsFalse();
+    }
+
+    /**
+     * Tarkistaa, onko tuplauksessa tullut voittoa. Jos on, kierrosvoitto kasvaa
+     * tuplauskertoimella ja tuplausta voi jatkaa tai ottaa voiton talteen.
+     * Muuten kutsutaan handleNoDoubleWin()-metodia, kierrosvoitto nollaantuu ja
+     * tuplaus on hävitty.
+     */
     public void handleDoubleWin() {
         boolean win = true;
         if (doubleImage == 1 && doubleOption1) {
@@ -126,27 +187,16 @@ public class ScratchCard extends Application {
         doubleLocked = true;
     }
 
-    public void doubleFieldOpened() {
-        doubleLocked = false;
-        handleDoubleWin();
-        updateDoubleWins();
-
-        if (roundWin.get() >= 50000) {
-            ui.hideDoubleChoices();
-            ui.handleDoubleFieldOpened();
-            ui.setUnbelievableText();
-            ui.fillWin(Color.AZURE);
-        }
-        doubleVisible = false;
-        progress.set(false);
-        setDoubleOptionsFalse();
-    }
-
     public void setDoubleLocked() {
         doubleLocked = true;
         progress.set(true);
     }
 
+    /**
+     * Arpoo tuplauskenttään tulevan symbolin ja alustaa tuplauskentän tällä
+     * symbolilla. Arvot 1-105: sitruuna Arvot 106-175: kiivi Arvot 176-205:
+     * vadelma Arvot 206-212: mustaherukka
+     */
     public void randomizeDoubleImage() {
         int a = random.nextInt(212) + 1;
         Field doubleField = ui.getDoubleField();
@@ -165,6 +215,9 @@ public class ScratchCard extends Application {
         }
     }
 
+    /**
+     * Päivittää mahdolliset tuplausvoittoluokat
+     */
     public void updateDoubleWins() {
         roundWinx2.set(roundWin.get() * 2);
         roundWinx3.set(roundWin.get() * 3);
@@ -192,6 +245,9 @@ public class ScratchCard extends Application {
         return this.moneySession;
     }
 
+    /**
+     * Päivittää kaikki tuplausvalinnat falseiksi.
+     */
     public void setDoubleOptionsFalse() {
         doubleOption1 = false;
         doubleOption2 = false;
@@ -275,6 +331,10 @@ public class ScratchCard extends Application {
         return this.roundWin.get();
     }
 
+    /**
+     * Käsittelee kierrosvoittoon liittyvät toiminnot. Päivittää
+     * kokonaisrahatilanteen ja muuta statistiikkaa.
+     */
     public void handleRoundWin() {
         moneyTotal.set(moneyTotal.get() + roundWin.get());
         moneySession.set(moneySession.get() + roundWin.get());
@@ -283,19 +343,23 @@ public class ScratchCard extends Application {
                 doubleBestMultiplier = roundWin.get() / roundWinStart.get();
                 ui.getDoubleBestWin().setText("   " + Integer.toString(roundWinStart.get()) + ".00 --> " + Integer.toString(roundWin.get()) + ".00   ");
             }
-            SimpleIntegerProperty doubleWin = ui.getDoubleWin();
-            ui.getDoubleWin().set(doubleWin.get() + roundWin.get() - roundWinStart.get());
+            SimpleIntegerProperty doubleWin = ui.getDoubleUpWins();
+            ui.getDoubleUpWins().set(doubleWin.get() + roundWin.get() - roundWinStart.get());
         }
+        System.out.println("Win: " + roundWin.get());
         roundWin.set(0);
         roundWinStart.set(0);
         ui.setWinVisible(false);
         ui.setDoubleButtonDisable(true);
         ui.hideDoubleChoices();
-        ui.handleNewButtonWinTaking();
         doubleVisible = false;
         setDoubleOptionsFalse();
     }
 
+    /**
+     * Käsittelee uuden arvan ostamisen ja uuden kierroksen alkamisen. Kutsuu
+     * kättä arpomaan uudet kuviot ja päivittää pelitilanteita.
+     */
     public void handleNewCard() {
         hand.randomizeHand();
         ui.getWinText().set("Win: ");
@@ -351,5 +415,83 @@ public class ScratchCard extends Application {
 
     public int getDoubleBestMultiplier() {
         return this.doubleBestMultiplier;
+    }
+
+    /**
+     * Alustaa tilastot pelin alussa. Hakee tiedot tietokannasta dataDao:n
+     * avulla.
+     * 
+     * @throws java.sql.SQLException jos tietokannan käsittelyssä taphtuu virhe
+     */
+    public void setUpStats() throws SQLException {
+        data = dataDao.findOne();
+        if (data != null) {
+            moneyTotal.set(data.getMoneyTotal());
+            System.out.println("Money: " + moneyTotal.get());
+            ui.setStats(data);
+        } else {
+            System.out.println("Money: 0");
+        }
+    }
+
+    /**
+     * Tallentaa statistiikkaa pelin lopussa dataDao:n avulla tietokantaan.
+     * 
+     * @throws java.sql.SQLException jos tietokannan käsittelyssä taphtuu virhe
+     */
+    public void save() throws SQLException {
+        if (doubleLocked) {
+            SimpleIntegerProperty losses = ui.getDoubleUpLosses();
+            ui.getDoubleUpLosses().set(losses.get() + roundWinStart.get());
+            roundWin.set(0);
+            roundWinStart.set(0);
+        }
+        if (roundWin.get() > 0) {
+            moneyTotal.set(moneyTotal.get() + roundWin.get());
+            moneySession.set(moneySession.get() + roundWin.get());
+            if (roundWin.get() > roundWinStart.get()) {
+                if (roundWin.get() / roundWinStart.get() > doubleBestMultiplier) {
+                    doubleBestMultiplier = roundWin.get() / roundWinStart.get();
+                    ui.getDoubleBestWin().setText("   " + Integer.toString(roundWinStart.get()) + ".00 --> " + Integer.toString(roundWin.get()) + ".00   ");
+                }
+
+                ui.getDoubleUpWins().set(ui.getDoubleUpWins().get() + roundWin.get() - roundWinStart.get());
+            }
+            roundWin.set(0);
+        }
+
+        data = new Data();
+        data.setMoneyTotal(moneyTotal.get());
+        data.setPlayedTotal(ui.getPlayedTotal());
+        data.setWin2(ui.getWin2());
+        data.setWin3(ui.getWin3());
+        data.setWin4(ui.getWin4());
+        data.setWin5(ui.getWin5());
+        data.setWin6(ui.getWin6());
+        data.setWin8(ui.getWin8());
+        data.setWin10(ui.getWin10());
+        data.setWin15(ui.getWin15());
+        data.setWin20(ui.getWin20());
+        data.setWin100(ui.getWin100());
+        data.setWin500(ui.getWin500());
+        data.setWin5000(ui.getWin5000());
+        data.setWin50000(ui.getWin50000());
+        data.setTotalWins(ui.getTotalWins());
+        data.setWinningCards(ui.getWinningCards());
+        data.setDoubleUpWins(ui.getDoubleUpWins().get());
+        data.setDoubleUpLosses(ui.getDoubleUpLosses().get());
+        data.setDoubleUpMaxWin(ui.getDoubleMaxWin());
+        data.setDoubleUpBestResult(ui.getDoubleUpBestResult());
+        if (!test) {
+            dataDao.save(data);
+        }
+    }
+
+    public Data getData() {
+        return data;
+    }
+
+    public void setTest(boolean b) {
+        test = b;
     }
 }

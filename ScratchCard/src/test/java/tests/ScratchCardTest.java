@@ -1,12 +1,15 @@
 
 package tests;
 
-import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import kh.scratchcard.domain.Hand;
 import kh.scratchcard.domain.ScratchCard;
 import kh.scratchcard.domain.WinCategory;
+import kh.scratchcard.ui.Field;
 import kh.scratchcard.ui.Ui;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,8 +30,17 @@ public class ScratchCardTest {
     Field field9;
     
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         sc = new ScratchCard();
+        field1 = new Field(sc, 0, 0, 0, 0);
+        field2 = new Field(sc, 0, 0, 0, 0);
+        field3 = new Field(sc, 0, 0, 0, 0);
+        field4 = new Field(sc, 0, 0, 0, 0);
+        field5 = new Field(sc, 0, 0, 0, 0);
+        field6 = new Field(sc, 0, 0, 0, 0);
+        field7 = new Field(sc, 0, 0, 0, 0);
+        field8 = new Field(sc, 0, 0, 0, 0);
+        field9 = new Field(sc, 0, 0, 0, 0);
     }
     
     @Test
@@ -195,5 +207,62 @@ public class ScratchCardTest {
         assertTrue(sc.getMoneySession().get() == 10);
         assertTrue(sc.getDoubleBestMultiplier() == 2);
         assertTrue(sc.getRoundWin() == 0);
+    }
+    
+    @Test
+    public void doubleImageIsInitializedCorrectly() {
+        Map<Integer, Integer> images = new HashMap<>();
+        images.put(1, 0);
+        images.put(2, 0);
+        images.put(3, 0);
+        images.put(4, 0);
+        for (int i = 0; i<636; i++) {
+            sc.randomizeDoubleImage();
+            int image = sc.getDoubleImage();
+            images.put(image, images.get(image) + 1);
+        }
+        assertTrue(images.get(4) < 35);
+        assertTrue(images.get(3) < 130);
+        assertTrue(images.get(2) < 300);
+        assertTrue(images.get(1) < 400);
+    }
+    
+    @Test
+    public void newCardIsHandled() throws SQLException {
+        Hand hand = new Hand(sc, field1, field2, field3, field4, field5, field6, field7, field8, field9);
+        sc.setHand(hand);
+        sc.handleNewCard();
+        assertTrue(sc.getUi().getWinText().get().contains("Win"));
+        assertTrue(sc.getProgress() == true);
+        assertTrue(sc.getPlay() == false);
+    }
+    
+    @Test
+    public void statsAreSetUp() throws SQLException {
+        assertTrue(sc.getData() == null);
+        sc.setUpStats();
+        assertFalse(sc.getData() == null);
+    }
+    
+    @Test
+    public void dataIsSaved() throws SQLException {
+        sc.setTest(true);
+        sc.setRoundWinStart(2);
+        sc.setRoundWin(4);
+        sc.save();
+        assertTrue(sc.getMoneyTotal().get() == 4);
+        assertTrue(sc.getDoubleBestMultiplier() == 2);
+        assertTrue(sc.getData().getMoneyTotal() == 4);
+        assertTrue(sc.getData().getDoubleUpWins() == 2);
+    }
+    
+    @Test
+    public void dataIsSavedWhenDoubleLocked() throws SQLException {
+        sc.setTest(true);
+        sc.setRoundWinStart(2);
+        sc.setRoundWin(2);
+        sc.setDoubleLocked();
+        sc.save();
+        assertTrue(sc.getUi().getDoubleUpLosses().get() == 2);
     }
 }

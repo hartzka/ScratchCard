@@ -1,5 +1,8 @@
 package kh.scratchcard.domain;
 
+/**
+ * Voittokategoriaenum. Sisältää pelissä käytettävät voittokategoriat.
+ */
 public enum WinCategory {
     NOTHING(0),
     X3ORANGE(2), X1PINEAPPLE(3), X3STRAWBERRY(4), X3PLUM(5), X2MELON(6),

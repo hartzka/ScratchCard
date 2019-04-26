@@ -9,6 +9,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import kh.scratchcard.domain.ScratchCard;
 
+/**
+ * Käyttöliittymän voittotaululuokka, sisältää voittotauluun liittyvät grafiikat ja tiedot.
+ */
 public class WinTable extends Parent {
 
     private int x;

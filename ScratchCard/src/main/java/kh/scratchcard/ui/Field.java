@@ -14,6 +14,11 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import kh.scratchcard.domain.ScratchCard;
 
+/**
+ * Raaputuskenttäluokka. Sisältää tiedot ja grafiikat kentän kuvioista ja
+ * tiedoista. Mahdollistaa raaputuskenttien raaputustoiminnallisuuden ja
+ * avaamisen.
+ */
 public class Field extends Parent {
 
     private int x;
@@ -23,7 +28,6 @@ public class Field extends Parent {
     private int height;
     private int marginImage;
     private int imageHeight;
-    private Image image;
     private Random random;
     private ImageView view;
     private ImageView view2;
@@ -78,6 +82,13 @@ public class Field extends Parent {
 
     }
 
+    /**
+     * Alustaa kentän taustan tietyllä värillä.
+     *
+     * @param number alustettavan värin numero. 1-3: käytetään normaalissa
+     * pelissä, 4: käytössä tuplauksessa.
+     *
+     */
     public void initializeBackGround(int number) {
         this.colorMode = number; // 4 = double mode
         if (number == 1) {
@@ -293,6 +304,13 @@ public class Field extends Parent {
         return image;
     }
 
+    /**
+     * Alustaa kentän harmaan taustan tietyllä kuvalla ja asettaa kentän
+     * symbolin.
+     *
+     * @param im Symbolin numero
+     *
+     */
     public void initialize(int im) {
         if (this.colorMode == 4) {
             this.doubleImage = im;
@@ -327,6 +345,9 @@ public class Field extends Parent {
         setCanvas(canvas);
     }
 
+    /**
+     * Käsittelee kentän avaamisen
+     */
     public void open() {
         if (!revealed) {
             gc.clearRect(0, 0, width, height);
@@ -342,6 +363,12 @@ public class Field extends Parent {
         }
     }
 
+    /**
+     * Asettaa kentän vasemman yläkulman x-koordinaatin
+     *
+     * @param x x-koordinaatti
+     *
+     */
     public void setX(double x) {
         if (x < this.x - 1) {
             this.x = x1;
@@ -370,7 +397,7 @@ public class Field extends Parent {
         return this.doubleImage;
     }
 
-    void setColorMode(int i) {
+    public void setColorMode(int i) {
         this.colorMode = i;
     }
 }
