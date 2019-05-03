@@ -26,6 +26,34 @@ public class Data {
     private int doubleUpLosses;
     private int doubleUpMaxWin;
     private String doubleUpBestResult;
+    
+    public Data() {
+        
+    }
+
+    public Data(int moneyTotal, int playedTotal, int win2, int win3, int win4, int win5, int win6, int win8, int win10, int win15, int win20, int win100, int win500, int win5000, int win50000, int totalWins, int winningCards, int doubleUpWins, int doubleUpLosses, int doubleMaxWin, String doubleUpBestResult) {
+        this.moneyTotal = moneyTotal;
+        this.playedTotal = playedTotal;
+        this.win2 = win2;
+        this.win3 = win3;
+        this.win4 = win4;
+        this.win5 = win5;
+        this.win6 = win6;
+        this.win8 = win8;
+        this.win10 = win10;
+        this.win15 = win15;
+        this.win20 = win20;
+        this.win100 = win100;
+        this.win500 = win500;
+        this.win5000 = win5000;
+        this.win50000 = win50000;
+        this.totalWins = totalWins;
+        this.winningCards = winningCards;
+        this.doubleUpWins = doubleUpWins;
+        this.doubleUpLosses = doubleUpLosses;
+        this.doubleUpMaxWin = doubleMaxWin;
+        this.doubleUpBestResult = doubleUpBestResult;
+    }
 
     public int getMoneyTotal() {
         return moneyTotal;

@@ -3,6 +3,7 @@ package kh.scratchcard.ui;
 import java.util.Random;
 
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -83,39 +84,33 @@ public class Field extends Parent {
     }
 
     /**
-     * Alustaa kentän taustan tietyllä värillä.
+     * Alustaa kentän asetukset
      *
      * @param number alustettavan värin numero. 1-3: käytetään normaalissa
      * pelissä, 4: käytössä tuplauksessa.
      *
      */
-    public void initializeBackGround(int number) {
+    public void initialize(int number) {
         this.colorMode = number; // 4 = double mode
-        if (number == 1) {
-            gc.setFill(Color.GREEN);
-        } else if (number == 2) {
-            gc.setFill(Color.RED);
-        } else if (number == 3) {
-            gc.setFill(Color.HOTPINK);
-        } else if (number == 4) {
-            gc.setFill(Color.BLUEVIOLET);
-        }
+
         canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
+                canvas.setCursor(Cursor.CROSSHAIR);
                 if (!lock) {
                     if (number == 4 && !doubleLocked) {
                         sc.setDoubleLocked();
                         doubleLocked = true;
                     }
-                    gc.clearRect(event.getX() - width / 20, event.getY() - width / 8, width / 10, width / 4);
-                    for (int i = (int) event.getY() - width / 8; i <= event.getY() + width / 8; i++) {
-                        for (int j = (int) event.getX() - width / 20; j <= event.getX() + width / 20; j++) {
+                    gc.clearRect(event.getX() - width / 24, event.getY() - width / 12, width / 12, width / 6);
+                    for (int i = (int) event.getY() - width / 12; i <= event.getY() + width / 12; i++) {
+                        for (int j = (int) event.getX() - width / 24; j <= event.getX() + width / 24; j++) {
                             if (i >= 0 && j >= 0) {
                                 if (opened[i][j] == false) {
                                     opened[i][j] = true;
                                     openedCount++;
-                                    if (openedCount > 0.65 * boards) {
+                                    if (openedCount > 0.7 * boards) {
                                         open();
                                     }
                                 }
@@ -189,13 +184,12 @@ public class Field extends Parent {
     }
 
     private void setCanvas(Canvas canvas) {
-
         if (colorMode == 1) {
-            gc.setFill(Color.GREEN);
+            gc.setFill(Color.FORESTGREEN);
         } else if (colorMode == 2) {
-            gc.setFill(Color.RED);
+            gc.setFill(Color.DEEPSKYBLUE);
         } else if (colorMode == 3) {
-            gc.setFill(Color.HOTPINK);
+            gc.setFill(Color.DARKMAGENTA);
         } else if (colorMode == 4) {
             gc.setFill(Color.BLUEVIOLET);
         }
@@ -217,89 +211,36 @@ public class Field extends Parent {
 
     private Image getImage(int number) {
         Image image = null;
-
+        String path = "images/";
+        int size = ScratchCard.imageSize;
         if (colorMode == 4) {
-            if (number == 1) {
-                image = ScratchCard.images.get("images/t1.png");
-                if (image == null) {
-                    image = new Image("images/t1.png", ScratchCard.doubleImageSize, ScratchCard.doubleImageSize, false, false, true);
-                    ScratchCard.images.put("images/t1.png", image);
-                }
-            } else if (number == 2) {
-                image = ScratchCard.images.get("images/t2.png");
-                if (image == null) {
-                    image = new Image("images/t2.png", ScratchCard.doubleImageSize, ScratchCard.doubleImageSize, false, false, true);
-                    ScratchCard.images.put("images/t2.png", image);
-                }
-            } else if (number == 3) {
-                image = ScratchCard.images.get("images/t3.png");
-                if (image == null) {
-                    image = new Image("images/t3.png", ScratchCard.doubleImageSize, ScratchCard.doubleImageSize, false, false, true);
-                    ScratchCard.images.put("images/t3.png", image);
-                }
-            } else if (number == 4) {
-                image = ScratchCard.images.get("images/t4.png");
-                if (image == null) {
-                    image = new Image("images/t4.png", ScratchCard.doubleImageSize, ScratchCard.doubleImageSize, false, false, true);
-                    ScratchCard.images.put("images/t4.png", image);
-                }
-            }
+            path += ("t" + Integer.toString(number) + ".png");
+            size = ScratchCard.doubleImageSize;
         } else {
             if (number == 1) {
-                image = ScratchCard.images.get("images/orange.png");
-                if (image == null) {
-                    image = new Image("images/orange.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/orange.png", image);
-                }
+                path += "orange.png";
             } else if (number == 2) {
-                image = ScratchCard.images.get("images/strawberry.png");
-                if (image == null) {
-                    image = new Image("images/strawberry.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/strawberry.png", image);
-                }
+                path += "strawberry.png";
             } else if (number == 3) {
-                image = ScratchCard.images.get("images/plum.png");
-                if (image == null) {
-                    image = new Image("images/plum.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/plum.png", image);
-                }
+                path += "plum.png";
             } else if (number == 4) {
-                image = ScratchCard.images.get("images/cherry.png");
-                if (image == null) {
-                    image = new Image("images/cherry.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/cherry.png", image);
-                }
+                path += "cherry.png";
             } else if (number == 5) {
-                image = ScratchCard.images.get("images/melon.png");
-                if (image == null) {
-                    image = new Image("images/melon.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/melon.png", image);
-                }
+                path += "melon.png";
             } else if (number == 6) {
-                image = ScratchCard.images.get("images/banana.png");
-                if (image == null) {
-                    image = new Image("images/banana.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/banana.png", image);
-                }
+                path += "banana.png";
             } else if (number == 7) {
-                image = ScratchCard.images.get("images/pineapple.png");
-                if (image == null) {
-                    image = new Image("images/pineapple.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/pineapple.png", image);
-                }
+                path += "pineapple.png";
             } else if (number == 8) {
-                image = ScratchCard.images.get("images/pear.png");
-                if (image == null) {
-                    image = new Image("images/pear.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/pear.png", image);
-                }
+                path += "pear.png";
             } else {
-                image = ScratchCard.images.get("images/grapes.png");
-                if (image == null) {
-                    image = new Image("images/grapes.png", ScratchCard.imageSize, ScratchCard.imageSize, false, false, true);
-                    ScratchCard.images.put("images/grapes.png", image);
-                }
+                path += "grapes.png";
             }
+        }
+        image = ScratchCard.images.get(path);
+        if (image == null) {
+            image = new Image(path, size, size, false, false, true);
+            ScratchCard.images.put(path, image);
         }
         return image;
     }
@@ -311,7 +252,7 @@ public class Field extends Parent {
      * @param im Symbolin numero
      *
      */
-    public void initialize(int im) {
+    public void initializeBackGround(int im) {
         if (this.colorMode == 4) {
             this.doubleImage = im;
         }

@@ -109,9 +109,9 @@ public class HandTest {
         boolean win1 = false;
         boolean win2 = false;
         boolean win3 = false;
-        
+
         for (int i = 0; i < 100000; i++) {
-            hand.initialize();
+            hand.initializeWins();
             hand.randomizeHand();
             if (hand.getWin1() != WinCategory.NOTHING) {
                 win1 = true;
@@ -176,7 +176,7 @@ public class HandTest {
         assertTrue(l.contains(WinCategory.X3CHERRY));
         assertTrue(l.contains(WinCategory.X2MELON));
     }
-    
+
     @Test
     public void revealWorking() {
         hand.setWin1(WinCategory.X3CHERRY);

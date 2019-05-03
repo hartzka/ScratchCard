@@ -1,10 +1,10 @@
 package kh.scratchcard.ui;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -13,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,7 +35,7 @@ import kh.scratchcard.domain.WinCategory;
 /**
  * Sovelluksen käyttöliittymä
  */
-public class Ui extends Application {
+public class Ui {
 
     private Pane root = new Pane();
     Rectangle2D visualBounds;
@@ -83,6 +82,7 @@ public class Ui extends Application {
     Field field7;
     Field field8;
     Field field9;
+    Field doubleField;
 
     Rectangle line1;
     Rectangle line2;
@@ -101,9 +101,9 @@ public class Ui extends Application {
     ImageView doubleImage2;
     ImageView doubleImage3;
     ImageView doubleImage4;
-    Field doubleField;
 
     Rectangle infobg;
+
     Text upperMargin1 = new Text("");
     Text upperMargin2 = new Text("");
     Text upperMargin3 = new Text("");
@@ -166,9 +166,13 @@ public class Ui extends Application {
     Text doubleUpWinsInfoText = new Text("");
     Text doubleUpLossesInfoText = new Text("");
     Text doubleUpMaxWinInfoText = new Text("");
-    Text doubleUpBestResultInfoText = new Text("");
+    Text doubleUpBestResult = new Text("");
 
-    Text more = new Text("More stats");
+    List<Text> texts = Arrays.asList(winsText, win2Text, win3Text, win4Text, win5Text, win6Text, win8Text, win10Text, win15Text, win20Text, win100Text, win500Text, win5000Text,
+            win50000Text, totalWinsText, winningCardsText, moneyText, moneyTotalText, moneySessionText, playedText, playedTotalText, playedSessionText, doubleUpText, doubleUpWinsText,
+            doubleUpLossesText, doubleUpMaxWinText, doubleUpBestResultText, win2InfoText, win3InfoText, win4InfoText, win5InfoText, win6InfoText, win8InfoText, win10InfoText,
+            win15InfoText, win20InfoText, win100InfoText, win500InfoText, win5000InfoText, win50000InfoText, totalWinsInfoText, winningCardsInfoText, moneyTotalInfoText,
+            moneySessionInfoText, playedTotalInfoText, playedSessionInfoText, doubleUpWinsInfoText, doubleUpLossesInfoText, doubleUpMaxWinInfoText, doubleUpBestResult);
 
     SimpleIntegerProperty moneyTotal;
     SimpleIntegerProperty moneySession;
@@ -192,13 +196,12 @@ public class Ui extends Application {
     SimpleIntegerProperty doubleUpWins = new SimpleIntegerProperty(0);
     SimpleIntegerProperty doubleUpLosses = new SimpleIntegerProperty(0);
     SimpleIntegerProperty doubleUpMaxWin = new SimpleIntegerProperty(0);
-    Text doubleUpBestResult = new Text("");
     private ScratchCard sc;
 
     private ToggleButton tableButton;
     private ToggleButton claimButton;
     private ToggleButton newButton;
-    private Button statsButton;
+    private ToggleButton statsButton;
     private ToggleButton doubleButton;
     VBox doubleChoice1 = new VBox(0);
     VBox doubleChoice2 = new VBox(0);
@@ -207,6 +210,11 @@ public class Ui extends Application {
     Text win;
     SimpleStringProperty winText;
     private Text unbelievable;
+
+    List<Rectangle> whiteRects;
+    List<Rectangle> rects;
+    List<Field> fields;
+    List<Rectangle> lines;
 
     public Ui(ScratchCard sc) {
         this.sc = sc;
@@ -234,7 +242,6 @@ public class Ui extends Application {
         doubleBgRect4 = new Rectangle(0, 0);
     }
 
-    @Override
     public void start(Stage primaryStage) throws Exception {
         visualBounds = Screen.getPrimary().getVisualBounds();
         width = visualBounds.getWidth();
@@ -263,29 +270,6 @@ public class Ui extends Application {
         moneyTotal = sc.getMoneyTotal();
         moneySession = sc.getMoneySession();
 
-        moneyTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(moneyTotal.asString().concat(".00")));
-        moneySessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(moneySession.asString().concat(".00")));
-        playedTotalInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(playedTotal.asString()));
-        playedSessionInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(playedSession.asString()));
-        win50000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win50000.asString()));
-        win5000InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win5000.asString()));
-        win500InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win500.asString()));
-        win100InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win100.asString()));
-        win20InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win20.asString()));
-        win15InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win15.asString()));
-        win10InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win10.asString()));
-        win8InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win8.asString()));
-        win6InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win6.asString()));
-        win5InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win5.asString()));
-        win4InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win4.asString()));
-        win3InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win3.asString()));
-        win2InfoText.textProperty().bind(new SimpleStringProperty("   ").concat(win2.asString()));
-        totalWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(totalWins.asString().concat(".00")));
-        winningCardsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(winningCards.asString()));
-        doubleUpWinsInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpWins.asString().concat(".00")));
-        doubleUpLossesInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpLosses.asString().concat(".00")));
-        doubleUpMaxWinInfoText.textProperty().bind(new SimpleStringProperty("   ").concat(doubleUpMaxWin.asString().concat(".00")));
-
         int font;
         if (width > 700) {
             font = 18;
@@ -297,112 +281,29 @@ public class Ui extends Application {
             font = 11;
         }
 
-        moneyText.setFill(Color.ORANGE);
-        moneyText.setFont(Font.font("Verdana", font));
-        moneyTotalText.setFill(Color.MINTCREAM);
-        moneyTotalText.setFont(Font.font("Verdana", font));
-        moneySessionText.setFill(Color.MINTCREAM);
-        moneySessionText.setFont(Font.font("Verdana", font));
-        playedText.setFill(Color.ORANGE);
-        playedText.setFont(Font.font("Verdana", font));
-        playedTotalText.setFill(Color.MINTCREAM);
-        playedTotalText.setFont(Font.font("Verdana", font));
-        playedSessionText.setFill(Color.MINTCREAM);
-        playedSessionText.setFont(Font.font("Verdana", font));
-        winsText.setFill(Color.ORANGE);
-        winsText.setFont(Font.font("Verdana", font));
-        win50000Text.setFill(Color.MINTCREAM);
-        win50000Text.setFont(Font.font("Verdana", font));
-        win5000Text.setFill(Color.MINTCREAM);
-        win5000Text.setFont(Font.font("Verdana", font));
-        win500Text.setFill(Color.MINTCREAM);
-        win500Text.setFont(Font.font("Verdana", font));
-        win100Text.setFill(Color.MINTCREAM);
-        win100Text.setFont(Font.font("Verdana", font));
-        win20Text.setFill(Color.MINTCREAM);
-        win20Text.setFont(Font.font("Verdana", font));
-        win15Text.setFill(Color.MINTCREAM);
-        win15Text.setFont(Font.font("Verdana", font));
-        win10Text.setFill(Color.MINTCREAM);
-        win10Text.setFont(Font.font("Verdana", font));
-        win8Text.setFill(Color.MINTCREAM);
-        win8Text.setFont(Font.font("Verdana", font));
-        win6Text.setFill(Color.MINTCREAM);
-        win6Text.setFont(Font.font("Verdana", font));
-        win5Text.setFill(Color.MINTCREAM);
-        win5Text.setFont(Font.font("Verdana", font));
-        win4Text.setFill(Color.MINTCREAM);
-        win4Text.setFont(Font.font("Verdana", font));
-        win3Text.setFill(Color.MINTCREAM);
-        win3Text.setFont(Font.font("Verdana", font));
-        win2Text.setFill(Color.MINTCREAM);
-        win2Text.setFont(Font.font("Verdana", font));
-        totalWinsText.setFill(Color.MINTCREAM);
-        totalWinsText.setFont(Font.font("Verdana", font));
-        winningCardsText.setFill(Color.MINTCREAM);
-        winningCardsText.setFont(Font.font("Verdana", font));
-        doubleUpText.setFill(Color.ORANGE);
-        doubleUpText.setFont(Font.font("Verdana", font));
-        doubleUpWinsText.setFill(Color.MINTCREAM);
-        doubleUpWinsText.setFont(Font.font("Verdana", font));
-        doubleUpLossesText.setFill(Color.MINTCREAM);
-        doubleUpLossesText.setFont(Font.font("Verdana", font));
-        doubleUpMaxWinText.setFill(Color.MINTCREAM);
-        doubleUpMaxWinText.setFont(Font.font("Verdana", font));
-        doubleUpBestResultText.setFill(Color.MINTCREAM);
-        doubleUpBestResultText.setFont(Font.font("Verdana", font));
+        List<SimpleIntegerProperty> listOfSimpleIntegerProperties = Arrays.asList(win2, win3, win4, win5, win6, win8, win10, win15, win20, win100, win500, win5000, win50000,
+                totalWins, winningCards, moneyTotal, moneySession, playedTotal, playedSession, doubleUpWins, doubleUpLosses, doubleUpMaxWin);
+        for (int i = 0; i < listOfSimpleIntegerProperties.size(); i++) {
+            if (i == 13 || i == 15 || i == 16 || i == 19 || i == 20 || i == 21) {
+                texts.get(i + 27).textProperty().bind(new SimpleStringProperty("   ").concat(listOfSimpleIntegerProperties.get(i).asString().concat(".00")));
+            } else {
+                texts.get(i + 27).textProperty().bind(new SimpleStringProperty("   ").concat(listOfSimpleIntegerProperties.get(i).asString()));
+            }
+        }
 
-        moneyInfoText.setFont(Font.font("Verdana", font));
-        moneyTotalInfoText.setFill(Color.MINTCREAM);
-        moneyTotalInfoText.setFont(Font.font("Verdana", font));
-        moneySessionInfoText.setFill(Color.MINTCREAM);
-        moneySessionInfoText.setFont(Font.font("Verdana", font));
-        playedInfoText.setFont(Font.font("Verdana", font));
-        playedTotalInfoText.setFill(Color.MINTCREAM);
-        playedTotalInfoText.setFont(Font.font("Verdana", font));
-        playedSessionInfoText.setFill(Color.MINTCREAM);
-        playedSessionInfoText.setFont(Font.font("Verdana", font));
-        winsInfoText.setFont(Font.font("Verdana", font));
-        win50000InfoText.setFill(Color.MINTCREAM);
-        win50000InfoText.setFont(Font.font("Verdana", font));
-        win5000InfoText.setFill(Color.MINTCREAM);
-        win5000InfoText.setFont(Font.font("Verdana", font));
-        win500InfoText.setFill(Color.MINTCREAM);
-        win500InfoText.setFont(Font.font("Verdana", font));
-        win100InfoText.setFill(Color.MINTCREAM);
-        win100InfoText.setFont(Font.font("Verdana", font));
-        win20InfoText.setFill(Color.MINTCREAM);
-        win20InfoText.setFont(Font.font("Verdana", font));
-        win15InfoText.setFill(Color.MINTCREAM);
-        win15InfoText.setFont(Font.font("Verdana", font));
-        win10InfoText.setFill(Color.MINTCREAM);
-        win10InfoText.setFont(Font.font("Verdana", font));
-        win8InfoText.setFill(Color.MINTCREAM);
-        win8InfoText.setFont(Font.font("Verdana", font));
-        win6InfoText.setFill(Color.MINTCREAM);
-        win6InfoText.setFont(Font.font("Verdana", font));
-        win5InfoText.setFill(Color.MINTCREAM);
-        win5InfoText.setFont(Font.font("Verdana", font));
-        win4InfoText.setFill(Color.MINTCREAM);
-        win4InfoText.setFont(Font.font("Verdana", font));
-        win3InfoText.setFill(Color.MINTCREAM);
-        win3InfoText.setFont(Font.font("Verdana", font));
-        win2InfoText.setFill(Color.MINTCREAM);
-        win2InfoText.setFont(Font.font("Verdana", font));
-        totalWinsInfoText.setFill(Color.MINTCREAM);
-        totalWinsInfoText.setFont(Font.font("Verdana", font));
-        winningCardsInfoText.setFill(Color.MINTCREAM);
-        winningCardsInfoText.setFont(Font.font("Verdana", font));
+        for (Text t : texts) {
+            t.setFont(Font.font("Verdana", font));
+            t.setFill(Color.MINTCREAM);
+        }
+
         doubleUpInfoText.setFont(Font.font("Verdana", font));
-        doubleUpWinsInfoText.setFill(Color.MINTCREAM);
-        doubleUpWinsInfoText.setFont(Font.font("Verdana", font));
-        doubleUpLossesInfoText.setFill(Color.MINTCREAM);
-        doubleUpLossesInfoText.setFont(Font.font("Verdana", font));
-        doubleUpMaxWinInfoText.setFill(Color.MINTCREAM);
-        doubleUpMaxWinInfoText.setFont(Font.font("Verdana", font));
-        doubleUpBestResult.setFill(Color.MINTCREAM);
-        doubleUpBestResult.setFont(Font.font("Verdana", font));
-
+        moneyInfoText.setFont(Font.font("Verdana", font));
+        winsInfoText.setFont(Font.font("Verdana", font));
+        playedInfoText.setFont(Font.font("Verdana", font));
+        doubleUpText.setFill(Color.ORANGE);
+        winsText.setFill(Color.ORANGE);
+        moneyText.setFill(Color.ORANGE);
+        playedText.setFill(Color.ORANGE);
         unbelievable2.setFont(Font.font("Verdana", font - 2));
         unbelievable2.setVisible(false);
 
@@ -417,7 +318,7 @@ public class Ui extends Application {
         claimButton = new ToggleButton("CLAIM");
         newButton = new ToggleButton("  NEW/\nCOLLECT");
         doubleButton = new ToggleButton("DOUBLE\n    UP");
-        statsButton = new Button("STATS");
+        statsButton = new ToggleButton("STATS");
 
         HBox h1 = new HBox(0);
         VBox v1 = new VBox();
@@ -443,87 +344,31 @@ public class Ui extends Application {
         final HBox info = new HBox();
         info.setVisible(false);
 
-        more.setFill(Color.DARKGOLDENROD);
-        more.setFont(Font.font("Verdana", font * 0.9));
-        more.setVisible(false);
-
         win.setVisible(false);
-        win.setFont(Font.font("Verdana", font + 2));
+        win.setFont(Font.font("Verdana", font + 5));
         win.setFill(Color.LIGHTGREEN);
 
         Rectangle rect = new Rectangle(width, height * 0.75);
         rect.setFill(Color.ORANGE);
 
         line1 = new Rectangle(width / 50, marginy1 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line1.setFill(Color.WHITESMOKE);
         line2 = new Rectangle(width / 50, marginy1 + fieldWidth + marginy2 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line2.setFill(Color.WHITESMOKE);
         line3 = new Rectangle(width / 50, marginy1 + 2 * fieldWidth + 2 * marginy2 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line3.setFill(Color.WHITESMOKE);
-
         line4 = new Rectangle(0.7 * width - marginx1 + width / 50, marginy1 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line4.setFill(Color.WHITESMOKE);
         line5 = new Rectangle(0.7 * width - marginx1 + width / 50, marginy1 + fieldWidth + marginy2 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line5.setFill(Color.WHITESMOKE);
         line6 = new Rectangle(0.7 * width - marginx1 + width / 50, marginy1 + 2 * fieldWidth + 2 * marginy2 + fieldWidth / 2 - 1, marginx1 - width / 25, 2);
-        line6.setFill(Color.WHITESMOKE);
-
         line7 = new Rectangle(marginx1 + 2 * fieldWidth + marginx2 + width / 50, marginy1 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line7.setFill(Color.WHITESMOKE);
         line8 = new Rectangle(marginx1 + 2 * fieldWidth + marginx2 + width / 50, marginy1 + fieldWidth + marginy2 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line8.setFill(Color.WHITESMOKE);
         line9 = new Rectangle(marginx1 + 2 * fieldWidth + marginx2 + width / 50, marginy1 + 2 * fieldWidth + 2 * marginy2 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line9.setFill(Color.WHITESMOKE);
-
         line10 = new Rectangle(marginx1 + fieldWidth + width / 50, marginy1 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line10.setFill(Color.WHITESMOKE);
         line11 = new Rectangle(marginx1 + fieldWidth + width / 50, marginy1 + fieldWidth + marginy2 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line11.setFill(Color.WHITESMOKE);
         line12 = new Rectangle(marginx1 + fieldWidth + width / 50, marginy1 + 2 * fieldWidth + 2 * marginy2 + fieldWidth / 2 - 1, marginx2 - width / 25, 2);
-        line12.setFill(Color.WHITESMOKE);
 
-        line1.setVisible(false);
-        line2.setVisible(false);
-        line3.setVisible(false);
-        line4.setVisible(false);
-        line5.setVisible(false);
-        line6.setVisible(false);
-        line7.setVisible(false);
-        line8.setVisible(false);
-        line9.setVisible(false);
-        line10.setVisible(false);
-        line11.setVisible(false);
-        line12.setVisible(false);
-
-        field1 = new Field(sc, marginx1, marginy1, fieldWidth, fieldWidth);
-        field2 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1, fieldWidth, fieldWidth);
-        field3 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1, fieldWidth, fieldWidth);
-        field4 = new Field(sc, marginx1, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
-        field5 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
-        field6 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
-        field7 = new Field(sc, marginx1, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
-        field8 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
-        field9 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
-
-        field1.initializeBackGround(1);
-        field2.initializeBackGround(1);
-        field3.initializeBackGround(1);
-        field4.initializeBackGround(2);
-        field5.initializeBackGround(2);
-        field6.initializeBackGround(2);
-        field7.initializeBackGround(3);
-        field8.initializeBackGround(3);
-        field9.initializeBackGround(3);
-
-        Image bg1 = new Image("images/t1.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true);
-        Image bg2 = new Image("images/t2.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true);
-        Image bg3 = new Image("images/t3.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true);
-        Image bg4 = new Image("images/t4.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true);
-
-        doubleImage1 = new ImageView(bg1);
-        doubleImage2 = new ImageView(bg2);
-        doubleImage3 = new ImageView(bg3);
-        doubleImage4 = new ImageView(bg4);
+        lines = Arrays.asList(line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12);
+        for (Rectangle l : lines) {
+            l.setVisible(false);
+            l.setFill(Color.WHITESMOKE);
+        }
 
         Text doubleUp2xText = new Text("2X");
         Text doubleUp3xText = new Text("3X");
@@ -534,28 +379,21 @@ public class Ui extends Application {
         Text doubleUp7xInfotext = new Text();
         Text doubleUp30xInfotext = new Text();
 
-        doubleUp2xInfotext.textProperty().bind((sc.roundWinx2.asString().concat(".00")));
-        doubleUp3xInfotext.textProperty().bind((sc.roundWinx3.asString().concat(".00")));
-        doubleUp7xInfotext.textProperty().bind((sc.roundWinx7.asString().concat(".00")));
-        doubleUp30xInfotext.textProperty().bind((sc.roundWinx30.asString().concat(".00")));
+        doubleUp2xInfotext.textProperty().bind((sc.getRoundWinx2().asString().concat(".00")));
+        doubleUp3xInfotext.textProperty().bind((sc.getRoundWinx3().asString().concat(".00")));
+        doubleUp7xInfotext.textProperty().bind((sc.getRoundWinx7().asString().concat(".00")));
+        doubleUp30xInfotext.textProperty().bind((sc.getRoundWinx30().asString().concat(".00")));
 
-        doubleUp2xText.setFont(Font.font("Verdana", font - 1));
-        doubleUp2xText.setFill(Color.BROWN);
-        doubleUp3xText.setFont(Font.font("Verdana", font - 1));
-        doubleUp3xText.setFill(Color.BROWN);
-        doubleUp7xText.setFont(Font.font("Verdana", font - 1));
-        doubleUp7xText.setFill(Color.BROWN);
-        doubleUp30xText.setFont(Font.font("Verdana", font - 1));
-        doubleUp30xText.setFill(Color.BROWN);
+        doubleImage1 = new ImageView(new Image("images/t1.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true));
+        doubleImage2 = new ImageView(new Image("images/t2.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true));
+        doubleImage3 = new ImageView(new Image("images/t3.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true));
+        doubleImage4 = new ImageView(new Image("images/t4.png", 0.75 * fieldWidth, 0.75 * fieldWidth, false, false, true));
 
-        doubleUp2xInfotext.setFont(Font.font("Verdana", font));
-        doubleUp2xInfotext.setFill(Color.BROWN);
-        doubleUp3xInfotext.setFont(Font.font("Verdana", font));
-        doubleUp3xInfotext.setFill(Color.BROWN);
-        doubleUp7xInfotext.setFont(Font.font("Verdana", font));
-        doubleUp7xInfotext.setFill(Color.BROWN);
-        doubleUp30xInfotext.setFont(Font.font("Verdana", font));
-        doubleUp30xInfotext.setFill(Color.BROWN);
+        List<Text> doubleUpTexts = Arrays.asList(doubleUp2xText, doubleUp2xInfotext, doubleUp3xText, doubleUp3xInfotext, doubleUp7xText, doubleUp7xInfotext, doubleUp30xText, doubleUp30xInfotext);
+        for (int i = 0; i < doubleUpTexts.size(); i++) {
+            doubleUpTexts.get(i).setFont(Font.font("Verdana", font - ((i + 1) % 2)));
+            doubleUpTexts.get(i).setFill(Color.BROWN);
+        }
 
         Text test = new Text("1000000.00");
         test.setFont(Font.font("Verdana", font + 6));
@@ -563,7 +401,25 @@ public class Ui extends Application {
         int wi = (int) (test.getLayoutBounds().getWidth());
         int margin = (int) (0.7 * width - 4 * wi);
         margin /= 7;
+
         int h = (int) (0.75 * fieldWidth + doubleUp2xText.getLayoutBounds().getHeight() + doubleUp2xInfotext.getLayoutBounds().getHeight() + 8);
+
+        field1 = new Field(sc, marginx1, marginy1, fieldWidth, fieldWidth);
+        field2 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1, fieldWidth, fieldWidth);
+        field3 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1, fieldWidth, fieldWidth);
+        field4 = new Field(sc, marginx1, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
+        field5 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
+        field6 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1 + marginy2 + fieldWidth, fieldWidth, fieldWidth);
+        field7 = new Field(sc, marginx1, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
+        field8 = new Field(sc, marginx1 + fieldWidth + marginx2, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
+        field9 = new Field(sc, marginx1 + 2 * fieldWidth + 2 * marginx2, marginy1 + 2 * fieldWidth + 2 * marginy2, fieldWidth, fieldWidth);
+        doubleField = new Field(sc, marginx1 + fieldWidth + marginx2 / 2, (int) (0.75 * height - h - marginy2 / 2 - fieldWidth - (5 * marginx2 / 4)), fieldWidth + marginx2, fieldWidth + marginx2);
+
+        fields = Arrays.asList(field1, field2, field3, field4, field5, field6, field7, field8, field9, doubleField);
+        for (int i = 0; i < fields.size(); i++) {
+            fields.get(i).initialize((i / 3) + 1);
+            fields.get(i).setVisible(false);
+        }
 
         doubleBgRect1 = new Rectangle(2 * margin, 0.75 * height - h - marginy2 / 2, wi, h - 8);
         doubleBgRect2 = new Rectangle(3 * margin + wi, 0.75 * height - h - marginy2 / 2, wi, h - 8);
@@ -598,107 +454,53 @@ public class Ui extends Application {
         doubleChoice4.setLayoutX(5 * margin + 3 * wi);
         doubleChoice4.setLayoutY(0.75 * height - h - marginy2 / 2);
 
-        whiteRect1 = new Rectangle(doubleBgRect1.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
-        whiteRect2 = new Rectangle(doubleBgRect2.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
-        whiteRect3 = new Rectangle(doubleBgRect3.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
-        whiteRect4 = new Rectangle(doubleBgRect4.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
-
-        doubleField = new Field(sc, marginx1 + fieldWidth + marginx2 / 2, (int) (0.75 * height - h - marginy2 / 2 - fieldWidth - (5 * marginx2 / 4)), fieldWidth + marginx2, fieldWidth + marginx2);
-        doubleField.initializeBackGround(4);
-
-        field1.setVisible(false);
-        field2.setVisible(false);
-        field3.setVisible(false);
-        field4.setVisible(false);
-        field5.setVisible(false);
-        field6.setVisible(false);
-        field7.setVisible(false);
-        field8.setVisible(false);
-        field9.setVisible(false);
-        doubleField.setVisible(false);
-
-        rect1.setVisible(false);
-        rect2.setVisible(false);
-        rect3.setVisible(false);
-        rect4.setVisible(false);
-        rect5.setVisible(false);
-        rect6.setVisible(false);
-        rect7.setVisible(false);
-        rect8.setVisible(false);
-        rect9.setVisible(false);
-
-        doubleBgRect1.setFill(Color.YELLOW);
-        doubleBgRect2.setFill(Color.YELLOW);
-        doubleBgRect3.setFill(Color.YELLOW);
-        doubleBgRect4.setFill(Color.YELLOW);
-
-        whiteRect1.setVisible(false);
-        whiteRect2.setVisible(false);
-        whiteRect3.setVisible(false);
-        whiteRect4.setVisible(false);
-
-        doubleBgRect1.setVisible(false);
-        doubleBgRect2.setVisible(false);
-        doubleBgRect3.setVisible(false);
-        doubleBgRect4.setVisible(false);
-
         doubleChoice1.setVisible(false);
         doubleChoice2.setVisible(false);
         doubleChoice3.setVisible(false);
         doubleChoice4.setVisible(false);
 
-        rect1.setFill(Color.YELLOW);
-        rect2.setFill(Color.YELLOW);
-        rect3.setFill(Color.YELLOW);
-        rect4.setFill(Color.YELLOW);
-        rect5.setFill(Color.YELLOW);
-        rect6.setFill(Color.YELLOW);
-        rect7.setFill(Color.YELLOW);
-        rect8.setFill(Color.YELLOW);
-        rect9.setFill(Color.YELLOW);
+        whiteRect1 = new Rectangle(doubleBgRect1.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
+        whiteRect2 = new Rectangle(doubleBgRect2.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
+        whiteRect3 = new Rectangle(doubleBgRect3.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
+        whiteRect4 = new Rectangle(doubleBgRect4.getX() - 4, 0.75 * height - h - 4 - marginy2 / 2, wi + 8, h);
 
-        whiteRect1.setFill(Color.WHITE);
-        whiteRect2.setFill(Color.WHITE);
-        whiteRect3.setFill(Color.WHITE);
-        whiteRect4.setFill(Color.WHITE);
+        whiteRects = Arrays.asList(whiteRect1, whiteRect2, whiteRect3, whiteRect4);
+        for (Rectangle whiteRect : whiteRects) {
+            whiteRect.setFill(Color.WHITE);
+            whiteRect.setVisible(false);
+        }
+
+        rects = Arrays.asList(rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8, rect9, doubleBgRect1, doubleBgRect2, doubleBgRect3, doubleBgRect4);
+        for (Rectangle rectangle : rects) {
+            rectangle.setVisible(false);
+            rectangle.setFill(Color.YELLOW);
+        }
 
         winTable = new WinTable((int) (0.7 * width), 0, (int) (0.3 * width), (int) (0.76 * height));
 
-        tableButton.setFont(Font.font("Verdana", font - 1));
-        tableButton.setTextFill(Color.DARKSLATEGREY);
+        List<ToggleButton> buttons = Arrays.asList(tableButton, claimButton, newButton, statsButton, doubleButton);
+        for (ToggleButton tb : buttons) {
+            tb.setFont(Font.font("Verdana", font - 1));
+            tb.setTextFill(Color.DARKSLATEGREY);
+            tb.setMaxWidth(width / 7);
+        }
+
         tableButton.getStyleClass().add("green");
-        tableButton.setMaxWidth(width / 7);
-
         claimButton.getStyleClass().add("yellow");
-        claimButton.setMaxWidth(width / 7);
-        claimButton.setFont(Font.font("Verdana", font - 1));
-        claimButton.setTextFill(Color.DARKSLATEGREY);
-
         newButton.getStyleClass().add("turquoise");
-        newButton.setMaxWidth(width / 7);
-        newButton.setFont(Font.font("Verdana", font - 1));
-        newButton.setTextFill(Color.DARKSLATEGREY);
-
         statsButton.setStyle("-fx-background-color: #696969");
-        statsButton.setMaxWidth(width / 7);
-        statsButton.setFont(Font.font("Verdana", font - 1));
-        statsButton.setTextFill(Color.DARKSLATEGREY);
-
         doubleButton.getStyleClass().add("orange");
         doubleButton.setDisable(true);
-        doubleButton.setMaxWidth(width / 7);
-        doubleButton.setFont(Font.font("Verdana", font - 1));
-        doubleButton.setTextFill(Color.DARKSLATEGREY);
 
         stats.textProperty().bind(new SimpleStringProperty("Money: ").concat(moneyTotal.asString()).concat(".00").concat("   "));
-        stats.setVisible(false);
+        stats.setVisible(true);
         stats.setFont(Font.font("Verdana", font * 0.9));
         stats.setFill(Color.STEELBLUE);
 
         VBox statsBox = new VBox(0.01 * height);
         statsBox.setAlignment(Pos.CENTER);
         HBox hbox1 = new HBox();
-        hbox1.getChildren().addAll(stats, more);
+        hbox1.getChildren().addAll(stats);
         statsBox.getChildren().addAll(win, statsButton, hbox1);
 
         HBox buttonsHBox1 = new HBox(width / 20);
@@ -901,8 +703,7 @@ public class Ui extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                handleStatsAction(sc.getStatsVisible());
-                sc.toggleStatsVisible();
+                info.setVisible(true);
             }
         });
 
@@ -920,43 +721,17 @@ public class Ui extends Application {
 
         });
 
-        more.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent arg0) {
-                info.setVisible(true);
-            }
-
-        });
-
         Scene scene = new Scene(root, width, height);
         String css = this.getClass().getResource("/style/style.css").toExternalForm();
         scene.getStylesheets().add(css);
         primaryStage.setScene(scene);
-        primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
+        primaryStage.setMaximized(true);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
 
     public WinTable getWintable() {
         return this.winTable;
-    }
-
-    /**
-     * Käsittelee stats-painikkeen toiminnallisuuden
-     *
-     * @param statsVisible Ilmaisee, onko stats-valikko näkyvillä
-     *
-     */
-    public void handleStatsAction(boolean statsVisible) {
-        if (statsVisible) {
-            stats.setVisible(false);
-            more.setVisible(false);
-        } else {
-            stats.setVisible(true);
-            more.setVisible(true);
-        }
     }
 
     /**
@@ -1008,40 +783,19 @@ public class Ui extends Application {
      * grafiikkaa ja asettaa tuplausnäkymän grafiikkaa näkyville.
      */
     public void handleDoubleButtonAction() {
-        line1.setVisible(false);
-        line2.setVisible(false);
-        line3.setVisible(false);
-        line4.setVisible(false);
-        line5.setVisible(false);
-        line6.setVisible(false);
-        line7.setVisible(false);
-        line8.setVisible(false);
-        line9.setVisible(false);
-        line10.setVisible(false);
-        line11.setVisible(false);
-        line12.setVisible(false);
-        field1.setVisible(false);
-        field2.setVisible(false);
-        field3.setVisible(false);
-        field4.setVisible(false);
-        field5.setVisible(false);
-        field6.setVisible(false);
-        field7.setVisible(false);
-        field8.setVisible(false);
-        field9.setVisible(false);
-        rect1.setVisible(false);
-        rect2.setVisible(false);
-        rect3.setVisible(false);
-        rect4.setVisible(false);
-        rect5.setVisible(false);
-        rect6.setVisible(false);
-        rect7.setVisible(false);
-        rect8.setVisible(false);
-        rect9.setVisible(false);
-        whiteRect1.setVisible(false);
-        whiteRect2.setVisible(false);
-        whiteRect3.setVisible(false);
-        whiteRect4.setVisible(false);
+
+        for (Rectangle r : lines) {
+            r.setVisible(false);
+        }
+        for (Field f : fields) {
+            f.setVisible(false);
+        }
+        for (Rectangle r : rects) {
+            r.setVisible(false);
+        }
+        for (Rectangle r : whiteRects) {
+            r.setVisible(false);
+        }
         doubleBgRect1.setVisible(true);
         doubleBgRect2.setVisible(true);
         doubleBgRect3.setVisible(true);
@@ -1049,13 +803,12 @@ public class Ui extends Application {
     }
 
     /**
-     * Käsittelee new-painikkeen voiton talteenottamisen
+     * Käsittelee new-painikkeen voiton talteenottamiseen liittyvät grafiikat
      */
     public void handleNewButtonWinTaking() {
-        whiteRect1.setVisible(false);
-        whiteRect2.setVisible(false);
-        whiteRect3.setVisible(false);
-        whiteRect4.setVisible(false);
+        for (Rectangle r : whiteRects) {
+            r.setVisible(false);
+        }
         doubleBgRect1.setVisible(false);
         doubleBgRect2.setVisible(false);
         doubleBgRect3.setVisible(false);
@@ -1073,37 +826,16 @@ public class Ui extends Application {
         playedSession.set(playedSession.get() + 1);
         moneyTotal.set(moneyTotal.get() - 1);
         moneySession.set(moneySession.get() - 1);
+        for (Rectangle r : lines) {
+            r.setVisible(true);
+        }
+        for (Field f : fields) {
+            f.setVisible(true);
+        }
         doubleField.setVisible(false);
-        rect1.setVisible(false);
-        rect2.setVisible(false);
-        rect3.setVisible(false);
-        rect4.setVisible(false);
-        rect5.setVisible(false);
-        rect6.setVisible(false);
-        rect7.setVisible(false);
-        rect8.setVisible(false);
-        rect9.setVisible(false);
-        field1.setVisible(true);
-        field2.setVisible(true);
-        field3.setVisible(true);
-        field4.setVisible(true);
-        field5.setVisible(true);
-        field6.setVisible(true);
-        field7.setVisible(true);
-        field8.setVisible(true);
-        field9.setVisible(true);
-        line1.setVisible(true);
-        line2.setVisible(true);
-        line3.setVisible(true);
-        line4.setVisible(true);
-        line5.setVisible(true);
-        line6.setVisible(true);
-        line7.setVisible(true);
-        line8.setVisible(true);
-        line9.setVisible(true);
-        line10.setVisible(true);
-        line11.setVisible(true);
-        line12.setVisible(true);
+        for (Rectangle r : rects) {
+            r.setVisible(false);
+        }
     }
 
     /**
@@ -1141,14 +873,14 @@ public class Ui extends Application {
      * Käsittelee tuplauskentän avaamiseen liittyvän toiminnallisuuden
      */
     public void handleDoubleFieldOpened() {
-        whiteRect1.setVisible(false);
-        whiteRect2.setVisible(false);
-        whiteRect3.setVisible(false);
-        whiteRect4.setVisible(false);
-        doubleBgRect1.setVisible(false);
-        doubleBgRect2.setVisible(false);
-        doubleBgRect3.setVisible(false);
-        doubleBgRect4.setVisible(false);
+        if (rects != null) {
+            for (Rectangle r : rects) {
+                r.setVisible(false);
+            }
+            for (Rectangle r : whiteRects) {
+                r.setVisible(false);
+            }
+        }
     }
 
     /**
@@ -1159,92 +891,52 @@ public class Ui extends Application {
      *
      */
     public void moveX(boolean expand) {
-        if (expand) {
-
-            doubleChoice2.setLayoutX(doubleChoice2.getLayoutX() + 0.1 * width);
-            doubleChoice3.setLayoutX(doubleChoice3.getLayoutX() + 0.2 * width);
-            doubleChoice4.setLayoutX(doubleChoice4.getLayoutX() + 0.3 * width);
-            rect2.setX(rect2.getX() + 0.15 * width);
-            rect5.setX(rect5.getX() + 0.15 * width);
-            rect8.setX(rect8.getX() + 0.15 * width);
-            rect3.setX(rect3.getX() + 0.3 * width);
-            rect6.setX(rect6.getX() + 0.3 * width);
-            rect9.setX(rect9.getX() + 0.3 * width);
-
-            field2.setX(field2.getX() + 0.15 * width);
-            field5.setX(field5.getX() + 0.15 * width);
-            field8.setX(field8.getX() + 0.15 * width);
-            field3.setX(field3.getX() + 0.3 * width);
-            field6.setX(field6.getX() + 0.3 * width);
-            field9.setX(field9.getX() + 0.3 * width);
-
-            line10.setWidth(line10.getWidth() + 0.15 * width);
-            line11.setWidth(line11.getWidth() + 0.15 * width);
-            line12.setWidth(line12.getWidth() + 0.15 * width);
-
-            line7.setWidth(line7.getWidth() + 0.15 * width);
-            line8.setWidth(line8.getWidth() + 0.15 * width);
-            line9.setWidth(line9.getWidth() + 0.15 * width);
-
-            line7.setX(line7.getX() + 0.15 * width);
-            line8.setX(line8.getX() + 0.15 * width);
-            line9.setX(line9.getX() + 0.15 * width);
-
-            line4.setX(line4.getX() + 0.3 * width);
-            line5.setX(line5.getX() + 0.3 * width);
-            line6.setX(line6.getX() + 0.3 * width);
-
-            whiteRect2.setX(whiteRect2.getX() + 0.1 * width);
-            whiteRect3.setX(whiteRect3.getX() + 0.2 * width);
-            whiteRect4.setX(whiteRect4.getX() + 0.3 * width);
-
-            doubleBgRect2.setX(doubleBgRect2.getX() + 0.1 * width);
-            doubleBgRect3.setX(doubleBgRect3.getX() + 0.2 * width);
-            doubleBgRect4.setX(doubleBgRect4.getX() + 0.3 * width);
-            doubleField.setX(doubleField.getX() + 0.15 * width);
-        } else {
-            doubleChoice2.setLayoutX(doubleChoice2.getLayoutX() - 0.1 * width);
-            doubleChoice3.setLayoutX(doubleChoice3.getLayoutX() - 0.2 * width);
-            doubleChoice4.setLayoutX(doubleChoice4.getLayoutX() - 0.3 * width);
-            rect2.setX(rect2.getX() - 0.15 * width);
-            rect5.setX(rect5.getX() - 0.15 * width);
-            rect8.setX(rect8.getX() - 0.15 * width);
-            rect3.setX(rect3.getX() - 0.3 * width);
-            rect6.setX(rect6.getX() - 0.3 * width);
-            rect9.setX(rect9.getX() - 0.3 * width);
-
-            field2.setX(field2.getX() - 0.15 * width);
-            field5.setX(field5.getX() - 0.15 * width);
-            field8.setX(field8.getX() - 0.15 * width);
-            field3.setX(field3.getX() - 0.3 * width);
-            field6.setX(field6.getX() - 0.3 * width);
-            field9.setX(field9.getX() - 0.3 * width);
-
-            line10.setWidth(line10.getWidth() - 0.15 * width);
-            line11.setWidth(line11.getWidth() - 0.15 * width);
-            line12.setWidth(line12.getWidth() - 0.15 * width);
-
-            line7.setWidth(line7.getWidth() - 0.15 * width);
-            line8.setWidth(line8.getWidth() - 0.15 * width);
-            line9.setWidth(line9.getWidth() - 0.15 * width);
-
-            line7.setX(line7.getX() - 0.15 * width);
-            line8.setX(line8.getX() - 0.15 * width);
-            line9.setX(line9.getX() - 0.15 * width);
-
-            line4.setX(line4.getX() - 0.3 * width);
-            line5.setX(line5.getX() - 0.3 * width);
-            line6.setX(line6.getX() - 0.3 * width);
-
-            whiteRect2.setX(whiteRect2.getX() - 0.1 * width);
-            whiteRect3.setX(whiteRect3.getX() - 0.2 * width);
-            whiteRect4.setX(whiteRect4.getX() - 0.3 * width);
-
-            doubleBgRect2.setX(doubleBgRect2.getX() - 0.1 * width);
-            doubleBgRect3.setX(doubleBgRect3.getX() - 0.2 * width);
-            doubleBgRect4.setX(doubleBgRect4.getX() - 0.3 * width);
-            doubleField.setX(doubleField.getX() - 0.15 * width);
+        int k = -1;
+        if (!expand) {
+            k = 1;
         }
+
+        doubleChoice2.setLayoutX(doubleChoice2.getLayoutX() - k * 0.1 * width);
+        doubleChoice3.setLayoutX(doubleChoice3.getLayoutX() - k * 0.2 * width);
+        doubleChoice4.setLayoutX(doubleChoice4.getLayoutX() - k * 0.3 * width);
+        rect2.setX(rect2.getX() - k * 0.15 * width);
+        rect5.setX(rect5.getX() - k * 0.15 * width);
+        rect8.setX(rect8.getX() - k * 0.15 * width);
+        rect3.setX(rect3.getX() - k * 0.3 * width);
+        rect6.setX(rect6.getX() - k * 0.3 * width);
+        rect9.setX(rect9.getX() - k * 0.3 * width);
+
+        field2.setX(field2.getX() - k * 0.15 * width);
+        field5.setX(field5.getX() - k * 0.15 * width);
+        field8.setX(field8.getX() - k * 0.15 * width);
+        field3.setX(field3.getX() - k * 0.3 * width);
+        field6.setX(field6.getX() - k * 0.3 * width);
+        field9.setX(field9.getX() - k * 0.3 * width);
+
+        line10.setWidth(line10.getWidth() - k * 0.15 * width);
+        line11.setWidth(line11.getWidth() - k * 0.15 * width);
+        line12.setWidth(line12.getWidth() - k * 0.15 * width);
+
+        line7.setWidth(line7.getWidth() - k * 0.15 * width);
+        line8.setWidth(line8.getWidth() - k * 0.15 * width);
+        line9.setWidth(line9.getWidth() - k * 0.15 * width);
+
+        line7.setX(line7.getX() - k * 0.15 * width);
+        line8.setX(line8.getX() - k * 0.15 * width);
+        line9.setX(line9.getX() - k * 0.15 * width);
+
+        line4.setX(line4.getX() - k * 0.3 * width);
+        line5.setX(line5.getX() - k * 0.3 * width);
+        line6.setX(line6.getX() - k * 0.3 * width);
+
+        whiteRect2.setX(whiteRect2.getX() - k * 0.1 * width);
+        whiteRect3.setX(whiteRect3.getX() - k * 0.2 * width);
+        whiteRect4.setX(whiteRect4.getX() - k * 0.3 * width);
+
+        doubleBgRect2.setX(doubleBgRect2.getX() - k * 0.1 * width);
+        doubleBgRect3.setX(doubleBgRect3.getX() - k * 0.2 * width);
+        doubleBgRect4.setX(doubleBgRect4.getX() - k * 0.3 * width);
+        doubleField.setX(doubleField.getX() - k * 0.15 * width);
     }
 
     /**
@@ -1282,43 +974,6 @@ public class Ui extends Application {
         if (l.contains(9)) {
             rect9.setVisible(true);
         }
-    }
-
-    public Field getDoubleField() {
-        return this.doubleField;
-    }
-
-    public Text getDoubleBestWin() {
-        return this.doubleUpBestResult;
-    }
-
-    public SimpleIntegerProperty getDoubleUpWins() {
-        return this.doubleUpWins;
-    }
-
-    @Override
-    public void stop() {
-        System.out.println("closing");
-    }
-
-    public Text getWin() {
-        return this.win;
-    }
-
-    public ToggleButton getNewButton() {
-        return this.newButton;
-    }
-
-    public ToggleButton getClaimButton() {
-        return this.claimButton;
-    }
-
-    public ToggleButton getDoubleButton() {
-        return this.doubleButton;
-    }
-
-    public SimpleStringProperty getWinText() {
-        return this.winText;
     }
 
     /**
@@ -1484,6 +1139,38 @@ public class Ui extends Application {
         return doubleUpBestResult.getText();
     }
 
+    public Field getDoubleField() {
+        return this.doubleField;
+    }
+
+    public Text getDoubleBestWin() {
+        return this.doubleUpBestResult;
+    }
+
+    public SimpleIntegerProperty getDoubleUpWins() {
+        return this.doubleUpWins;
+    }
+
+    public Text getWin() {
+        return this.win;
+    }
+
+    public ToggleButton getNewButton() {
+        return this.newButton;
+    }
+
+    public ToggleButton getClaimButton() {
+        return this.claimButton;
+    }
+
+    public ToggleButton getDoubleButton() {
+        return this.doubleButton;
+    }
+
+    public SimpleStringProperty getWinText() {
+        return this.winText;
+    }
+
     /**
      * Asettaa peliin liittyvää tilastotietoa Data-olion avulla
      *
@@ -1517,7 +1204,7 @@ public class Ui extends Application {
      * Tarkistaa, onko tuplauskentät avattu
      *
      * @return true, jos kaikki 9 kenttää on avattu, muuten false
-     * 
+     *
      */
     public boolean getFieldsOpened() {
         return (field1.getOpened() && field2.getOpened() && field3.getOpened() && field4.getOpened() && field5.getOpened()

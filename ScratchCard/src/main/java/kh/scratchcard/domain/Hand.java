@@ -51,15 +51,6 @@ public class Hand {
         this.win1 = null;
         this.win2 = null;
         this.win3 = null;
-        field1Win = false;
-        field2Win = false;
-        field3Win = false;
-        field4Win = false;
-        field5Win = false;
-        field6Win = false;
-        field7Win = false;
-        field8Win = false;
-        field9Win = false;
         this.random = new Random();
     }
 
@@ -77,15 +68,6 @@ public class Hand {
         this.win1 = WinCategory.NOTHING;
         this.win2 = WinCategory.NOTHING;
         this.win3 = WinCategory.NOTHING;
-        field1Win = false;
-        field2Win = false;
-        field3Win = false;
-        field4Win = false;
-        field5Win = false;
-        field6Win = false;
-        field7Win = false;
-        field8Win = false;
-        field9Win = false;
         this.random = new Random();
     }
 
@@ -390,8 +372,8 @@ public class Hand {
             }
             fake2InSomeOrder(f1, f2, value, value2);
         } else {
-            f1.initialize(value);
-            f2.initialize(value);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value);
         }
     }
 
@@ -407,11 +389,11 @@ public class Hand {
     private void fake2InSomeOrder(Field f1, Field f2, int value, int value2) {
         int which = random.nextInt(2);
         if (which == 0) {
-            f1.initialize(value);
-            f2.initialize(value2);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value2);
         } else {
-            f2.initialize(value);
-            f1.initialize(value2);
+            f2.initializeBackGround(value);
+            f1.initializeBackGround(value2);
         }
     }
 
@@ -428,12 +410,12 @@ public class Hand {
         while (value == 6 || value == 7) {
             value = random.nextInt(9) + 1;
         }
-        f1.initialize(value);
+        f1.initializeBackGround(value);
         int value2 = 6;
         while (value2 == 6 || value2 == 7 || (value == 5 && value2 == 5)) {
             value2 = random.nextInt(9) + 1;
         }
-        f2.initialize(value2);
+        f2.initializeBackGround(value2);
     }
 
     /**
@@ -480,17 +462,17 @@ public class Hand {
             value2 = random.nextInt(9) + 1;
         }
         if (place1 != 0 && place2 != 0) {
-            f1.initialize(value2);
-            f2.initialize(value);
-            f3.initialize(value);
+            f1.initializeBackGround(value2);
+            f2.initializeBackGround(value);
+            f3.initializeBackGround(value);
         } else if (place1 != 1 && place2 != 1) {
-            f1.initialize(value);
-            f2.initialize(value2);
-            f3.initialize(value);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value2);
+            f3.initializeBackGround(value);
         } else {
-            f1.initialize(value);
-            f2.initialize(value);
-            f3.initialize(value2);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value);
+            f3.initializeBackGround(value2);
         }
     }
 
@@ -539,14 +521,14 @@ public class Hand {
      * @param f3 Kolmas kenttä
      */
     private void fake3Helper3(int value, int value2, int value3, Field f1, Field f2, Field f3) {
-        f1.initialize(value);
+        f1.initializeBackGround(value);
         int rand = random.nextInt(2);
         if (rand == 0) {
-            f2.initialize(value2);
-            f3.initialize(value3);
+            f2.initializeBackGround(value2);
+            f3.initializeBackGround(value3);
         } else {
-            f2.initialize(value3);
-            f3.initialize(value2);
+            f2.initializeBackGround(value3);
+            f3.initializeBackGround(value2);
         }
     }
 
@@ -606,17 +588,17 @@ public class Hand {
      */
     private void initializeFieldsWithValuesWhenRandLessThan3(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
         if (rand == 0) {
-            f1.initialize(value);
-            f2.initialize(value2);
-            f3.initialize(value3);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value2);
+            f3.initializeBackGround(value3);
         } else if (rand == 1) {
-            f1.initialize(value);
-            f2.initialize(value3);
-            f3.initialize(value2);
+            f1.initializeBackGround(value);
+            f2.initializeBackGround(value3);
+            f3.initializeBackGround(value2);
         } else if (rand == 2) {
-            f1.initialize(value2);
-            f2.initialize(value);
-            f3.initialize(value3);
+            f1.initializeBackGround(value2);
+            f2.initializeBackGround(value);
+            f3.initializeBackGround(value3);
         }
     }
 
@@ -633,17 +615,17 @@ public class Hand {
      */
     private void initializeFieldsWithValuesWhenRandMoreThan3(Field f1, Field f2, Field f3, int value, int value2, int value3, int rand) {
         if (rand == 3) {
-            f1.initialize(value2);
-            f2.initialize(value3);
-            f3.initialize(value);
+            f1.initializeBackGround(value2);
+            f2.initializeBackGround(value3);
+            f3.initializeBackGround(value);
         } else if (rand == 4) {
-            f1.initialize(value3);
-            f2.initialize(value2);
-            f3.initialize(value);
+            f1.initializeBackGround(value3);
+            f2.initializeBackGround(value2);
+            f3.initializeBackGround(value);
         } else if (rand == 5) {
-            f1.initialize(value3);
-            f2.initialize(value);
-            f3.initialize(value2);
+            f1.initializeBackGround(value3);
+            f2.initializeBackGround(value);
+            f3.initializeBackGround(value2);
         }
     }
 
@@ -692,7 +674,7 @@ public class Hand {
      * Palauttaa listan käden voittavista kentistä 1-5.
      *
      * @param l Lista, johon lisätään voittavien kenttien numerot
-     * 
+     *
      * @return Lista voittavista kentistä
      */
     public List<Integer> checkFieldWins1(List<Integer> l) {
@@ -717,8 +699,8 @@ public class Hand {
     /**
      * Palauttaa listan käden voittavista kentistä 6-9.
      *
-     * @param l Lista, johon lisätään voittavien kenttien numerot   
-     * 
+     * @param l Lista, johon lisätään voittavien kenttien numerot
+     *
      * @return Lista voittavista kentistä
      */
     public List<Integer> checkFieldWins2(List<Integer> l) {
@@ -796,7 +778,7 @@ public class Hand {
      * @param symbol symbolinumero
      */
     private void actionsByWinCategory1Symbol(Field f1, Field f2, Field f3, int row, int fake, int column, int symbol) {
-        f1.initialize(symbol);
+        f1.initializeBackGround(symbol);
         switch (row) {
             case 1:
                 setFieldWinTrue(column);
@@ -826,8 +808,8 @@ public class Hand {
      * @param symbol symbolinumero
      */
     private void actionsByWinCategory2Symbols(Field f1, Field f2, int row, int column1, int column2, int symbol) {
-        f1.initialize(symbol);
-        f2.initialize(symbol);
+        f1.initializeBackGround(symbol);
+        f2.initializeBackGround(symbol);
         switch (row) {
             case 1:
                 makeFieldWinsTrue(new int[]{column1, column2});
@@ -851,9 +833,9 @@ public class Hand {
      * @param category kategorianumero
      */
     private void actionsByWinCategory3Symbols(Field f1, Field f2, Field f3, int row, int category) {
-        f1.initialize(category);
-        f2.initialize(category);
-        f3.initialize(category);
+        f1.initializeBackGround(category);
+        f2.initializeBackGround(category);
+        f3.initializeBackGround(category);
         switch (row) {
             case 1:
                 makeFieldWinsTrue(new int[]{1, 2, 3});
@@ -908,7 +890,7 @@ public class Hand {
         while (value == 5 || value == 6 || value == 7) {
             value = random.nextInt(9) + 1;
         }
-        f3.initialize(value);
+        f3.initializeBackGround(value);
     }
 
     /**
@@ -952,7 +934,7 @@ public class Hand {
         while (value == 6 || value == 7) {
             value = random.nextInt(9) + 1;
         }
-        f3.initialize(value);
+        f3.initializeBackGround(value);
     }
 
     /**
@@ -1172,24 +1154,5 @@ public class Hand {
 
     public void setField9Win(boolean b) {
         field9Win = b;
-    }
-
-    /**
-     * Alustaa käden voitot nollaksi
-     *
-     */
-    public void initialize() {
-        win1 = WinCategory.NOTHING;
-        win2 = WinCategory.NOTHING;
-        win3 = WinCategory.NOTHING;
-        field1Win = false;
-        field2Win = false;
-        field3Win = false;
-        field4Win = false;
-        field5Win = false;
-        field6Win = false;
-        field7Win = false;
-        field8Win = false;
-        field9Win = false;
     }
 }

@@ -30,30 +30,30 @@ public class ScratchCard extends Application {
 
     public static int imageSize;
     public static int doubleImageSize;
+    public static HashMap<String, Image> images;
+
     private Hand hand;
     private SimpleBooleanProperty play = new SimpleBooleanProperty(true);
     private SimpleBooleanProperty progress = new SimpleBooleanProperty(false);
 
-    SimpleIntegerProperty moneyTotal = new SimpleIntegerProperty(0);
-    SimpleIntegerProperty moneySession = new SimpleIntegerProperty(0);
-    boolean doubleVisible = false;
-    boolean doubleLocked = false;
+    private SimpleIntegerProperty moneyTotal = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty moneySession = new SimpleIntegerProperty(0);
+    private boolean doubleVisible = false;
+    private boolean doubleLocked = false;
 
-    boolean doubleOption1 = false;
-    boolean doubleOption2 = false;
-    boolean doubleOption3 = false;
-    boolean doubleOption4 = false;
-    int doubleImage;
-    public static HashMap<String, Image> images;
-    int doubleBestMultiplier = 0;
+    private boolean doubleOption1 = false;
+    private boolean doubleOption2 = false;
+    private boolean doubleOption3 = false;
+    private boolean doubleOption4 = false;
+    private int doubleImage;
+    private int doubleBestMultiplier = 0;
 
     private SimpleIntegerProperty roundWinStart = new SimpleIntegerProperty(0);
-    public SimpleIntegerProperty roundWin = new SimpleIntegerProperty(0);
-    public SimpleIntegerProperty roundWinx2 = new SimpleIntegerProperty(0);
-    public SimpleIntegerProperty roundWinx3 = new SimpleIntegerProperty(0);
-    public SimpleIntegerProperty roundWinx7 = new SimpleIntegerProperty(0);
-    public SimpleIntegerProperty roundWinx30 = new SimpleIntegerProperty(0);
-    private boolean statsVisible = false;
+    private SimpleIntegerProperty roundWin = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty roundWinx2 = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty roundWinx3 = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty roundWinx7 = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty roundWinx30 = new SimpleIntegerProperty(0);
     private boolean test = false;
 
     private Ui ui;
@@ -187,11 +187,6 @@ public class ScratchCard extends Application {
         doubleLocked = true;
     }
 
-    public void setDoubleLocked() {
-        doubleLocked = true;
-        progress.set(true);
-    }
-
     /**
      * Arpoo tuplauskenttään tulevan symbolin ja alustaa tuplauskentän tällä
      * symbolilla. Arvot 1-105: sitruuna Arvot 106-175: kiivi Arvot 176-205:
@@ -202,16 +197,16 @@ public class ScratchCard extends Application {
         Field doubleField = ui.getDoubleField();
         if (a <= 105) {
             doubleImage = 1;
-            doubleField.initialize(1);
+            doubleField.initializeBackGround(1);
         } else if (a <= 175) {
             doubleImage = 2;
-            doubleField.initialize(2);
+            doubleField.initializeBackGround(2);
         } else if (a <= 205) {
             doubleImage = 3;
-            doubleField.initialize(3);
+            doubleField.initializeBackGround(3);
         } else if (a <= 212) {
             doubleImage = 4;
-            doubleField.initialize(4);
+            doubleField.initializeBackGround(4);
         }
     }
 
@@ -223,112 +218,6 @@ public class ScratchCard extends Application {
         roundWinx3.set(roundWin.get() * 3);
         roundWinx7.set(roundWin.get() * 7);
         roundWinx30.set(roundWin.get() * 30);
-    }
-
-    public void setDoubleLocked(boolean b) {
-        this.doubleLocked = b;
-    }
-
-    public boolean getDoubleOption1() {
-        return doubleOption1;
-    }
-
-    public Ui getUi() {
-        return this.ui;
-    }
-
-    public SimpleIntegerProperty getMoneyTotal() {
-        return this.moneyTotal;
-    }
-
-    public SimpleIntegerProperty getMoneySession() {
-        return this.moneySession;
-    }
-
-    /**
-     * Päivittää kaikki tuplausvalinnat falseiksi.
-     */
-    public void setDoubleOptionsFalse() {
-        doubleOption1 = false;
-        doubleOption2 = false;
-        doubleOption3 = false;
-        doubleOption4 = false;
-    }
-
-    public boolean getProgress() {
-        return progress.get();
-    }
-
-    public void setHand(Hand h) {
-        this.hand = h;
-    }
-
-    public boolean getPlay() {
-        return play.get();
-    }
-
-    public boolean getDoubleLocked() {
-        return this.doubleLocked;
-    }
-
-    public void setDoubleOption1(boolean b) {
-        this.doubleOption1 = b;
-    }
-
-    public void setDoubleVisible(boolean b) {
-        this.doubleVisible = b;
-    }
-
-    public boolean getDoubleVisible() {
-        return this.doubleVisible;
-    }
-
-    public boolean getDoubleOption2() {
-        return this.doubleOption2;
-    }
-
-    public void setDoubleOption2(boolean b) {
-        this.doubleOption2 = b;
-    }
-
-    public boolean getDoubleOption3() {
-        return this.doubleOption3;
-    }
-
-    public void setDoubleOption3(boolean b) {
-        this.doubleOption3 = b;
-    }
-
-    public boolean getDoubleOption4() {
-        return this.doubleOption4;
-    }
-
-    public void setDoubleOption4(boolean b) {
-        this.doubleOption4 = b;
-    }
-
-    public boolean getTableVisible() {
-        return this.tableVisible;
-    }
-
-    public void toggleTableVisible() {
-        this.tableVisible = !tableVisible;
-    }
-
-    public Hand getHand() {
-        return this.hand;
-    }
-
-    public void setProgress(boolean b) {
-        this.progress.set(b);
-    }
-
-    public void setPlay(boolean b) {
-        this.play.set(b);
-    }
-
-    public int getRoundWin() {
-        return this.roundWin.get();
     }
 
     /**
@@ -369,8 +258,52 @@ public class ScratchCard extends Application {
         play.set(false);
     }
 
-    public int getRoundWinStart() {
-        return this.roundWinStart.get();
+    /**
+     * Alustaa tilastot pelin alussa. Hakee tiedot tietokannasta dataDao:n
+     * avulla.
+     *
+     * @throws java.sql.SQLException jos tietokannan käsittelyssä taphtuu virhe
+     */
+    public void setUpStats() throws SQLException {
+        data = dataDao.findOne();
+        if (data != null) {
+            moneyTotal.set(data.getMoneyTotal());
+            System.out.println("Money: " + moneyTotal.get());
+            ui.setStats(data);
+        } else {
+            System.out.println("Money: 0");
+        }
+    }
+
+    /**
+     * Päivittää kaikki tuplausvalinnat falseiksi.
+     */
+    public void setDoubleOptionsFalse() {
+        doubleOption1 = false;
+        doubleOption2 = false;
+        doubleOption3 = false;
+        doubleOption4 = false;
+    }
+
+    public void setDoubleLocked() {
+        doubleLocked = true;
+        progress.set(true);
+    }
+
+    public void setDoubleLocked(boolean b) {
+        this.doubleLocked = b;
+    }
+
+    public void setDoubleOption4(boolean b) {
+        this.doubleOption4 = b;
+    }
+
+    public void setProgress(boolean b) {
+        this.progress.set(b);
+    }
+
+    public void setPlay(boolean b) {
+        this.play.set(b);
     }
 
     public void setDoubleImage(int i) {
@@ -379,6 +312,98 @@ public class ScratchCard extends Application {
 
     public void setRoundWin(int i) {
         this.roundWin.set(i);
+    }
+
+    public void setRoundWinStart(int i) {
+        this.roundWinStart.set(i);
+    }
+
+    public void setTest(boolean b) {
+        test = b;
+    }
+
+    public void setHand(Hand h) {
+        this.hand = h;
+    }
+
+    public void setDoubleOption1(boolean b) {
+        this.doubleOption1 = b;
+    }
+
+    public void setDoubleVisible(boolean b) {
+        this.doubleVisible = b;
+    }
+
+    public void setDoubleOption2(boolean b) {
+        this.doubleOption2 = b;
+    }
+
+    public void setDoubleOption3(boolean b) {
+        this.doubleOption3 = b;
+    }
+
+    public void toggleTableVisible() {
+        this.tableVisible = !tableVisible;
+    }
+
+    public boolean getDoubleOption1() {
+        return doubleOption1;
+    }
+
+    public Ui getUi() {
+        return this.ui;
+    }
+
+    public SimpleIntegerProperty getMoneyTotal() {
+        return this.moneyTotal;
+    }
+
+    public SimpleIntegerProperty getMoneySession() {
+        return this.moneySession;
+    }
+
+    public boolean getProgress() {
+        return progress.get();
+    }
+
+    public boolean getPlay() {
+        return play.get();
+    }
+
+    public boolean getDoubleLocked() {
+        return this.doubleLocked;
+    }
+
+    public boolean getDoubleVisible() {
+        return this.doubleVisible;
+    }
+
+    public boolean getDoubleOption2() {
+        return this.doubleOption2;
+    }
+
+    public boolean getDoubleOption3() {
+        return this.doubleOption3;
+    }
+
+    public boolean getDoubleOption4() {
+        return this.doubleOption4;
+    }
+
+    public boolean getTableVisible() {
+        return this.tableVisible;
+    }
+
+    public Hand getHand() {
+        return this.hand;
+    }
+
+    public int getRoundWin() {
+        return this.roundWin.get();
+    }
+
+    public int getRoundWinStart() {
+        return this.roundWinStart.get();
     }
 
     public int getRoundWinX2() {
@@ -397,49 +422,50 @@ public class ScratchCard extends Application {
         return this.roundWinx30.get();
     }
 
-    public boolean getStatsVisible() {
-        return this.statsVisible;
-    }
-
-    public void toggleStatsVisible() {
-        statsVisible = !statsVisible;
-    }
-
     public int getDoubleImage() {
         return this.doubleImage;
-    }
-
-    public void setRoundWinStart(int i) {
-        this.roundWinStart.set(i);
     }
 
     public int getDoubleBestMultiplier() {
         return this.doubleBestMultiplier;
     }
 
-    /**
-     * Alustaa tilastot pelin alussa. Hakee tiedot tietokannasta dataDao:n
-     * avulla.
-     * 
-     * @throws java.sql.SQLException jos tietokannan käsittelyssä taphtuu virhe
-     */
-    public void setUpStats() throws SQLException {
-        data = dataDao.findOne();
-        if (data != null) {
-            moneyTotal.set(data.getMoneyTotal());
-            System.out.println("Money: " + moneyTotal.get());
-            ui.setStats(data);
-        } else {
-            System.out.println("Money: 0");
-        }
+    public Data getData() {
+        return data;
+    }
+
+    public SimpleIntegerProperty getRoundWinx2() {
+        return roundWinx2;
+    }
+
+    public SimpleIntegerProperty getRoundWinx3() {
+        return roundWinx3;
+    }
+
+    public SimpleIntegerProperty getRoundWinx7() {
+        return roundWinx7;
+    }
+
+    public SimpleIntegerProperty getRoundWinx30() {
+        return roundWinx30;
     }
 
     /**
      * Tallentaa statistiikkaa pelin lopussa dataDao:n avulla tietokantaan.
-     * 
+     *
      * @throws java.sql.SQLException jos tietokannan käsittelyssä taphtuu virhe
      */
     public void save() throws SQLException {
+        saveActions();
+        data = new Data(moneyTotal.get(), ui.getPlayedTotal(), ui.getWin2(), ui.getWin3(), ui.getWin4(), ui.getWin5(), ui.getWin6(), ui.getWin8(), ui.getWin10(),
+                ui.getWin15(), ui.getWin20(), ui.getWin100(), ui.getWin500(), ui.getWin5000(), ui.getWin50000(), ui.getTotalWins(), ui.getWinningCards(), ui.getDoubleUpWins().get(),
+                ui.getDoubleUpLosses().get(), ui.getDoubleMaxWin(), ui.getDoubleUpBestResult());
+        if (!test) {
+            dataDao.save(data);
+        }
+    }
+
+    private void saveActions() {
         if (doubleLocked) {
             SimpleIntegerProperty losses = ui.getDoubleUpLosses();
             ui.getDoubleUpLosses().set(losses.get() + roundWinStart.get());
@@ -454,44 +480,14 @@ public class ScratchCard extends Application {
                     doubleBestMultiplier = roundWin.get() / roundWinStart.get();
                     ui.getDoubleBestWin().setText("   " + Integer.toString(roundWinStart.get()) + ".00 --> " + Integer.toString(roundWin.get()) + ".00   ");
                 }
-
                 ui.getDoubleUpWins().set(ui.getDoubleUpWins().get() + roundWin.get() - roundWinStart.get());
             }
             roundWin.set(0);
         }
-
-        data = new Data();
-        data.setMoneyTotal(moneyTotal.get());
-        data.setPlayedTotal(ui.getPlayedTotal());
-        data.setWin2(ui.getWin2());
-        data.setWin3(ui.getWin3());
-        data.setWin4(ui.getWin4());
-        data.setWin5(ui.getWin5());
-        data.setWin6(ui.getWin6());
-        data.setWin8(ui.getWin8());
-        data.setWin10(ui.getWin10());
-        data.setWin15(ui.getWin15());
-        data.setWin20(ui.getWin20());
-        data.setWin100(ui.getWin100());
-        data.setWin500(ui.getWin500());
-        data.setWin5000(ui.getWin5000());
-        data.setWin50000(ui.getWin50000());
-        data.setTotalWins(ui.getTotalWins());
-        data.setWinningCards(ui.getWinningCards());
-        data.setDoubleUpWins(ui.getDoubleUpWins().get());
-        data.setDoubleUpLosses(ui.getDoubleUpLosses().get());
-        data.setDoubleUpMaxWin(ui.getDoubleMaxWin());
-        data.setDoubleUpBestResult(ui.getDoubleUpBestResult());
-        if (!test) {
-            dataDao.save(data);
-        }
     }
 
-    public Data getData() {
-        return data;
-    }
-
-    public void setTest(boolean b) {
-        test = b;
+    @Override
+    public void stop() {
+        System.out.println("closing");
     }
 }
