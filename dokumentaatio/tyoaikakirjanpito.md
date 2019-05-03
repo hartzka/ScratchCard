@@ -17,4 +17,5 @@
 | 17.4.  | 6    | Tietokannan ja tallennuksen toteutus |
 | 22.4.  | 3    | Tietokantatoiminnallisuuden viimeistely ja testaaminen |
 | 26.4.  | 5    | Refaktorointia ja viikon 6 julkaisu |
-| yht   | 67   | | 
+| 3.5.  | 5    | Sovelluksen siistimistä |
+| yht   | 72   | | 
