@@ -18,7 +18,7 @@ java -jar ScratchCard.jar
 
 Sovellus käynnistyy aloitusnäkymään:
 
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Screenshot10.png">
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Screenshot9.png">
 
 ## Uuden arvan ostaminen ja pelin aloittaminen
 
