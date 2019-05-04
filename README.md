@@ -7,6 +7,7 @@ Voittoa voi yrittää moninkertaistaa tuplaus-tilassa arvaamalla tuplausruutuun 
 Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) harjoitustyö.
 
 ## Dokumentaatio
+
 [Käyttöohje](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
 [Vaatimusmäärittely](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
@@ -18,9 +19,12 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 [Työaikakirjanpito](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
 ## Releaset
+
 [Viikko 5](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko5)
 
 [Viikko 6](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko6)
+
+[Lopullinen palautus](https://github.com/hartzka/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Komentorivitoiminnot
 
