@@ -6,6 +6,20 @@ Raaputusarpasovellus, joka tallettaa käyttäjän voitot, rahatilanteen ja muuta
 
 Voittoa voi yrittää moninkertaistaa tuplaus-tilassa arvaamalla ja raaputtamalla tuplausruutuun sijoitetun kuvion. Sovelluksen näkymää on mahdollista muuttaa niin, että voittotaulu on näkyvillä tai pois näkyvistä. Tilastoja pääsee tarkastelemaan stats-tilassa.
 
+## Tallennettava tieto
+
+Sovellus tallentaa pelistä seuraavia tietoja:
+
+- Eri voittoluokkien esiintymismäärät
+- Voittavien arpojen määrä
+- Voittojen yhteismäärä
+- Kokonaisrahatilanne
+- Pelisession rahatilanne
+- Ostettujen arpojen kokonaismäärä
+- Pelisessiossa ostettujen arpojen määrä
+- Tuplausvoittojen ja tappioiden määrä
+- Suurin tuplausvoitto ja paras tulos 
+
 ## Käyttäjät
 
 Sovelluksessa on vain yksi käyttäjä, jolla on omat tilastonsa. Tilastot saa nollattua halutessaan, jolloin pelin voi aloittaa alusta. Nollauksen voi tehdä yksinkertaisesti poistamalla tiedosto data.db, jollioin tiedot katoavat, ja seuraavan käynnistyksen yhteydessä sovellus luo automaattisesti uuden tiedoston. Kirjautumista ei tarvita. Jatkokehityksenä peliin voisi lisätä mahdollisuuden kirjautumiseen useammalle käyttäjälle, mutta se ei liene tällaisessa pelissä kovin tarpeellista.
