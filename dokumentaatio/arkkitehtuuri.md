@@ -29,18 +29,6 @@ luokka/pakkauskaavio:
 
 <img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/luokkakaavio.png" width="350"/>
 
-### Päätoiminnallisuudet
-
-Sovelluksen toimintalogiikka muutaman päätoiminnallisuuden osalta sekvenssikaaviona:
-
-Uuden arvan ostaminen:
-
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/newcard.png"/>
-
-Voittojen talteenottaminen:
-
-<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/wintaking.png"/>
-
 ## Tietojen pysyväistallennus
 
 Pakkauksen _kh.scratchcard.dao_ luokka _DataDao_ huolehtii tietojen tallettamisesta tietokantaan. Tietokantatoteutus on SQL-pohjainen. Pelin alussa data haetaan tietokannasta ja lopetettaessa data tallennetaan tietokantaan.
@@ -54,6 +42,22 @@ Luokka Data on apuluokka datan säilyttämiseen sisältäen kaksi konstruktoria.
 Sovellus tallettaa arpapelin tiedot tietokantaan data.db.
 
 Sovelluksen juureen sijoitettu konfiguraatiotiedosto config.properties määrittelee tiedostojen nimet.
+
+### Tyyli
+
+Sovelluksen painikkeille on määritelty css-tyylit tiedostossa [style.css](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/src/main/resources/style/style.css)
+
+### Päätoiminnallisuudet
+
+Sovelluksen toimintalogiikka muutaman päätoiminnallisuuden osalta sekvenssikaaviona:
+
+Uuden arvan ostaminen:
+
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/newcard.png"/>
+
+Voittojen talteenottaminen:
+
+<img src="https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/wintaking.png"/>
 
 #### Muut toiminnallisuudet
 
