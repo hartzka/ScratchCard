@@ -18,6 +18,7 @@ import kh.scratchcard.dao.DataDao;
 import kh.scratchcard.dao.Database;
 import kh.scratchcard.ui.Field;
 import kh.scratchcard.ui.Ui;
+import org.uncommons.maths.random.MersenneTwisterRNG;
 
 /**
  * Sovelluslogiikan raaputusarpaluokka, joka sisältää tietoa käynnissä olevasta
@@ -25,7 +26,7 @@ import kh.scratchcard.ui.Ui;
  */
 public class ScratchCard extends Application {
 
-    private Random random = new Random();
+    private MersenneTwisterRNG mtrng = new MersenneTwisterRNG();
     private boolean tableVisible = true;
 
     public static int imageSize;
@@ -193,7 +194,7 @@ public class ScratchCard extends Application {
      * vadelma Arvot 206-212: mustaherukka
      */
     public void randomizeDoubleImage() {
-        int a = random.nextInt(212) + 1;
+        int a = mtrng.nextInt(212) + 1;
         Field doubleField = ui.getDoubleField();
         if (a <= 105) {
             doubleImage = 1;

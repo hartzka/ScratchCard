@@ -1,22 +1,26 @@
 .toggle-button {
-	-fx-pref-height: 55px !important; 
+	-fx-pref-height: 85px !important; 
 	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 3,3,3,3);
 }
 
 .toggle-button.turquoise {
 	-fx-background-color: turquoise !important;
+        -fx-pref-width: 150px !important; 
 }
 
 .toggle-button.yellow {
 	-fx-background-color: yellow !important;
+        -fx-pref-width: 150px !important; 
 }
 
 .toggle-button.green {
 	-fx-background-color: #32cd32 !important;
+        -fx-pref-width: 150px !important; 
 }
 
 .toggle-button.orange {
 	-fx-background-color: orange !important;
+        -fx-pref-width: 150px !important; 
 }
 
 .toggle-button:hover {

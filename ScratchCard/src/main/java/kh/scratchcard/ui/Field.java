@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import kh.scratchcard.domain.ScratchCard;
+import org.uncommons.maths.random.MersenneTwisterRNG;
 
 /**
  * Raaputuskenttäluokka. Sisältää tiedot ja grafiikat kentän kuvioista ja
@@ -29,7 +30,7 @@ public class Field extends Parent {
     private int height;
     private int marginImage;
     private int imageHeight;
-    private Random random;
+    private MersenneTwisterRNG mtrng;
     private ImageView view;
     private ImageView view2;
     private Canvas canvas;
@@ -56,7 +57,7 @@ public class Field extends Parent {
         this.doubleImage = 0;
         doubleLocked = false;
         this.revealed = false;
-        this.random = new Random();
+        this.mtrng = new MersenneTwisterRNG();
         view2 = new ImageView();
 
         opened = new boolean[2000][2000];
@@ -149,7 +150,7 @@ public class Field extends Parent {
             }
         });
         String path = "/images/bg";
-        int rand = random.nextInt(18) + 1;
+        int rand = mtrng.nextInt(18) + 1;
         if (rand > 1) {
             path += Integer.toString(rand);
         }
@@ -259,7 +260,7 @@ public class Field extends Parent {
         doubleLocked = false;
         lock = false;
         String path = "images/bg";
-        int r = random.nextInt(18) + 1;
+        int r = mtrng.nextInt(18) + 1;
         if (r > 1) {
             path += Integer.toString(r);
         }

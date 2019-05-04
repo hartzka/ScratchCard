@@ -296,14 +296,14 @@ public class Ui {
             t.setFill(Color.MINTCREAM);
         }
 
-        doubleUpInfoText.setFont(Font.font("Verdana", font));
-        moneyInfoText.setFont(Font.font("Verdana", font));
-        winsInfoText.setFont(Font.font("Verdana", font));
-        playedInfoText.setFont(Font.font("Verdana", font));
-        doubleUpText.setFill(Color.ORANGE);
-        winsText.setFill(Color.ORANGE);
-        moneyText.setFill(Color.ORANGE);
-        playedText.setFill(Color.ORANGE);
+        List<Text> texts2 = Arrays.asList(doubleUpText, doubleUpInfoText, moneyText, moneyInfoText, playedText, playedInfoText, winsText, winsInfoText);
+        for (int i = 0; i < texts2.size(); i++) {
+            if (i % 2 == 0) {
+                texts2.get(i).setFill(Color.ORANGE);
+            } else {
+                texts2.get(i).setFont(Font.font("Verdana", font));
+            }
+        }
         unbelievable2.setFont(Font.font("Verdana", font - 2));
         unbelievable2.setVisible(false);
 
@@ -494,7 +494,7 @@ public class Ui {
 
         stats.textProperty().bind(new SimpleStringProperty("Money: ").concat(moneyTotal.asString()).concat(".00").concat("   "));
         stats.setVisible(true);
-        stats.setFont(Font.font("Verdana", font * 0.9));
+        stats.setFont(Font.font("Verdana", font * 1.3));
         stats.setFill(Color.STEELBLUE);
 
         VBox statsBox = new VBox(0.01 * height);
@@ -514,12 +514,6 @@ public class Ui {
 
         root.getChildren().addAll(rect, whiteRect1, whiteRect2, whiteRect3, whiteRect4, doubleChoice1, doubleChoice2, doubleChoice3, doubleChoice4, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8, rect9, field1, field2, field3, field4, field5, field6, field7, field8, field9, doubleField, winTable, buttonsHBox2);
         root.getChildren().add(info);
-
-        Rectangle bg = new Rectangle();
-        bg.setFill(Color.BLACK);
-
-        StackPane sp = new StackPane(bg, v6);
-        sp.setAlignment(Pos.CENTER);
 
         info.setStyle("-fx-background-color: #0067b3");
         v1.setStyle("-fx-background-color: grey");

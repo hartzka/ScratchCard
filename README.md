@@ -13,7 +13,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Arkkitehtuurikuvaus](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-[Testausdokumentti]
+[Testausdokumentti](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
 
 [Työaikakirjanpito](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 

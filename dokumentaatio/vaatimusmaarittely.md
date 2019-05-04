@@ -8,7 +8,7 @@ Voittoa voi yrittää moninkertaistaa tuplaus-tilassa arvaamalla ja raaputtamall
 
 ## Käyttäjät
 
-Sovelluksessa on vain yksi käyttäjä, jolla on omat tilastonsa. Tilastot saa nollattua halutessaan, jolloin pelin voi aloittaa alusta. Kirjautumista ei tarvita. Jatkokehityksenä peliin voisi lisätä mahdollisuuden kirjautumiseen useammalle käyttäjälle, mutta se ei liene tällaisessa pelissä kovin tarpeellista.
+Sovelluksessa on vain yksi käyttäjä, jolla on omat tilastonsa. Tilastot saa nollattua halutessaan, jolloin pelin voi aloittaa alusta. Nollauksen voi tehdä yksinkertaisesti poistamalla tiedosto data.db, jollioin tiedot katoavat, ja seuraavan käynnistyksen yhteydessä sovellus luo automaattisesti uuden tiedoston. Kirjautumista ei tarvita. Jatkokehityksenä peliin voisi lisätä mahdollisuuden kirjautumiseen useammalle käyttäjälle, mutta se ei liene tällaisessa pelissä kovin tarpeellista.
 
 ## Käyttöliittymäluonnos
 
@@ -25,12 +25,12 @@ Voiton osuessa kohdalle voi voiton yrittää moninkertaistaa tuplaus-näkymäss�
 **Pelissä on 5 painiketta.** 
 - *Win Table* -painikkeesta saa voittotaulun näkyville tai pois näkyvistä. 
 - *Double Up* -painikkeesta pääsee tuplausmoodiin, mikäli voitto on osunut kohdalle.
-- *Stats* -painikkeesta näkee pelitilanteensa, ja painikkeesta avautuu teksti *More info*, josta klikkaamalla pääsee stats-näkymään. Stats-näkymästä pääsee takaisin peliin painamalla *Close*.
+- *Stats* -painikkeesta pääsee stats-näkymään. Stats-näkymästä pääsee takaisin peliin painamalla *Close*.
 - *Claim* -painikkeesta saa avattua raaputuskentät, jos ei jaksa raaputtaa niitä kaikkia näkyville.
 - *New/Collect* -painikkeesta voi ostaa uuden arvan, jolloin uudet raaputuskentät ilmestyvät näkyville. Mikäli kierroksella on tullut voitto, sen voi ottaa talteen samalla painikkeella.
 
 **Voittotaulun voittoluokilla voittaa.**
-Jos pelaaja onnistuu raaputtamaan esiin yhdelle riville jotkin kuviot, jotka on määritelty voittotaulussa, pelaaja voittaa voittotaulussa määritellyn summan. Samalla kierroksella voitto voi osua useammalle riville. Tällöin kierrosvoitto lasketaan osavoittojen summana. Noin 1/4 arvoista voittaa.
+Jos pelaaja onnistuu raaputtamaan esiin yhdelle riville jotkin kuviot, jotka on määritelty voittotaulussa, pelaaja voittaa voittotaulussa määritellyn summan. Samalla kierroksella voitto voi osua useammalle riville. Tällöin kierrosvoitto lasketaan osavoittojen summana. Noin 1/4 arvoista voittaa. Palautusprosentti on säädetty niin, että se on noin 99%.
 
 **Raha**
 Käytössä on fiktiivinen leikkirahayksikkö. Yksi arpa maksaa yhden yksikön verran, ja päävoitto on 50000 yksikköä. Pelitilanne näyttää, montako rahayksikköä pelaaja on voitolla tai tappiolla, mikäli tilanne on negatiivinen.
@@ -45,6 +45,7 @@ Perusversion jälkeen peliin voisi lisätä seuraavat ominaisuudet:
 - Uusia voittoluokkia ja pelimoodeja
 - Uusia teemoja ja asetteluita
 - Uusia kuvioita ja raaputustekniikoita
+- Mahdollisuus valita haluamansa värit ja visuaalinen ilme
 - Tilastojen ottaminen talteen esim. pdf-muodossa
 - Pelin pelaamismahdollisuus ja tilastojen säilyminen useammalla laitteella, vaatisi sovelluksen siirtämisen webiin
 - Mahdollisuus useille käyttäjille ja kirjautuminen

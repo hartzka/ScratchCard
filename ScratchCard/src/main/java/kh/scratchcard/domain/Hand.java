@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import kh.scratchcard.ui.Field;
+import org.uncommons.maths.random.MersenneTwisterRNG;
 
 /**
  * Käsi, joka sisältää tietoa käynnissä olevan pelikierroksen voitoista ja
@@ -22,7 +23,7 @@ public class Hand {
     private final Field field7;
     private final Field field8;
     private final Field field9;
-    private final Random random;
+    private MersenneTwisterRNG mtrng;
     private WinCategory win1;
     private WinCategory win2;
     private WinCategory win3;
@@ -51,7 +52,7 @@ public class Hand {
         this.win1 = null;
         this.win2 = null;
         this.win3 = null;
-        this.random = new Random();
+        mtrng = new MersenneTwisterRNG();
     }
 
     public Hand(ScratchCard sc, Field f1, Field f2, Field f3, Field f4, Field f5, Field f6, Field f7, Field f8, Field f9) {
@@ -68,7 +69,7 @@ public class Hand {
         this.win1 = WinCategory.NOTHING;
         this.win2 = WinCategory.NOTHING;
         this.win3 = WinCategory.NOTHING;
-        this.random = new Random();
+        mtrng = new MersenneTwisterRNG();
     }
 
     /**
@@ -80,9 +81,9 @@ public class Hand {
      * "ei voittoa", palautetaan WinCategory.NOTHING.
      */
     public WinCategory randomizeWinCategory(boolean win) {
-        int result = random.nextInt(10000000) + 1;
+        int result = mtrng.nextInt(10000000) + 1;
         if (win) {
-            result = random.nextInt(2840911) + 1;
+            result = mtrng.nextInt(2840911) + 1;
         }
         WinCategory winCateg = WinCategory.NOTHING;
         if (result <= 2820000) {
@@ -169,9 +170,9 @@ public class Hand {
     public void randomizeHand() {
         initializeWins();
         WinCategory win = randomizeWinCategory(false);
-        int fakeWin1 = random.nextInt(10);
-        int fakeWin2 = random.nextInt(10);
-        int fakeWin3 = random.nextInt(10);
+        int fakeWin1 = mtrng.nextInt(10);
+        int fakeWin2 = mtrng.nextInt(10);
+        int fakeWin3 = mtrng.nextInt(10);
         if (win == WinCategory.NOTHING) {
             win1 = WinCategory.NOTHING;
             win2 = WinCategory.NOTHING;
@@ -191,11 +192,11 @@ public class Hand {
      */
     public int randomizeWinAmount() {
         int wins = 0;
-        int rand = random.nextInt(100);
+        int rand = mtrng.nextInt(100);
         if (rand <= 11) {
             wins = 0;
         } else if (rand <= 23) {
-            int rand2 = random.nextInt(6);
+            int rand2 = mtrng.nextInt(6);
             if (rand2 == 0) {
                 wins = 1;
             } else if (rand2 == 1) {
@@ -363,12 +364,12 @@ public class Hand {
     private void fake2(Field f1, Field f2) {
         int value = 6;
         while (value == 6 || value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
         if (value == 5) {
             int value2 = 6;
             while (value2 == 5 || value2 == 6 || value2 == 7) {
-                value2 = random.nextInt(9) + 1;
+                value2 = mtrng.nextInt(9) + 1;
             }
             fake2InSomeOrder(f1, f2, value, value2);
         } else {
@@ -387,7 +388,7 @@ public class Hand {
      * @param value2 Toinen arvo
      */
     private void fake2InSomeOrder(Field f1, Field f2, int value, int value2) {
-        int which = random.nextInt(2);
+        int which = mtrng.nextInt(2);
         if (which == 0) {
             f1.initializeBackGround(value);
             f2.initializeBackGround(value2);
@@ -408,12 +409,12 @@ public class Hand {
     private void nofake2(Field f1, Field f2) {
         int value = 6;
         while (value == 6 || value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
         f1.initializeBackGround(value);
         int value2 = 6;
         while (value2 == 6 || value2 == 7 || (value == 5 && value2 == 5)) {
-            value2 = random.nextInt(9) + 1;
+            value2 = mtrng.nextInt(9) + 1;
         }
         f2.initializeBackGround(value2);
     }
@@ -429,12 +430,12 @@ public class Hand {
     private void fake3(Field f1, Field f2, Field f3) {
         int value = 7;
         while (value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
-        int place1 = random.nextInt(3);
-        int place2 = random.nextInt(3);
+        int place1 = mtrng.nextInt(3);
+        int place2 = mtrng.nextInt(3);
         while (place2 == place1) {
-            place2 = random.nextInt(3);
+            place2 = mtrng.nextInt(3);
         }
         if (value == 1 || value == 2 || value == 3 || value == 4 || value == 6 || value == 8 || value == 9) {
             fake3Helper1(value, place1, place2, f1, f2, f3);
@@ -459,7 +460,7 @@ public class Hand {
     private void fake3Helper1(int value, int place1, int place2, Field f1, Field f2, Field f3) {
         int value2 = value;
         while (value2 == value || value2 == 6 || value2 == 7) {
-            value2 = random.nextInt(9) + 1;
+            value2 = mtrng.nextInt(9) + 1;
         }
         if (place1 != 0 && place2 != 0) {
             f1.initializeBackGround(value2);
@@ -492,11 +493,11 @@ public class Hand {
     private void fake3Helper2(int value, int place1, int place2, Field f1, Field f2, Field f3) {
         int value2 = value;
         while (value2 == value || value2 == 6 || value2 == 7) {
-            value2 = random.nextInt(9) + 1;
+            value2 = mtrng.nextInt(9) + 1;
         }
         int value3 = value;
         while (value3 == value || value3 == 6 || value3 == 7) {
-            value3 = random.nextInt(9) + 1;
+            value3 = mtrng.nextInt(9) + 1;
         }
         if (place1 != 0 && place2 != 0) {
             fake3Helper3(value, value2, value3, f1, f2, f3);
@@ -522,7 +523,7 @@ public class Hand {
      */
     private void fake3Helper3(int value, int value2, int value3, Field f1, Field f2, Field f3) {
         f1.initializeBackGround(value);
-        int rand = random.nextInt(2);
+        int rand = mtrng.nextInt(2);
         if (rand == 0) {
             f2.initializeBackGround(value2);
             f3.initializeBackGround(value3);
@@ -542,17 +543,17 @@ public class Hand {
     private void noFake3(Field f1, Field f2, Field f3) {
         int value = 6;
         while (value == 6 || value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
         int value2 = 6;
         while (value2 == 6 || value2 == 7 || (value == value2 && value == 5)) {
-            value2 = random.nextInt(9) + 1;
+            value2 = mtrng.nextInt(9) + 1;
         }
         int value3 = 6;
         while (value3 == 6 || value3 == 7 || (value == value2 && value == value3) || ((value3 == 5) && (value == value3 || value2 == value3))) {
-            value3 = random.nextInt(9) + 1;
+            value3 = mtrng.nextInt(9) + 1;
         }
-        int rand = random.nextInt(6);
+        int rand = mtrng.nextInt(6);
         initializeFieldsWithValues(f1, f2, f3, value, value2, value3, rand);
     }
 
@@ -750,7 +751,7 @@ public class Hand {
      * @param fake huijausnumero
      */
     private void actionsX1Pineapple(Field f1, Field f2, Field f3, int row, int fake) {
-        int rand = random.nextInt(3);
+        int rand = mtrng.nextInt(3);
         switch (rand) {
             case 0:
                 actionsByWinCategory1Symbol(f1, f2, f3, row, fake, 1, 7);
@@ -858,7 +859,7 @@ public class Hand {
      * @param row Rivi
      */
     private void actionsX2Melon(Field f1, Field f2, Field f3, int row) {
-        int rand = random.nextInt(3);
+        int rand = mtrng.nextInt(3);
         switch (rand) {
             case 0:
                 actionsX2Melon2(f1, f2, f3, row, 1, 2);
@@ -888,7 +889,7 @@ public class Hand {
         actionsByWinCategory2Symbols(f1, f2, row, column1, column2, 5);
         int value = 5;
         while (value == 5 || value == 6 || value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
         f3.initializeBackGround(value);
     }
@@ -902,7 +903,7 @@ public class Hand {
      * @param row Rivi
      */
     private void actionsX2Pineapple(Field f1, Field f2, Field f3, int row) {
-        int rand = random.nextInt(3);
+        int rand = mtrng.nextInt(3);
         switch (rand) {
             case 0:
                 actionsX2Pineapple2(f1, f2, f3, row, 1, 2);
@@ -932,7 +933,7 @@ public class Hand {
         actionsByWinCategory2Symbols(f1, f2, n, column1, column2, 7);
         int value = 6;
         while (value == 6 || value == 7) {
-            value = random.nextInt(9) + 1;
+            value = mtrng.nextInt(9) + 1;
         }
         f3.initializeBackGround(value);
     }
@@ -947,7 +948,7 @@ public class Hand {
      * @param fake huijausnumero
      */
     private void actionsX1Banana(Field f1, Field f2, Field f3, int row, int fake) {
-        int rand = random.nextInt(3);
+        int rand = mtrng.nextInt(3);
         switch (rand) {
             case 0:
                 actionsByWinCategory1Symbol(f1, f2, f3, row, fake, 1, 6);
@@ -969,7 +970,7 @@ public class Hand {
      * @param win alustettava voittokategoria
      */
     private void randomizeHandWith1Win(WinCategory win) {
-        int rand3 = random.nextInt(3);
+        int rand3 = mtrng.nextInt(3);
         switch (rand3) {
             case 0:
                 win1 = win;
@@ -991,7 +992,7 @@ public class Hand {
      * @param win alustettava voittokategoria
      */
     private void randomizeHandWith2Wins(WinCategory win) {
-        int rand4 = random.nextInt(3);
+        int rand4 = mtrng.nextInt(3);
         switch (rand4) {
             case 0:
                 win1 = win;

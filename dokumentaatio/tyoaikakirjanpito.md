@@ -18,4 +18,5 @@
 | 22.4.  | 3    | Tietokantatoiminnallisuuden viimeistely ja testaaminen |
 | 26.4.  | 5    | Refaktorointia ja viikon 6 julkaisu |
 | 3.5.  | 5    | Sovelluksen siistimistä |
-| yht   | 72   | | 
+| 4.5.  | 5    | Lopullinen palautus kuntoon |
+| yht   | 77   | | 
