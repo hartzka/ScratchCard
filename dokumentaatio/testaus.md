@@ -4,7 +4,7 @@ Ohjelmaa on testattu automatisoiduin yksikkö- ja integraatiotestein JUnitilla s
 
 ## Yksikkö- ja integraatiotestaus
 
-### sovelluslogiikka
+### Sovelluslogiikka
 
 Sovelluslogiikan automatisoidut testit ovat testitiedostot ScratchCardTest ja HandTest eli pakkauksen [kh.scratchcard.domain](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/src/main/java/kh/scratchcard/domain) luokkia testaavat testit. Testit simuloivat luokkien toimintaa ja testaavat luokkien metodeja, mutta myös integraatiotestein luokkien välisiä yhteyksiä käyttöliittymän kautta.
 
@@ -40,7 +40,7 @@ Sovelluksen järjestelmätestaus on tehty manuaalisesti.
 
 ### Asennus ja konfigurointi
 
-Sovelluksen jar-tiedosto on generoitu ja sovellusta on testattu [käyttöohjeen](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md) kuvaamalla tavalla Linux-ympäristöön siten, että sovelluksen käynnistyshakemistossa on ollut _config.properties_-tiedosto, joka määritellään myös käyttöohjeessa.
+Sovelluksen jar-tiedosto on generoitu ja sovellusta on testattu [käyttöohjeen](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md) kuvaamalla tavalla Linux-ympäristöön siten, että sovelluksen käynnistyshakemistossa on ollut [config.properties](https://github.com/hartzka/ot-harjoitustyo/blob/master/config.properties)-tiedosto, joka määritellään myös käyttöohjeessa.
 
 Sovelluksen testaamiseen ovat kuuluneet sekä tilanteet, joissa tietokanta on olemassa juurikansiossa, että tilanteet, joissa tietokantatiedostoa ei ole olemassa, jolloin sovellus luo sen automaattisesti.
 
@@ -50,5 +50,5 @@ Kaikki [määrittelydokumentissa](https://github.com/hartzka/ot-harjoitustyo/blo
 
 ## Sovellukseen jääneet laatuongelmat
 
-Sovellus ei anna järkeviä virheilmoituksia, koska sovellusta tehdessä on oletettu, että virheitä ei tapahdu. Mikäli virheitä tapahtuu, esim. tietokantatiedosto on ongelmallinen, ohjelman käynnistävä järjestelmä on ongelmallinen tai sovellukseen ei ole luku- tai kirjoitusoikeuksia, tulee ohjelman käyttäjän itse pystyä korjaamaan ongelmat. Normaalissa käytössä ja kaikki vaadittavat ohjelmat asennettuna ongelmia ei pitäisi ilmetä.
+Sovellus ei anna järkeviä virheilmoituksia, koska sovellusta tehdessä on oletettu, että virheitä ei tapahdu, kunhan kaikki tarvittavat komponentit ovat olemassa. Mikäli virheitä tapahtuu, esim. tietokantatiedosto on ongelmallinen, ohjelman käynnistävä järjestelmä on ongelmallinen tai sovellukseen ei ole luku- tai kirjoitusoikeuksia, tulee ohjelman käyttäjän itse pystyä korjaamaan ongelmat. Normaalissa käytössä ja kaikki vaadittavat ohjelmat asennettuna ongelmia ei pitäisi ilmetä.
 

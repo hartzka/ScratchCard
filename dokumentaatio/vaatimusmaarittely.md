@@ -30,12 +30,15 @@ Voiton osuessa kohdalle voi voiton yrittää moninkertaistaa tuplaus-näkymäss�
 - *New/Collect* -painikkeesta voi ostaa uuden arvan, jolloin uudet raaputuskentät ilmestyvät näkyville. Mikäli kierroksella on tullut voitto, sen voi ottaa talteen samalla painikkeella.
 
 **Voittotaulun voittoluokilla voittaa.**
+
 Jos pelaaja onnistuu raaputtamaan esiin yhdelle riville jotkin kuviot, jotka on määritelty voittotaulussa, pelaaja voittaa voittotaulussa määritellyn summan. Samalla kierroksella voitto voi osua useammalle riville. Tällöin kierrosvoitto lasketaan osavoittojen summana. Noin 1/4 arvoista voittaa. Palautusprosentti on säädetty niin, että se on noin 99%.
 
 **Raha**
+
 Käytössä on fiktiivinen leikkirahayksikkö. Yksi arpa maksaa yhden yksikön verran, ja päävoitto on 50000 yksikköä. Pelitilanne näyttää, montako rahayksikköä pelaaja on voitolla tai tappiolla, mikäli tilanne on negatiivinen.
 
 **Tuplausmoodi**
+
 Tuplauksessa voi yrittää moninkertaistaa kierrosvoittonsa arvaamalla oikein yhden neljästä kuviosta, joka raaputetaan tuplausruudusta. Oikealla arvauksella voi moninkertaistaa voittonsa 2-, 3-, 7- tai 30-kertaiseksi. Mitä suuremman kertoimen asettaa arvaukselleen, sitä epätodennäköisempää on, että arvaus osuu oikeaan. Voiton jälkeen voi yrittää tuplausta uudelleen tai ottaa voiton talteen.
 
 ## Jatkokehitysideoita
