@@ -1,0 +1,8 @@
+target/
+nbactions.xml
+data.db
+.classpath
+.project
+.settings/
+
+
