@@ -40,7 +40,7 @@ Sovelluksen järjestelmätestaus on tehty manuaalisesti.
 
 ### Asennus ja konfigurointi
 
-Sovelluksen jar-tiedosto on generoitu ja sovellusta on testattu [käyttöohjeen](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md) kuvaamalla tavalla Linux-ympäristöön siten, että sovelluksen käynnistyshakemistossa on ollut [config.properties](https://github.com/hartzka/ot-harjoitustyo/blob/master/config.properties)-tiedosto, joka määritellään myös käyttöohjeessa.
+Sovelluksen jar-tiedosto on generoitu ja sovellusta on testattu [käyttöohjeen](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md) kuvaamalla tavalla Linux-ympäristöön siten, että sovelluksen käynnistyshakemistossa on ollut [config.properties](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/config.properties)-tiedosto, joka määritellään myös käyttöohjeessa.
 
 Sovelluksen testaamiseen ovat kuuluneet sekä tilanteet, joissa tietokanta on olemassa juurikansiossa, että tilanteet, joissa tietokantatiedostoa ei ole olemassa, jolloin sovellus luo sen automaattisesti.
 

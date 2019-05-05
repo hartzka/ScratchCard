@@ -6,7 +6,7 @@ Lataa tiedosto [ScratchCard.jar](https://github.com/hartzka/ot-harjoitustyo/rele
 
 Ohjelma luo jar-tiedoston kansioon tiedoston data.db, jollei sitä ole valmiina. Erityisiä toimia ei tarvita.
 
-Tiedostossa [config.properties](https://github.com/hartzka/ot-harjoitustyo/blob/master/config.properties) määritellään tietokannassa käytettävä taulu.
+Tiedostossa [config.properties](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/config.properties) määritellään tietokannassa käytettävä taulu.
 
 ## Ohjelman käynnistäminen
 
