@@ -24,7 +24,7 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Viikko 6](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko6)
 
-[Lopullinen palautus](https://github.com/hartzka/ot-harjoitustyo/releases/tag/loppupalautus)
+[Lopullinen palautus](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Loppupalautus)
 
 ## Komentorivitoiminnot
 
