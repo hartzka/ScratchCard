@@ -1,30 +1,34 @@
 # **ScratchCard**
 
+Scratch Card app
+
+Software Techniques Lab Project at University of Helsinki (5cr, 2019). 
+
 Raaputusarpasovellus, joka tallettaa käyttäjän voitot, rahatilanteen ja muuta tilastotietoa. Sovelluksessa on avattavia raaputuskenttiä ja ennalta määriteltyjä voittoluokkia, ja pelaaja voittaa, jos onnistuu saamaan samalle riville jotkin voittoon oikeuttavat kuviot. Kuviot ovat hedelmäsymboleja. Voitto voi osua useammalle riville.
 
 Voittoa voi yrittää moninkertaistaa tuplaus-tilassa arvaamalla tuplausruutuun sijoitetun kuvion. Sovelluksen näkymää on mahdollista muuttaa niin, että voittotaulu on näkyvillä tai pois näkyvistä. Tilastoja pääsee tarkastelemaan stats-tilassa.
 
 Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) harjoitustyö.
 
-## Dokumentaatio
+## Documentation
 
-[Käyttöohje](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
+[Manual](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
-[Vaatimusmäärittely](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+[Requirements](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Arkkitehtuurikuvaus](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+[Architecture](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-[Testausdokumentti](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
+[Testing](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
 
-[Työaikakirjanpito](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
+[Bookkeeping](https://github.com/hartzka/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
-## Releaset
+## Releases
 
-[Viikko 5](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko5)
+[Week 5](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko5)
 
-[Viikko 6](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko6)
+[Week 6](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Viikko6)
 
-[Lopullinen palautus](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Loppupalautus)
+[Final](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Loppupalautus)
 
 ## Komentorivitoiminnot
 
