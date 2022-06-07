@@ -30,52 +30,57 @@ Tämä sovellus on Helsingin yliopiston kurssin **ohjelmistotekniikka** (2019) h
 
 [Final](https://github.com/hartzka/ot-harjoitustyo/releases/tag/Loppupalautus)
 
-## Komentorivitoiminnot
 
-### Testaus
+## Command line instructions
 
-Testit suoritetaan komennolla
+The following commands are executed from the root directory.
+
+### Testing
 
 ```
 mvn test
 ```
 
-Testikattavuusraportti luodaan komennolla
+Test report
 
 ```
 mvn jacoco:report
 ```
 
-Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto _target/site/jacoco/index.html_
+Open the file _target/site/jacoco/index.html_ with your browser.
 
-### Suoritettavan jarin generointi
-
-Komento
+### Generate the .jar
 
 ```
 mvn package
 ```
 
-generoi hakemistoon _target_ suoritettavan jar-tiedoston _ScratchCard-1.0-SNAPSHOT.jar_
+generates a .jar-file in _target_ folder: _ScratchCard-1.0-SNAPSHOT.jar_
+
+run the .jar file with:
+
+```
+java -jar ScratchCard-1.0-SNAPSHOT.jar
+``` 
 
 ### Checkstyle
 
-Tiedostoon [checkstyle.xml](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/checkstyle.xml) määrittelemät tarkistukset suoritetaan komennolla
+[checkstyle.xml](https://github.com/hartzka/ot-harjoitustyo/blob/master/ScratchCard/checkstyle.xml)
 
 ```
- mvn jxr:jxr checkstyle:checkstyle
+mvn jxr:jxr checkstyle:checkstyle
 ```
 
-Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto _target/site/checkstyle.html_
+Reports: _target/site/checkstyle.html_
 
 ### JavaDoc
 
-JavaDoc generoidaan komennolla
+[JavaDoc](https://github.com/hartzka/ShortestPathSolver/blob/master/ShortestPathSolver/apidocs/index.html)
 
 ```
 mvn javadoc:javadoc
 ```
 
-JavaDocia voi tarkastella avaamalla selaimella tiedosto _target/site/apidocs/index.html_
+Open the file _target/site/apidocs/index.html_ with your browser.
 
 
